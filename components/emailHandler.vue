@@ -25,6 +25,7 @@
 		methods: {
 			emailUpdate(e) {
 				this.email = typeof e === 'string' ? e : e.target.email.value || '';
+
 			},
 			debouncer: debounce(function(e) {
 				this.emailUpdate(e);
