@@ -1,33 +1,52 @@
-import express from "express";
-import { Nuxt, Builder } from "nuxt";
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import express from 'express'
+import { Nuxt, Builder } from 'nuxt'
+import api from './api'
 
-import api from "./api";
-
-const app = express();
-const host = process.env.HOST || "127.0.0.1";
+const app = express()
+const isProd = process.env.NODE_ENV === "production";
 const port = process.env.PORT || 3000;
 
-app.set("port", port);
-
-// Import API Routes
-app.use("/api", api);
-
-// Import and Set Nuxt.js options
-let config = require("../nuxt.config.js");
-config.dev = !(process.env.NODE_ENV === "production");
-
-// Init Nuxt.js
+// We instantiate nuxt.js with the options
+const config = require("../nuxt.config.js");
+config.dev = !isProd;
 const nuxt = new Nuxt(config);
 
-// Build only in dev mode
-if (config.dev) {
-	const builder = new Builder(nuxt);
-	builder.build();
-}
+// Body parser, to access `req.body`
+app.use(bodyParser.json());
 
-// Give nuxt middleware to express
+// Sessions to create `req.session`
+app.use(
+	session({
+		secret: "A mne segodnya po kaifu",
+		resave: false,
+		saveUninitialized: false,
+		cookie: {
+			maxAge: 60 * 1000
+		}
+	})
+);
+// Run every request through API
+app.use("/api", api);
+// Render every route with Nuxt.js
 app.use(nuxt.render);
 
-// Listen the server
-app.listen(port, host);
-console.log("Server listening on " + host + ":" + port); // eslint-disable-line no-console
+// Build only in dev mode with hot-reloading
+if (config.dev) {
+	new Builder(nuxt)
+		.build()
+		.then(listen)
+		.catch(error => {
+			console.error(error);
+			process.exit(1);
+		});
+} else {
+	listen();
+}
+
+function listen() {
+	// Listen the server
+	app.listen(port, "0.0.0.0");
+	console.log("Server listening on `localhost:" + port + "`.");
+}
