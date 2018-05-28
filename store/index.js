@@ -1,26 +1,23 @@
 import axios from "axios";
 
 export const state = () => ({
-	email: ""
+	user: {}
 });
 
 export const mutations = {
-	SET_EMAIL(state, value) {
-		state.email = value;
+	SET_USER(state, value) {
+		state.user = value;
 	}
 };
 
 export const actions = {
 	async EVAL_EMAIL({ commit }, email) {
 		try {
-			const { data } = await axios.post('/api/user', { email });
-			console.log(JSON.stringify(data,null,3));
+			const { data } = await axios.post('/api/user', { email })
+			commit('SET_USER', data);
 		}
-		catch (error) {
-			if (error.response && error.response.status === 401) {
-				throw new Error("Bad credentials");
-			}
-			throw error;
+		catch(error) {
+			throw new Error(`Store.actions.EVAL_EMAIL: ${error.message}`);
 		}
 	}
-};
+}

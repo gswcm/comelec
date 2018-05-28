@@ -19,7 +19,6 @@
 </template>
 
 <script>
-// import emailHandler from "~/components/emailHandler";
 import { debounce } from 'lodash';
 import { mapState } from "vuex";
 export default {
@@ -27,24 +26,23 @@ export default {
 		rawEmail: '',
 	}),
 	components: {
-		// emailHandler
 	},
 	computed: {
 		state () {
 			return /^[^@]+@gsw[.]edu$/.test(this.rawEmail) || !this.rawEmail.length ? null : false;
 		},
 		...mapState({
-			// email: "email"
+			user: "user"
 		}),
 	},
 	methods: {
 		async evalEmail() {
 			try {
 				await this.$store.dispatch('EVAL_EMAIL', this.rawEmail);
-				console.log('OK');
+				console.log(JSON.stringify(this.user,null,3));
 			}
-			catch (error) {
-
+			catch(error) {
+				console.error(error.message);
 			}
 		},
 		emailUpdate(e) {
@@ -54,8 +52,10 @@ export default {
 			}
 		},
 		debouncer: debounce(function(e) {
-			this.emailUpdate(e);
-		}, 2000)
+			if(e !== this.rawEmail) {
+				this.emailUpdate(e);
+			}
+		}, 500)
 	}
 };
 </script>

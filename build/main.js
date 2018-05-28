@@ -62,44 +62,59 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+module.exports = require("express");
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+module.exports = require("mongoose");
+
+/***/ }),
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express_session__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express_session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express_session__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_body_parser__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_body_parser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_express__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nuxt__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_nuxt__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mongoose__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mongoose___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mongoose__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express_session__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express_session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express_session__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_body_parser__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_body_parser__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_nuxt__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_nuxt__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__api__ = __webpack_require__(6);
 
 
 
 
 
 
-const app = __WEBPACK_IMPORTED_MODULE_2_express___default()();
+
+const app = __WEBPACK_IMPORTED_MODULE_3_express___default()();
 const isProd = "development" === "production";
 const port = process.env.PORT || 3000;
 
 // We instantiate nuxt.js with the options
-const config = __webpack_require__(5);
+const config = __webpack_require__(10);
 config.dev = !isProd;
-const nuxt = new __WEBPACK_IMPORTED_MODULE_3_nuxt__["Nuxt"](config);
+const nuxt = new __WEBPACK_IMPORTED_MODULE_4_nuxt__["Nuxt"](config);
 
 // Body parser, to access `req.body`
-app.use(__WEBPACK_IMPORTED_MODULE_1_body_parser___default.a.json());
+app.use(__WEBPACK_IMPORTED_MODULE_2_body_parser___default.a.json());
 
 // Sessions to create `req.session`
-app.use(__WEBPACK_IMPORTED_MODULE_0_express_session___default()({
+app.use(__WEBPACK_IMPORTED_MODULE_1_express_session___default()({
 	secret: "A mne segodnya po kaifu",
 	resave: false,
 	saveUninitialized: false,
@@ -108,13 +123,13 @@ app.use(__WEBPACK_IMPORTED_MODULE_0_express_session___default()({
 	}
 }));
 // Run every request through API
-app.use("/api", __WEBPACK_IMPORTED_MODULE_4__api__["a" /* default */]);
+app.use("/api", __WEBPACK_IMPORTED_MODULE_5__api__["a" /* default */]);
 // Render every route with Nuxt.js
 app.use(nuxt.render);
 
 // Build only in dev mode with hot-reloading
 if (config.dev) {
-	new __WEBPACK_IMPORTED_MODULE_3_nuxt__["Builder"](nuxt).build().then(listen).catch(error => {
+	new __WEBPACK_IMPORTED_MODULE_4_nuxt__["Builder"](nuxt).build().then(listen).catch(error => {
 		console.error(error);
 		process.exit(1);
 	});
@@ -123,22 +138,16 @@ if (config.dev) {
 }
 
 function listen() {
-	// Listen the server
-	app.listen(port, "0.0.0.0");
-	console.log("Server listening on `localhost:" + port + "`.");
+	__WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.Promise = global.Promise;
+	__WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.connect('mongodb://127.0.0.1/comelec');
+	__WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.connection.on('error', err => {
+		console.error('MongoDB:', err.message);
+		process.exit(200);
+	}).once('open', () => {
+		app.listen(port, "0.0.0.0");
+		console.log("Server listening on `localhost:" + port + "`.");
+	});
 }
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = require("nuxt");
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = require("body-parser");
 
 /***/ }),
 /* 3 */
@@ -150,10 +159,113 @@ module.exports = require("express-session");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("express");
+module.exports = require("body-parser");
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+module.exports = require("nuxt");
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__users__ = __webpack_require__(7);
+
+
+
+
+const router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
+
+// Add USERS Routes
+router.use(__WEBPACK_IMPORTED_MODULE_1__users__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const router = __webpack_require__(0).Router();
+const restler = __webpack_require__(8);
+const People = __webpack_require__(9);
+// const mongoose = require('mongoose');
+
+String.prototype.capitalize = function () {
+	const shortWords = ['of', 'the', 'and', 'or', 'to', 'a', 'for'];
+	let parts = this.trim().split(/\s+/gi);
+	return parts.map(e => {
+		return shortWords.indexOf(e.toLowerCase()) === -1 ? e[0].toUpperCase() + e.substr(1).toLowerCase() : e;
+	}).join(' ');
+};
+
+router.post("/user", function (req, res, next) {
+	let { email } = req.body;
+	People.findOne({ email }).then(person => {
+		if (!person) {
+			let query = email.split(/@/)[0].split(/[.]/)[1];
+			return new Promise(resolve => {
+				restler.get(`https://apps.gsw.edu/search/employee/searchxml.php?q=${query}`, {
+					parser: restler.parsers.xml
+				}).on('complete', function (result) {
+					if (!result || result instanceof Error) {
+						return resolve(null);
+					}
+					let temp = result.root.result.find(e => e.email[0] === email);
+					resolve(temp ? {
+						f: query,
+						query,
+						firstName: temp.fname,
+						lastName: temp.lname,
+						email: temp.email[0],
+						dept: temp.depart[0].capitalize()
+					} : null);
+				});
+			});
+		} else {
+			return person;
+		}
+	}).then(person => {
+		res.json(person);
+	}).catch(error => {
+		res.status(500).json({
+			message: error.message
+		});
+	});
+});
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+module.exports = require("restler");
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const mongoose = __webpack_require__(1);
+
+const peopleSchema = mongoose.Schema({
+	f: String,
+	query: String,
+	firstName: String,
+	lastName: String,
+	email: String,
+	dept: String
+}).index({ email: 1 });
+
+module.exports = mongoose.model('people', peopleSchema, 'people');
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -187,48 +299,6 @@ module.exports = {
 		// ]
 	}
 };
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__users__ = __webpack_require__(7);
-
-
-
-
-const router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
-
-// Add USERS Routes
-router.use(__WEBPACK_IMPORTED_MODULE_1__users__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (router);
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
-
-
-const router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
-
-router.post("/user", function (req, res, next) {
-	let { email } = req.body;
-	console.log(email);
-	setTimeout(() => {
-		res.json({
-			email
-		});
-	}, 2000);
-});
-
-/* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ })
 /******/ ]);

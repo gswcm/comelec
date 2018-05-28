@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import express from 'express'
@@ -35,18 +36,27 @@ app.use(nuxt.render);
 // Build only in dev mode with hot-reloading
 if (config.dev) {
 	new Builder(nuxt)
-		.build()
-		.then(listen)
-		.catch(error => {
-			console.error(error);
-			process.exit(1);
-		});
-} else {
+	.build()
+	.then(listen)
+	.catch(error => {
+		console.error(error);
+		process.exit(1);
+	});
+}
+else {
 	listen();
 }
 
 function listen() {
-	// Listen the server
-	app.listen(port, "0.0.0.0");
-	console.log("Server listening on `localhost:" + port + "`.");
+	mongoose.Promise = global.Promise;
+	mongoose.connect('mongodb://127.0.0.1/comelec');
+	mongoose.connection
+	.on('error', err => {
+		console.error('MongoDB:', err.message);
+		process.exit(200);
+	})
+	.once('open', () => {
+		app.listen(port, "0.0.0.0");
+		console.log("Server listening on `localhost:" + port + "`.");
+	});
 }
