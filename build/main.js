@@ -87,13 +87,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mongoose___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mongoose__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express_session__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express_session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express_session__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_body_parser__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_body_parser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_express__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_nuxt__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_nuxt__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__api__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_connect_mongodb_session__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_connect_mongodb_session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_connect_mongodb_session__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_body_parser__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_body_parser__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_nuxt__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_nuxt__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__api__ = __webpack_require__(7);
 
 
 
@@ -101,35 +103,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-const app = __WEBPACK_IMPORTED_MODULE_3_express___default()();
+
+
+//-- Express app
+const app = __WEBPACK_IMPORTED_MODULE_4_express___default()();
 const isProd = "development" === "production";
 const port = process.env.PORT || 3000;
+//-- Express Session Store
+const mongoDB_URI = 'mongodb://127.0.0.1/comelec';
+const MongoDBStore = __WEBPACK_IMPORTED_MODULE_2_connect_mongodb_session___default()(__WEBPACK_IMPORTED_MODULE_1_express_session___default.a);
+const store = new MongoDBStore({
+	uri: mongoDB_URI,
+	databaseName: 'comelec',
+	collection: 'sessions'
+});
+store.on('error', function (error) {
+	assert.ifError(error);
+	assert.ok(false);
+});
 
 // We instantiate nuxt.js with the options
-const config = __webpack_require__(10);
+const config = __webpack_require__(11);
 config.dev = !isProd;
-const nuxt = new __WEBPACK_IMPORTED_MODULE_4_nuxt__["Nuxt"](config);
+const nuxt = new __WEBPACK_IMPORTED_MODULE_5_nuxt__["Nuxt"](config);
 
 // Body parser, to access `req.body`
-app.use(__WEBPACK_IMPORTED_MODULE_2_body_parser___default.a.json());
+app.use(__WEBPACK_IMPORTED_MODULE_3_body_parser___default.a.json());
 
 // Sessions to create `req.session`
 app.use(__WEBPACK_IMPORTED_MODULE_1_express_session___default()({
 	secret: "A mne segodnya po kaifu",
-	resave: false,
+	resave: true,
 	saveUninitialized: false,
 	cookie: {
 		maxAge: 60 * 1000
-	}
+	},
+	store
 }));
 // Run every request through API
-app.use("/api", __WEBPACK_IMPORTED_MODULE_5__api__["a" /* default */]);
+app.use("/api", __WEBPACK_IMPORTED_MODULE_6__api__["a" /* default */]);
 // Render every route with Nuxt.js
 app.use(nuxt.render);
 
 // Build only in dev mode with hot-reloading
 if (config.dev) {
-	new __WEBPACK_IMPORTED_MODULE_4_nuxt__["Builder"](nuxt).build().then(listen).catch(error => {
+	new __WEBPACK_IMPORTED_MODULE_5_nuxt__["Builder"](nuxt).build().then(listen).catch(error => {
 		console.error(error);
 		process.exit(1);
 	});
@@ -139,7 +157,7 @@ if (config.dev) {
 
 function listen() {
 	__WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.Promise = global.Promise;
-	__WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.connect('mongodb://127.0.0.1/comelec');
+	__WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.connect(mongoDB_URI);
 	__WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.connection.on('error', err => {
 		console.error('MongoDB:', err.message);
 		process.exit(200);
@@ -159,22 +177,28 @@ module.exports = require("express-session");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("body-parser");
+module.exports = require("connect-mongodb-session");
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("nuxt");
+module.exports = require("body-parser");
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports) {
+
+module.exports = require("nuxt");
+
+/***/ }),
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__users__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__users__ = __webpack_require__(8);
 
 
 
@@ -187,13 +211,13 @@ router.use(__WEBPACK_IMPORTED_MODULE_1__users__["a" /* default */]);
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 const router = __webpack_require__(0).Router();
-const restler = __webpack_require__(8);
-const People = __webpack_require__(9);
+const restler = __webpack_require__(9);
+const People = __webpack_require__(10);
 // const mongoose = require('mongoose');
 
 String.prototype.capitalize = function () {
@@ -243,13 +267,13 @@ router.post("/user", function (req, res, next) {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = require("restler");
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const mongoose = __webpack_require__(1);
@@ -266,7 +290,7 @@ const peopleSchema = mongoose.Schema({
 module.exports = mongoose.model('people', peopleSchema, 'people');
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = {

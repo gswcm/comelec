@@ -3,7 +3,6 @@
 		<div class="py-5">
 			<div class="py-md-5">
 				<form @submit.prevent="emailUpdate">
-					<!-- <h2>Please introduce yourself</h2> -->
 					<b-form-group invalid-feedback="This is not a valid GSW e-mail address, try something that ends with <b>@gsw.edu</b>" :state="state">
 						<b-form-input :state="state" :value="email" name='email' @input="debouncer" type="text" placeholder="Enter your GSW e-mail"></b-form-input>
 					</b-form-group>
