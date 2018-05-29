@@ -135,8 +135,9 @@ app.use(__WEBPACK_IMPORTED_MODULE_1_express_session___default()({
 	secret: "A mne segodnya po kaifu",
 	resave: true,
 	saveUninitialized: false,
+	rolling: true,
 	cookie: {
-		maxAge: 60 * 1000
+		maxAge: 20 * 1000
 	},
 	store
 }));

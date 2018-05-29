@@ -32,7 +32,7 @@ export default {
 			return /^[^@]+@gsw[.]edu$/.test(this.rawEmail) || !this.rawEmail.length ? null : false;
 		},
 		email() {
-			return this.user ? this.user.email : '';
+			return this.user ? this.user.email : this.rawEmail;
 		},
 		...mapState({
 			user: "user"
@@ -49,6 +49,7 @@ export default {
 			}
 		},
 		emailUpdate(e) {
+			console.log('--');
 			this.rawEmail = typeof e === "string" ? e : e.target.email.value || "";
 			if(this.state === null) {
 				this.evalEmail();
