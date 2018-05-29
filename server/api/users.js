@@ -31,8 +31,8 @@ router.post("/user", function(req, res, next) {
 						temp ? {
 							f: query,
 							query,
-							firstName: temp.fname,
-							lastName: temp.lname,
+							firstName: temp.fname[0],
+							lastName: temp.lname[0],
 							email: temp.email[0],
 							dept: temp.depart[0].capitalize()
 						} : null
@@ -45,6 +45,7 @@ router.post("/user", function(req, res, next) {
 		}
 	})
 	.then(person => {
+		req.session.authUser = person;
 		res.json(person)
 	})
 	.catch(error => {

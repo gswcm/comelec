@@ -220,8 +220,8 @@ router.post("/user", function (req, res, next) {
 					resolve(temp ? {
 						f: query,
 						query,
-						firstName: temp.fname,
-						lastName: temp.lname,
+						firstName: temp.fname[0],
+						lastName: temp.lname[0],
 						email: temp.email[0],
 						dept: temp.depart[0].capitalize()
 					} : null);
@@ -231,6 +231,7 @@ router.post("/user", function (req, res, next) {
 			return person;
 		}
 	}).then(person => {
+		req.session.authUser = person;
 		res.json(person);
 	}).catch(error => {
 		res.status(500).json({
@@ -280,7 +281,10 @@ module.exports = {
 	//--
 	css: ["bootswatch/dist/yeti/bootstrap.min.css"],
 	//--
-	modules: [["bootstrap-vue/nuxt", { css: false }]],
+	modules: [["bootstrap-vue/nuxt", {
+		css: false
+	}]],
+	plugins: [{ src: '~/plugins/font-awesome' }],
 	//--
 	build: {
 		vendor: ["axios"],

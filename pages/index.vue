@@ -1,18 +1,19 @@
 <template>
 	<section class="container">
 		<div class="py-5">
-			<h2 class="subtitle">
-				GSW Committee Election Helper
-			</h2>
-			<hr>
-			<!-- <email-handler/> -->
-			<div class="py-5">
+			<div class="py-md-5">
 				<form @submit.prevent="emailUpdate">
 					<!-- <h2>Please introduce yourself</h2> -->
 					<b-form-group invalid-feedback="This is not a valid GSW e-mail address, try something that ends with <b>@gsw.edu</b>" :state="state">
-						<b-form-input :state="state" name='email' @input="debouncer" type="text" placeholder="Enter your GSW e-mail"></b-form-input>
+						<b-form-input :state="state" :value="email" name='email' @input="debouncer" type="text" placeholder="Enter your GSW e-mail"></b-form-input>
 					</b-form-group>
 				</form>
+			</div>
+			<div v-if="user">
+				<h3>Welcome, {{user.firstName}}</h3>
+				<p class="text-justify">
+					If this is not you, please correct the email address and continue with submitting your committee preferences.
+				</p>
 			</div>
 		</div>
 	</section>
@@ -30,6 +31,9 @@ export default {
 	computed: {
 		state () {
 			return /^[^@]+@gsw[.]edu$/.test(this.rawEmail) || !this.rawEmail.length ? null : false;
+		},
+		email() {
+			return this.user ? this.user.email : '';
 		},
 		...mapState({
 			user: "user"
@@ -50,6 +54,9 @@ export default {
 			if(this.state === null) {
 				this.evalEmail();
 			}
+			else {
+				this.$store.commit('SET_USER', null);
+			}
 		},
 		debouncer: debounce(function(e) {
 			if(e !== this.rawEmail) {
@@ -61,6 +68,11 @@ export default {
 </script>
 
 <style>
+
+	form {
+		min-width: 75vw !important;
+	}
+
 	.container {
 		min-height: 100vh;
 		display: flex;
@@ -79,7 +91,6 @@ export default {
 	.form-control:focus {
 		border: none;
 		border-bottom: 1px solid #ccc !important;
-		/* outline: 0 !important; */
 		box-shadow: none !important;
 	}
 </style>

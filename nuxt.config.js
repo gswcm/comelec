@@ -14,7 +14,17 @@ module.exports = {
 	//--
 	css: ["bootswatch/dist/yeti/bootstrap.min.css"],
 	//--
-	modules: [["bootstrap-vue/nuxt", { css: false }]],
+	modules: [
+		[
+			"bootstrap-vue/nuxt",
+			{
+				css: false
+			}
+		],
+	],
+	plugins: [
+		{ src: '~/plugins/font-awesome' }
+	],
 	//--
 	build: {
 		vendor: ["axios"],

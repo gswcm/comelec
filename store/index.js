@@ -11,6 +11,14 @@ export const mutations = {
 };
 
 export const actions = {
+	nuxtServerInit({ commit }, { req }) {
+		if (req.session && req.session.authUser) {
+			commit('SET_USER', req.session.authUser)
+		}
+		else {
+			commit('SET_USER', null)
+		}
+	},
 	async EVAL_EMAIL({ commit }, email) {
 		try {
 			const { data } = await axios.post('/api/user', { email })
