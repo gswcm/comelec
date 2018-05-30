@@ -304,7 +304,7 @@ module.exports = {
 	//--
 	loading: { color: "#3B8070" },
 	//--
-	css: ["bootswatch/dist/yeti/bootstrap.min.css"],
+	css: ['bootswatch/dist/yeti/bootstrap.min.css', '@/assets/css/main.css'],
 	//--
 	modules: [["bootstrap-vue/nuxt", {
 		css: false

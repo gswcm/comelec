@@ -87,10 +87,5 @@ export default {
 		padding-bottom: 15px;
 	}
 
-	.form-control,
-	.form-control:focus {
-		border: none;
-		border-bottom: 1px solid #ccc !important;
-		box-shadow: none !important;
-	}
+
 </style>
