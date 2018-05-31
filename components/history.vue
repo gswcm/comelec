@@ -1,6 +1,6 @@
 <template>
 	<div class="p-3 border rounded">
-		<h5 class="text-info">Your previous committee assignments:</h5>
+		<h5 class="text-primary">Your previous committee assignments:</h5>
 		<div v-if="services">
 			<p>
 				Over the last 3 years you have served in the following committees:
