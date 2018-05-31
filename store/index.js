@@ -42,5 +42,17 @@ export const actions = {
 			}
 			throw new Error(error.message);
 		}
+	},
+	async GET_IEC_FLAG({ commit }, id) {
+		try {
+			const { data } = await axios.get('/api/user/iec', { params: { id } })
+			return data;
+		}
+		catch(error) {
+			if(error.response && error.response.data) {
+				throw new Error(error.response.data.message);
+			}
+			throw new Error(error.message);
+		}
 	}
 }

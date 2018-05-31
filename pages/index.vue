@@ -71,7 +71,7 @@ export default {
 <style>
 
 	form {
-		min-width: 75vw !important;
+		min-width: 80vw !important;
 	}
 
 	.container {

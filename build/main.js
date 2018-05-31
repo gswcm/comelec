@@ -269,6 +269,44 @@ router.get('/user/last', async (req, res) => {
 	}
 });
 
+router.get('/user/iec', async (req, res) => {
+	let { id } = req.query;
+	let thisYear = moment().format('YYYY');
+	try {
+		const iec = await YCF.aggregate([{
+			$match: {
+				f: ObjectId(id),
+				y: {
+					$gte: thisYear - 3
+				},
+				c: "Institutional Effectiveness"
+			}
+		}, {
+			$group: {
+				_id: {
+					f: '$f',
+					name: '$name'
+				},
+				y: {
+					$push: '$y'
+				}
+			}
+		}, {
+			$project: {
+				_id: new ObjectId(),
+				f: '$_id.f',
+				name: '$_id.name',
+				y: 1
+			}
+		}]);
+		res.json(iec.length ? iec[0].y : []);
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
+});
+
 router.get('/user/details', function (req, res, next) {
 	let { email } = req.query;
 	People.findOne({ email }).then(person => {

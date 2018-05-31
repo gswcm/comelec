@@ -33,7 +33,6 @@
 			<p>
 				The process can be repeated arbitrary number of times before the set deadline. The deadline can be estimated as a week before the GSW Planning Week which is normally scheduled in early days of August.
 			</p>
-			<hr>
 			<p>
 				<strong>For administrators (members of the Faculty Senate)</strong>. Yet to be written...
 			</p>
