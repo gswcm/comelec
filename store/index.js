@@ -1,13 +1,13 @@
 import axios from "axios";
 
 export const state = () => ({
-	user: {}
+	user: {},
 });
 
 export const mutations = {
 	SET_USER(state, value) {
 		state.user = value;
-	}
+	},
 };
 
 export const actions = {
@@ -21,11 +21,26 @@ export const actions = {
 	},
 	async EVAL_EMAIL({ commit }, email) {
 		try {
-			const { data } = await axios.post('/api/user', { email })
+			const { data } = await axios.get('/api/user/details', { params: { email } })
 			commit('SET_USER', data);
 		}
 		catch(error) {
-			throw new Error(`Store.actions.EVAL_EMAIL: ${error.message}`);
+			if(error.response && error.response.data) {
+				throw new Error(error.response.data.message);
+			}
+			throw new Error(error.message);
+		}
+	},
+	async GET_LAST_SERVICES({ commit }, id) {
+		try {
+			const { data } = await axios.get('/api/user/last', { params: { id } })
+			return (data && data.c) ? data.c : null;
+		}
+		catch(error) {
+			if(error.response && error.response.data) {
+				throw new Error(error.response.data.message);
+			}
+			throw new Error(error.message);
 		}
 	}
 }

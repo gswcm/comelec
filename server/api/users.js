@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const restler = require('restler');
+const moment = require('moment');
+const ObjectId = require('mongodb').ObjectId;
 const People = require('../models/people');
+const YCF = require('../models/ycf');
 // const mongoose = require('mongoose');
 
 String.prototype.capitalize = function() {
@@ -11,8 +14,50 @@ String.prototype.capitalize = function() {
 	}).join(' ');
 };
 
-router.post("/user", function(req, res, next) {
-	let { email } = req.body;
+router.get('/user/last', async (req,res) => {
+	let { id } = req.query;
+	let thisYear = moment().format('YYYY');
+	try {
+		const last = await YCF.aggregate([
+			{
+				$match: {
+					f: ObjectId(id),
+					y: {
+						$gte: (thisYear - 3)
+					}
+				}
+			},
+			{
+				$group: {
+					_id: {
+						f: '$f',
+						name: '$name'
+					},
+					c: {
+						$addToSet: '$c'
+					}
+				}
+			},
+			{
+				$project: {
+					_id: new ObjectId(),
+					f: '$_id.f',
+					name: '$_id.name',
+					c: 1,
+				}
+			}
+		]);
+		res.json(last.length ? last[0] : null);
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+
+router.get('/user/details', function(req, res, next) {
+	let { email } = req.query;
 	People.findOne({email})
 	.then(person => {
 		if(!person) {

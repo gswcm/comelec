@@ -13,6 +13,7 @@
 				<p class="text-justify">
 					If this is not you, please correct the email address and continue with submitting your committee preferences.
 				</p>
+				<history/>
 			</div>
 		</div>
 	</section>
@@ -20,12 +21,14 @@
 
 <script>
 import { debounce } from 'lodash';
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
+import history from '~/components/history'
 export default {
 	data: () => ({
 		rawEmail: '',
 	}),
 	components: {
+		history
 	},
 	computed: {
 		state () {
@@ -42,14 +45,12 @@ export default {
 		async evalEmail() {
 			try {
 				await this.$store.dispatch('EVAL_EMAIL', this.rawEmail);
-				console.log(JSON.stringify(this.user,null,3));
 			}
 			catch(error) {
 				console.error(error.message);
 			}
 		},
 		emailUpdate(e) {
-			console.log('--');
 			this.rawEmail = typeof e === "string" ? e : e.target.email.value || "";
 			if(this.state === null) {
 				this.evalEmail();

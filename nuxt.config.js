@@ -30,7 +30,7 @@ module.exports = {
 	],
 	//--
 	build: {
-		vendor: ["axios"],
+		vendor: ["axios", "moment"],
 		extend(config, { isDev, isClient }) {
 			if (isDev && isClient) {
 				config.module.rules.push({
