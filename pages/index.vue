@@ -1,8 +1,8 @@
 <template>
 	<section class="container">
 		<div class="py-5">
-			<div class="card">
-				<div class="card-header bg-dark rounded text-light text-center">
+			<div class="card border-dark">
+				<div class="card-header border-dark border bg-dark rounded text-light text-center">
 					<h5>Please, identify yourself</h5>
 				</div>
 				<div class="card-body pb-1">
@@ -92,7 +92,7 @@ export default {
 	}
 
 	.card {
-		border-radius: 10px;
+		border-radius: 11px;
 	}
 	.card-header {
 		border-radius: 10px 10px 0 0 !important;

@@ -39441,7 +39441,7 @@ const YCF = __webpack_require__(63);
 
 router.get('/list', async (req, res) => {
 	try {
-		const committees = await Committee.find({ active: true }).sort({ title: 1 });
+		const committees = await Committee.find({ active: true }, { _id: 0 }).sort({ title: 1 });
 		res.json(committees);
 	} catch (error) {
 		res.status(500).json({
