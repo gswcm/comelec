@@ -1,5 +1,9 @@
 module.exports = {
 	//--
+	nuxt: {
+		host: "0.0.0.0",
+		port: "4000"
+	},
 	head: {
 		title: "GSW ComElec",
 		meta: [

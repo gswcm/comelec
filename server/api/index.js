@@ -1,10 +1,7 @@
-import { Router } from "express";
+const router = require('express').Router();
 
-import users from "./users";
+// API Routes
+router.use('/user', require('./user'));
+router.use('/committee', require('./committee'));
 
-const router = Router();
-
-// Add USERS Routes
-router.use(users);
-
-export default router;
+module.exports = router;

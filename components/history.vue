@@ -51,7 +51,6 @@
 					this.services = await this.$store.dispatch('GET_LAST_SERVICES', this.user._id);
 					let temp = await this.$store.dispatch('GET_IEC_FLAG', this.user._id);
 					let threeYearsBack = moment().subtract(3, 'years').format('YYYY');
-					console.log(threeYearsBack);
 					this.iecFlag = false;
 					if(temp.length > 0 && temp.length < 3 && temp.indexOf(threeYearsBack) === -1) {
 						this.iecFlag = true;

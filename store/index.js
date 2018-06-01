@@ -2,11 +2,15 @@ import axios from "axios";
 
 export const state = () => ({
 	user: {},
+	committees: []
 });
 
 export const mutations = {
 	SET_USER(state, value) {
 		state.user = value;
+	},
+	SET_COMMITTEES(state, value) {
+		state.committees = value;
 	},
 };
 
@@ -47,6 +51,18 @@ export const actions = {
 		try {
 			const { data } = await axios.get('/api/user/iec', { params: { id } })
 			return data;
+		}
+		catch(error) {
+			if(error.response && error.response.data) {
+				throw new Error(error.response.data.message);
+			}
+			throw new Error(error.message);
+		}
+	},
+	async SET_COMMITTEES({ commit }) {
+		try {
+			const { data } = await axios.get('http://localhost:3000/api/committee/list');
+			commit('SET_COMMITTEES', data);
 		}
 		catch(error) {
 			if(error.response && error.response.data) {

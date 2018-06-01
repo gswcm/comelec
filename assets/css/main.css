@@ -4,3 +4,11 @@
 	border-bottom: 1px solid #ccc !important;
 	box-shadow: none !important;
 }
+
+.card .form-control,
+.card .form-control:focus {
+	border-bottom: none !important;
+	text-align: center;
+	font-size: large;
+	font-weight: bold;
+}

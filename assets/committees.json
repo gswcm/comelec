@@ -1,0 +1,77 @@
+[
+	{
+		"title": "Faculty Development",
+		"active": true,
+		"desc": "The Committee oversees University efforts on Faculty Development. The committee advises the administration of grantsrelated to Faculty Development and review the various faculty development grant proposals. It also advises on programs for Faculty Development. The committee confers with the faculty and the administration to effectively advise on how to better support facultydevelopment and suggest ways in which the faculty development program may be improved."
+	},
+	{
+		"title": "University Promotion and Tenure",
+		"active": true,
+		"desc": "The Committee reviews portfolios for promotion and tenure at the University level. It also sets standards for the organization and tenure portfolios. The Institution-wide Committee is composed of tenured faculty preferably of professor rank, elected to two-year terms by the faculty of each School. The Institution-wide Committee makes a written recommendation to the Vice President for Academic Affairs for approval or disapproval of each case under consideration."
+	},
+	{
+		"title": "International Studies",
+		"active": true,
+		"desc": "The International Studies Committee supports and promotes the various international programs by (i) advertising and recruiting for study abroad, UNIV 4000, W2W seminars; (ii) informing the faculty about opportunities to participate in teaching abroad; (iii) helping faculty prepare for teaching abroad; (iv) helping to develop and maintain new relationships with faculty in foreign universities; (v) promoting international events on campus such as the W2W events."
+	},
+	{
+		"title": "Student Affairs",
+		"active": true,
+		"desc": "The committee cooperates with and advises the Vice President of Student Affairs regarding policies related to the general welfare of the student body. The Vice President of Student Affairs and the Director of Student Life serve as ex-officio members of this committee. Two student representatives from the Student Government Association are also members. The Chair of the committee on Student Affairs, with the advice and consent of the committee, may invite or appoint others to become standing or select ex-officio members, and may request the attendance of a student organization faculty advisor and/or a student organization representative to attend committee hearings and meetings where the business of their respective organizations are being reviewed and/or discussed."
+	},
+	{
+		"title": "Business and Finance",
+		"active": true,
+		"desc": "The committee cooperates with the Vice President for Business and Finance in determining policies related to the business and general relations of the University constituencies. The Vice President for Business and Finance is an ex-officio member of this committee."
+	},
+	{
+		"title": "Faculty Affairs",
+		"active": true,
+		"desc": "The committee is concerned with the general welfare and development of the faculty. It cooperates with the Grants officer, the Vice president for Academic Affairs, and the Faculty Senate in determining policies and procedures related to the general welfare of the faculty. The Vice president for Academic Affairs is an ex-officio member of this committee."
+	},
+	{
+		"title": "Instructional Technology",
+		"active": true,
+		"desc": "The committee provides a functional link and liaison between the faculty, administration, and Information and Instructional Technology department (ITT). The committee annually reviews the current status of campus-wide instructional technology and advises IIT on efficient methods of implementing and maintaining current instructional technologies. The committee consists of a minimum of two full-time faculty members from the College of Arts and Sciences, and a minimum of one from each of the other schools. The Chief Information Officer, the Instructional Technology-Coordinator, and the Computer Lab Support Manager (or designee) serve as ex-officio members."
+	},
+	{
+		"title": "Institutional Review Board",
+		"active": true,
+		"desc": "This Committee reviews all research at Georgia Southwestern State University that involves human subjects. Faculty and community members constitute the committee. Federal guidelines is followed by the IRB (45 CFR 46)."
+	},
+	{
+		"title": "Institutional Effectiveness",
+		"active": true,
+		"desc": "The Committee coordinates with the Faculty Senate to establish and assess institutional priorities for strategic planning and budgeting. The IEC is organized into two standing subcommittees on Strategic Planning and Assessment, and Academic and Support Unit Assessment. The subcommittees review data and make recommendations on these issues to the entire IEC. "
+	},
+	{
+		"title": "Academic Affairs",
+		"active": true,
+		"desc": "The committee approves substantive change to curriculum, reviews and advises on academic policies, reviews general education assessment reports, and oversees academic advising. The Vice President for Academic Affairs, the Associate Vice President for Academic Affairs, the University Registrar, and the Assistant Athletic Director for Compliance are ex‐officio members of this committee. The Assistant Athletic Director for Compliance is a non‐voting member of the committee."
+	},
+	{
+		"title": "Graduate Affairs",
+		"active": true,
+		"desc": "The committee is generally concerned with the quality of instruction and the development of curriculum and instructional facilities of the University in relation to graduate programs. The Director of Graduate Studies, the Director of Library Services and the Deans of the Schools, which offer graduate degree programs, are ex-officio members of the committee. All members of Graduate Affairs must have graduate faculty status."
+	},
+	{
+		"title": "University and Alumni Affairs",
+		"active": false,
+		"desc": "The Committee cooperates with the Vice President for University Relations, the Director of Alumni Affairs, and the Director of Admissions in determining policies related to the general advancement of the University."
+	},
+	{
+		"title": "Scholarships and Financial Aid",
+		"active": false,
+		"desc": "The committee assists in the development of policy for the administration of scholarships and financial aid. The Director of Financial Aid and the Director of Admissions are ex-officio members of this committee. This committee shall recommend policies related to the administration of the financial aid program."
+	},
+	{
+		"title": "Athletics",
+		"active": false,
+		"desc": "The committee is concerned with development of the intercollegiate and intramural athletic programs. The Director of Athletics is an ex-officio member of this committee."
+	},
+	{
+		"title": "Academic Grievances",
+		"active": false,
+		"desc": "The Committee is concerned with academic policies and practices used in enforcing standards of behavior related to classroom, laboratory, and similar academic situations. The committee has authority to conduct inquiries into academic grievances referred to it by the President. All students, faculty, and administrative personnel involved in disputes or conflicts over academic matters shall have access to the committee whenever the President submits a matter to the committee for consideration."
+	}
+]

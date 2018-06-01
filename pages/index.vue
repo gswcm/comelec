@@ -1,19 +1,25 @@
 <template>
 	<section class="container">
 		<div class="py-5">
-			<div class="py-md-5">
-				<form @submit.prevent="emailUpdate">
-					<b-form-group invalid-feedback="This is not a valid GSW e-mail address, try something that ends with <b>@gsw.edu</b>" :state="state">
-						<b-form-input :state="state" :value="email" name='email' @input="debouncer" type="text" placeholder="Enter your GSW e-mail"></b-form-input>
-					</b-form-group>
-				</form>
+			<div class="card">
+				<div class="card-header bg-dark rounded text-light text-center">
+					<h5>Please, identify yourself</h5>
+				</div>
+				<div class="card-body pb-1">
+					<form @submit.prevent="emailUpdate">
+						<b-form-group invalid-feedback="This is not a valid GSW e-mail address, try something that ends with <b>@gsw.edu</b>" :state="state">
+							<b-form-input :state="state" :value="email" name='email' @input="debouncer" type="text" placeholder="Enter your GSW e-mail"></b-form-input>
+						</b-form-group>
+					</form>
+				</div>
 			</div>
-			<div v-if="user">
-				<h3>Welcome, {{user.firstName}}</h3>
+			<div v-if="user" class="mt-5">
+				<h3>Hello, {{salutation}}</h3>
 				<p class="text-justify">
 					If this is not you, please correct the email address and continue with submitting your committee preferences.
 				</p>
 				<history/>
+				<service :committees="committees"/>
 			</div>
 		</div>
 	</section>
@@ -22,13 +28,19 @@
 <script>
 import { debounce } from 'lodash';
 import { mapState } from 'vuex';
+import axios from 'axios';
 import history from '~/components/history'
+import service from '~/components/service'
 export default {
+	async fetch({ store }) {
+		console.log(process.server);
+		await store.dispatch('SET_COMMITTEES');
+	},
 	data: () => ({
 		rawEmail: '',
 	}),
 	components: {
-		history
+		history, service
 	},
 	computed: {
 		state () {
@@ -37,8 +49,12 @@ export default {
 		email() {
 			return this.user ? this.user.email : this.rawEmail;
 		},
+		salutation() {
+			return this.user.email.split(/[.]/)[0].split('').map((letter,index) => index ? letter : letter.toUpperCase()).join('')
+		},
 		...mapState({
-			user: "user"
+			user: "user",
+			committees: "committees"
 		}),
 	},
 	methods: {
@@ -72,6 +88,14 @@ export default {
 
 	form {
 		min-width: 80vw !important;
+		text-align: center;
+	}
+
+	.card {
+		border-radius: 10px;
+	}
+	.card-header {
+		border-radius: 10px 10px 0 0 !important;
 	}
 
 	.container {

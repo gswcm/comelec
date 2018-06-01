@@ -14,7 +14,7 @@ String.prototype.capitalize = function() {
 	}).join(' ');
 };
 
-router.get('/user/last', async (req,res) => {
+router.get('/last', async (req,res) => {
 	let { id } = req.query;
 	let thisYear = moment().format('YYYY');
 	try {
@@ -56,7 +56,7 @@ router.get('/user/last', async (req,res) => {
 	}
 })
 
-router.get('/user/iec', async (req,res) => {
+router.get('/iec', async (req,res) => {
 	let { id } = req.query;
 	let thisYear = moment().format('YYYY');
 	try {
@@ -99,7 +99,7 @@ router.get('/user/iec', async (req,res) => {
 	}
 })
 
-router.get('/user/details', function(req, res, next) {
+router.get('/details', function(req, res, next) {
 	let { email } = req.query;
 	People.findOne({email})
 	.then(person => {
@@ -143,4 +143,4 @@ router.get('/user/details', function(req, res, next) {
 	})
 });
 
-export default router;
+module.exports = router;
