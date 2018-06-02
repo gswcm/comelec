@@ -4,6 +4,10 @@ module.exports = {
 		host: "0.0.0.0",
 		port: "4000"
 	},
+	env: {
+		reCAPTCHA_KEY: process.env.reCAPTCHA_KEY,
+		reCAPTCHA_SECRET: process.env.reCAPTCHA_SECRET
+	},
 	head: {
 		title: "GSW ComElec",
 		meta: [

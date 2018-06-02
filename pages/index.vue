@@ -33,7 +33,6 @@ import history from '~/components/history'
 import service from '~/components/service'
 export default {
 	async fetch({ store }) {
-		console.log(process.server);
 		await store.dispatch('SET_COMMITTEES');
 	},
 	data: () => ({

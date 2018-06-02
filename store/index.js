@@ -2,7 +2,8 @@ import axios from "axios";
 
 export const state = () => ({
 	user: {},
-	committees: []
+	committees: [],
+	reCAPTCHA_KEY: ''
 });
 
 export const mutations = {
@@ -12,16 +13,20 @@ export const mutations = {
 	SET_COMMITTEES(state, value) {
 		state.committees = value;
 	},
+	SET_reCAPTCHA_KEY(state, value) {
+		state.reCAPTCHA_KEY = value;
+	}
 };
 
 export const actions = {
-	nuxtServerInit({ commit }, { req }) {
+	nuxtServerInit({ commit }, { env, req }) {
 		if (req.session && req.session.authUser) {
 			commit('SET_USER', req.session.authUser)
 		}
 		else {
 			commit('SET_USER', null)
 		}
+		commit('SET_reCAPTCHA_KEY', env.reCAPTCHA_KEY);
 	},
 	async EVAL_EMAIL({ commit }, email) {
 		try {

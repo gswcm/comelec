@@ -25,6 +25,15 @@
 				{{modalText}}
 			</p>
 		</b-modal>
+		<invisible-recaptcha
+			id="recaptcha"
+			class="btn btn-primary"
+			theme="light"
+			:sitekey="reCAPTCHA_KEY"
+			:disabled="!preference.filter(e => !!e).length"
+			:callback="submit">
+			Submit
+		</invisible-recaptcha>
 	</div>
 </template>
 
@@ -32,6 +41,7 @@
 	import axios from 'axios';
 	import { mapState } from "vuex";
 	import moment from 'moment';
+	import InvisibleRecaptcha from './InvisibleRecaptcha';
 	export default {
 		props: {
 			committees: {
@@ -39,6 +49,9 @@
 					return Array.isArray(value);
 				}
 			}
+		},
+		components: {
+			InvisibleRecaptcha
 		},
 		data: function() {
 			return {
@@ -53,12 +66,19 @@
 					e.show = !this.preference.reduce((a, i) => a || (i ? i.title === e.title : false), false)
 					return e;
 				});
-			}
+			},
+			...mapState({
+				user: "user",
+				reCAPTCHA_KEY: "reCAPTCHA_KEY"
+			}),
 		},
 		methods: {
 			renderInfo(index) {
 				this.modalTitle = this.preference[index].title;
 				this.modalText = this.preference[index].desc;
+			},
+			submit(response) {
+				console.log(response);
 			}
 		}
 	}
