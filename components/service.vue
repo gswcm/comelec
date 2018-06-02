@@ -25,15 +25,16 @@
 				{{modalText}}
 			</p>
 		</b-modal>
-		<invisible-recaptcha
-			id="recaptcha"
-			class="btn btn-primary"
-			theme="light"
-			:sitekey="reCAPTCHA_KEY"
-			:disabled="!preference.filter(e => !!e).length"
-			:callback="submit">
-			Submit
-		</invisible-recaptcha>
+		<div class="d-flex justify-content-end mt-5">
+			<g-recaptcha
+				:data-sitekey="reCAPTCHA_KEY"
+				:data-validate="() => !incomplete"
+				data-btn-class="btn btn-outline-primary px-4"
+				:data-btn-disabled="incomplete"
+				:data-callback="submit">
+				Submit
+			</g-recaptcha>
+		</div>
 	</div>
 </template>
 
@@ -41,7 +42,7 @@
 	import axios from 'axios';
 	import { mapState } from "vuex";
 	import moment from 'moment';
-	import InvisibleRecaptcha from './InvisibleRecaptcha';
+	import gRecaptcha from '@finpo/vue2-recaptcha-invisible';
 	export default {
 		props: {
 			committees: {
@@ -51,7 +52,7 @@
 			}
 		},
 		components: {
-			InvisibleRecaptcha
+			gRecaptcha
 		},
 		data: function() {
 			return {
@@ -67,6 +68,9 @@
 					return e;
 				});
 			},
+			incomplete() {
+				return !this.preference.reduce((a,i) => a && !!i, true)
+			},
 			...mapState({
 				user: "user",
 				reCAPTCHA_KEY: "reCAPTCHA_KEY"
@@ -77,8 +81,18 @@
 				this.modalTitle = this.preference[index].title;
 				this.modalText = this.preference[index].desc;
 			},
-			submit(response) {
-				console.log(response);
+			async submit(token) {
+				try {
+					await this.$store.dispatch('SUBMIT_PREFERENCE', {
+						token,
+						user: this.user,
+						preference: this.preference,
+					})
+					console.log('OK');
+				}
+				catch(error) {
+					console.error(error.message);
+				}
 			}
 		}
 	}

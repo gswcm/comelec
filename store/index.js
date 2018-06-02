@@ -3,7 +3,8 @@ import axios from "axios";
 export const state = () => ({
 	user: {},
 	committees: [],
-	reCAPTCHA_KEY: ''
+	reCAPTCHA_KEY: '',
+	isHuman: false
 });
 
 export const mutations = {
@@ -15,6 +16,9 @@ export const mutations = {
 	},
 	SET_reCAPTCHA_KEY(state, value) {
 		state.reCAPTCHA_KEY = value;
+	},
+	SET_IS_HUMAN(state, value) {
+		state.isHuman = value
 	}
 };
 
@@ -66,7 +70,7 @@ export const actions = {
 	},
 	async SET_COMMITTEES({ commit }) {
 		try {
-			const { data } = await axios.get('http://localhost:3000/api/committee/list');
+			const { data } = await axios.get('http://localhost:3000/api/service/list');
 			commit('SET_COMMITTEES', data);
 		}
 		catch(error) {
@@ -75,5 +79,17 @@ export const actions = {
 			}
 			throw new Error(error.message);
 		}
-	}
+	},
+	async SUBMIT_PREFERENCE({ commit }, { token, user, preference }) {
+		try {
+			const { data } = await axios.post('/api/service/update', { token, user, preference } );
+			console.log(JSON.stringify(data,null,3));
+		}
+		catch(error) {
+			if(error.response && error.response.data) {
+				throw new Error(error.response.data.message);
+			}
+			throw new Error(error.message);
+		}
+	},
 }

@@ -21288,7 +21288,7 @@ const router = __webpack_require__(19).Router();
 
 // API Routes
 router.use('/user', __webpack_require__(70));
-router.use('/committee', __webpack_require__(110));
+router.use('/service', __webpack_require__(113));
 
 module.exports = router;
 
@@ -39429,30 +39429,7 @@ function checkAborted(_this, callback) {
 
 
 /***/ }),
-/* 110 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const router = __webpack_require__(19).Router();
-const restler = __webpack_require__(46);
-const ObjectId = __webpack_require__(47).ObjectId;
-const People = __webpack_require__(62);
-const Committee = __webpack_require__(111);
-const YCF = __webpack_require__(63);
-
-router.get('/list', async (req, res) => {
-	try {
-		const committees = await Committee.find({ active: true }, { _id: 0 }).sort({ title: 1 });
-		res.json(committees);
-	} catch (error) {
-		res.status(500).json({
-			message: error.message
-		});
-	}
-});
-
-module.exports = router;
-
-/***/ }),
+/* 110 */,
 /* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39512,6 +39489,106 @@ module.exports = {
 		// ]
 	}
 };
+
+/***/ }),
+/* 113 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const router = __webpack_require__(19).Router();
+const axios = __webpack_require__(114);
+const Committee = __webpack_require__(111);
+const Service = __webpack_require__(115);
+
+router.get('/list', async (req, res) => {
+	try {
+		const committees = await Committee.find({ active: true }).sort({ title: 1 });
+		res.json(committees);
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
+});
+router.post('/update', async (req, res) => {
+	const { token, user, preference } = req.body;
+	try {
+		// validate reCAPTCHA response
+		const { data } = await axios({
+			method: 'get',
+			url: 'https://www.google.com/recaptcha/api/siteverify',
+			params: {
+				secret: process.env.reCAPTCHA_SECRET,
+				response: token
+			}
+		});
+		if (data.success) {
+			//-- Create and save new service record
+			const record = await new Service({
+				person: {
+					id: user._id,
+					name: `${user.firstName} ${user.lastName}`,
+					email: user.email
+				},
+				preference: preference.map(e => ({
+					id: e._id,
+					title: e.title
+				}))
+			}).save();
+			//-- Return response
+			res.json({
+				record
+			});
+		} else {
+			throw new Error("Invalid reCAPTCHA token");
+		}
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
+});
+
+module.exports = router;
+
+/***/ }),
+/* 114 */
+/***/ (function(module, exports) {
+
+module.exports = require("axios");
+
+/***/ }),
+/* 115 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const mongoose = __webpack_require__(18);
+
+const serviceSchema = mongoose.Schema({
+	person: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'people'
+		},
+		name: String,
+		email: String
+	},
+	preference: [{
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'committee'
+		},
+		title: String
+	}],
+	cteatedAt: {
+		type: Date,
+		default: Date.now
+	},
+	confirmed: {
+		type: Boolean,
+		default: false
+	}
+});
+
+module.exports = mongoose.model('service', serviceSchema, 'service');
 
 /***/ })
 /******/ ]);

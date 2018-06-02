@@ -8,7 +8,7 @@
 				<div class="card-body pb-1">
 					<form @submit.prevent="emailUpdate">
 						<b-form-group invalid-feedback="This is not a valid GSW e-mail address, try something that ends with <b>@gsw.edu</b>" :state="state">
-							<b-form-input :state="state" :value="email" name='email' @input="debouncer" type="text" placeholder="Enter your GSW e-mail"></b-form-input>
+							<b-form-input :state="state" ref="email" :value="email" name='email' @input="debouncer" type="text" placeholder="Enter your GSW e-mail"></b-form-input>
 						</b-form-group>
 					</form>
 				</div>
@@ -32,6 +32,13 @@ import axios from 'axios';
 import history from '~/components/history'
 import service from '~/components/service'
 export default {
+	mounted() {
+		this.$nextTick(() => {
+			if(this.$refs && this.$refs.email) {
+				this.$refs.email.focus();
+			}
+		});
+	},
 	async fetch({ store }) {
 		await store.dispatch('SET_COMMITTEES');
 	},
