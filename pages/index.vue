@@ -1,6 +1,7 @@
 <template>
 	<section class="container">
 		<div class="py-5">
+			<div class="py-2"><!-- vertical spacer --></div>
 			<div class="card border-dark">
 				<div class="card-header border-dark border bg-dark rounded text-light text-center">
 					<h5>Please, identify yourself</h5>
@@ -39,7 +40,13 @@ export default {
 			}
 		});
 	},
-	async fetch({ store }) {
+	async fetch({ store, req }) {
+		// if(req.session && req.session.authUser) {
+		// 	store.commit('SET_USER', req.session.authUser);
+		// }
+		// if(req.session && req.session.service) {
+		// 	store.commit('SET_SERVICE', req.session.service.committees.map(e => e ? e.id : null));
+		// }
 		await store.dispatch('GET_COMMITTEES');
 	},
 	data: () => ({

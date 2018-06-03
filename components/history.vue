@@ -4,12 +4,12 @@
 		<div v-if="services">
 			<p>
 				Over the last 3 years you have served in the following committees:
-				<ul class="mt-2">
-					<li v-for="(service, index) in services" :key="index">
-						{{ service }}
-					</li>
-				</ul>
 			</p>
+			<ul class="mt-2">
+				<li v-for="(service, index) in services" :key="index">
+					{{ service }}
+				</li>
+			</ul>
 			<p v-if="iecFlag">
 				Also, according to the history of your service in the "<strong>Institutional Effectiveness</strong>" committee, <strong>we suggest</strong> you to serve in this committee for at least one more year.
 			</p>

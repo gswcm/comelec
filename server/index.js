@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const connectMongoDBSession = require('connect-mongodb-session');
 const bodyParser = require('body-parser');
+const logger = require('morgan');
 const express = require('express');
+const debug = require('debug')('comelec:server');
 const { Nuxt, Builder } = require('nuxt');
 const api = require('./api');
 
@@ -24,10 +26,12 @@ store.on('error', function(error) {
 });
 
 // We instantiate nuxt.js with the options
-const config = require("../nuxt.config.js");
+const config = require('../nuxt.config.js');
 config.dev = !isProd;
 const nuxt = new Nuxt(config);
 
+// Logger
+app.use(logger('dev'));
 // Body parser, to access `req.body`
 app.use(bodyParser.json());
 
@@ -39,7 +43,7 @@ app.use(
 		saveUninitialized: false,
 		rolling: true,
 		cookie: {
-			maxAge: 20 * 1000
+			maxAge: 300 * 1000
 		},
 		store
 	}),

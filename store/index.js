@@ -1,9 +1,11 @@
 import axios from "axios";
 
+export const strict = false;
+
 export const state = () => ({
-	user: {},
+	user: null,
 	committees: [],
-	reCAPTCHA_KEY: '',
+	reCAPTCHA_KEY: null,
 	uuid: null,
 	service: [null, null, null]
 });
@@ -27,12 +29,12 @@ export const mutations = {
 };
 
 export const actions = {
-	nuxtServerInit({ commit }, { env, req }) {
+	nuxtServerInit({ commit, dispatch }, { env, req }) {
 		if (req.session && req.session.authUser) {
-			commit('SET_USER', req.session.authUser)
+			commit('SET_USER', req.session.authUser);
 		}
-		else {
-			commit('SET_USER', null)
+		if(req.session && req.session.service) {
+			commit('SET_SERVICE', req.session.service.committees.map(e => e ? e.id : null));
 		}
 		commit('SET_reCAPTCHA_KEY', env.reCAPTCHA_KEY);
 	},

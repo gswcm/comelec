@@ -5,6 +5,7 @@ const ObjectId = require('mongodb').ObjectId;
 const Committee = require('../models/committee');
 const Service = require('../models/service');
 const Token = require('../models/token');
+const smtpTransport = require('../mailer');
 
 router.get('/list', async (req,res) => {
 	try {
@@ -26,7 +27,9 @@ router.get('/', async (req,res) => {
 		})
 		.sort({createdAt: -1})
 		.limit(1);
-		res.json((service && service.length) ? service[0] : null);
+		const latestConfirmedService = (service && service.length) ? service[0] : null;
+		req.session.service = latestConfirmedService;
+		res.json(latestConfirmedService);
 	}
 	catch (error) {
 		res.status(500).json({
@@ -67,6 +70,24 @@ router.post('/', async (req,res) => {
 						ObjectId(record._id)
 					]
 				}).save();
+				//-- Create new confirmation email
+				const host = `${req.protocol}://${req.get('host')}`;
+				const url = `${host}/email?action=confirm&token=${token.uuid}`;
+				await new emailTemplates({
+					transport: smtpTransport
+				})
+				.send({
+					views: {
+						root: '..'
+					},
+					template: 'confirm',
+					message: {
+						to: user.email
+					},
+					locals: {
+						host, url
+					},
+				})
 			}
 			else {
 				token.target.push(ObjectId(record._id));
