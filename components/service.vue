@@ -25,14 +25,14 @@
 				{{modalText}}
 			</p>
 		</b-modal>
-		<div class="d-flex justify-content-end mt-5">
+		<div id="recaptcha" class="d-flex justify-content-end mt-5">
 			<g-recaptcha
 				:data-sitekey="reCAPTCHA_KEY"
 				:data-validate="() => !incomplete"
 				data-btn-class="btn btn-outline-primary px-4"
 				:data-btn-disabled="incomplete"
 				:data-callback="submit">
-				Submit
+				<strong>Submit</strong>
 			</g-recaptcha>
 		</div>
 	</div>
@@ -96,3 +96,10 @@
 		}
 	}
 </script>
+
+<style>
+	#recaptcha button {
+		border-radius: 5px;
+	}
+</style>
+

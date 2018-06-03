@@ -1,5 +1,5 @@
 <template>
-	<div class="p-3 border rounded">
+	<div id="history" class="p-3 border">
 		<h5 class="text-primary">Your previous committee assignments:</h5>
 		<div v-if="services">
 			<p>
@@ -63,3 +63,10 @@
 		}
 	}
 </script>
+
+<style>
+	#history {
+		border-radius: 10px;
+	}
+</style>
+
