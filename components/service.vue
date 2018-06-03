@@ -25,11 +25,14 @@
 				{{modalText}}
 			</p>
 		</b-modal>
+		<div class="my-3 p-3 border border-right-0 border-top-0 border-bottom-0 border-warning text-warning">
+			<Strong>Note:</Strong> feel free to make multiple submissions, we will use the most recent one.
+		</div>
 		<div id="recaptcha" class="d-flex justify-content-end mt-5">
 			<g-recaptcha
 				:data-sitekey="reCAPTCHA_KEY"
 				:data-validate="() => !incomplete"
-				data-btn-class="btn btn-outline-primary px-4"
+				data-btn-class="btn btn-primary px-4"
 				:data-btn-disabled="incomplete"
 				:data-callback="submit">
 				<strong>Submit</strong>
