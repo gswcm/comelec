@@ -4,7 +4,8 @@ export const state = () => ({
 	user: {},
 	committees: [],
 	reCAPTCHA_KEY: '',
-	uuid: null
+	uuid: null,
+	service: [null, null, null]
 });
 
 export const mutations = {
@@ -19,6 +20,9 @@ export const mutations = {
 	},
 	SET_UUID(state, value) {
 		state.uuid = value
+	},
+	SET_SERVICE(state, value) {
+		state.service = value
 	}
 };
 
@@ -32,7 +36,7 @@ export const actions = {
 		}
 		commit('SET_reCAPTCHA_KEY', env.reCAPTCHA_KEY);
 	},
-	async EVAL_EMAIL({ commit }, email) {
+	async GET_USER({ commit }, email) {
 		try {
 			const { data } = await axios.get('/api/user/details', { params: { email } })
 			commit('SET_USER', data);
@@ -44,7 +48,7 @@ export const actions = {
 			throw new Error(error.message);
 		}
 	},
-	async GET_LAST_SERVICES({ commit }, id) {
+	async GET_HISTORY({ commit }, id) {
 		try {
 			const { data } = await axios.get('/api/user/last', { params: { id } })
 			return (data && data.c) ? data.c : null;
@@ -68,7 +72,7 @@ export const actions = {
 			throw new Error(error.message);
 		}
 	},
-	async SET_COMMITTEES({ commit }) {
+	async GET_COMMITTEES({ commit }) {
 		try {
 			const { data } = await axios.get('http://localhost:3000/api/service/list');
 			commit('SET_COMMITTEES', data);
@@ -80,15 +84,35 @@ export const actions = {
 			throw new Error(error.message);
 		}
 	},
-	async SUBMIT_PREFERENCE({ commit, state }, { response, user, preference }) {
+	async SET_SERVICE({ commit, state }, { response, user, service }) {
 		try {
-			const { data } = await axios.post('/api/service/update', {
+			const { data } = await axios.post('/api/service', {
 				response,
 				user,
-				preference,
+				service,
 				uuid: state.uuid
 			});
 			commit('SET_UUID', data.uuid);
+		}
+		catch(error) {
+			if(error.response && error.response.data) {
+				throw new Error(error.response.data.message);
+			}
+			throw new Error(error.message);
+		}
+	},
+	async GET_SERVICE({ commit, state }) {
+		try {
+			if(state.user) {
+				const { data } = await axios.get('/api/service', {
+					params: {
+						person_id: state.user._id
+					}
+				})
+				if(data) {
+					commit('SET_SERVICE', data.committees.map(e => e ? e.id : null));
+				}
+			}
 		}
 		catch(error) {
 			if(error.response && error.response.data) {

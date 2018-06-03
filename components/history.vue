@@ -48,7 +48,7 @@
 		methods: {
 			async updateServices() {
 				try {
-					this.services = await this.$store.dispatch('GET_LAST_SERVICES', this.user._id);
+					this.services = await this.$store.dispatch('GET_HISTORY', this.user._id);
 					let temp = await this.$store.dispatch('GET_IEC_FLAG', this.user._id);
 					let threeYearsBack = moment().subtract(3, 'years').format('YYYY');
 					this.iecFlag = false;

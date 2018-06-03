@@ -9,7 +9,7 @@ const serviceSchema = mongoose.Schema({
 		name: String,
 		email: String
 	},
-	preference: [{
+	committees: [{
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'committee'

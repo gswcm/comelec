@@ -17,8 +17,25 @@ router.get('/list', async (req,res) => {
 		})
 	}
 })
-router.post('/update', async (req,res) => {
-	const { response, user, preference, uuid } = req.body;
+router.get('/', async (req,res) => {
+	try {
+		const { person_id } = req.query;
+		const service = await Service.find({
+			"person.id": person_id,
+			confirmed: false
+		})
+		.sort({createdAt: -1})
+		.limit(1);
+		res.json((service && service.length) ? service[0] : null);
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+router.post('/', async (req,res) => {
+	const { response, user, service, uuid } = req.body;
 	try {
 		// validate reCAPTCHA response
 		const { data } = await axios({
@@ -37,8 +54,8 @@ router.post('/update', async (req,res) => {
 					name: `${user.firstName} ${user.lastName}`,
 					email: user.email
 				},
-				preference: preference.map(e => ({
-					id: e._id,
+				committees: service.map(e => ({
+					id: e.id,
 					title: e.title
 				})),
 			}).save()

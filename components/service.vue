@@ -7,14 +7,13 @@
 					<label><strong>Preference {{index}}</strong></label>
 				</b-col>
 				<b-col col>
-					<!-- <b-select :value="preference[index-1] || null" @change="prefChanged(index-1, $event)"> -->
-					<b-select v-model="preference[index-1]">
+					<b-select v-model="service[index-1]">
 						<option :value="null">--</option>
-						<option v-for="(committee,index) in options" v-show="committee.show" :value="committee" :key="`option_${index}`">{{committee.title}}</option>
+						<option v-for="option in options" v-show="option.show" :value="option._id" :key="option._id">{{option.title}}</option>
 					</b-select>
 				</b-col>
 				<b-col cols="auto" class="pl-0">
-					<b-btn variant="link" v-b-modal.info size="lg" :disabled="!preference[index-1]" @click="renderInfo(index-1)">
+					<b-btn variant="link" v-b-modal.info size="lg" :disabled="!service[index-1]" @click="renderInfo(service[index-1])">
 						<font-awesome-icon :icon="['fas', 'info-circle']"/>
 					</b-btn>
 				</b-col>
@@ -47,49 +46,62 @@
 	import moment from 'moment';
 	import gRecaptcha from '@finpo/vue2-recaptcha-invisible';
 	export default {
-		props: {
-			committees: {
-				validator: function (value) {
-					return Array.isArray(value);
-				}
-			}
-		},
 		components: {
 			gRecaptcha
 		},
+		props: ['storedService'],
 		data: function() {
 			return {
-				preference: [null, null, null],
 				modalTitle: null,
 				modalText: null,
+				//-- Array of _id of committee entries
+				service: [...this.storedService]
 			};
+		},
+		watch: {
+			storedService() {
+				this.service = [...this.storedService];
+			}
 		},
 		computed: {
 			options() {
 				return this.committees.map(e => {
-					e.show = !this.preference.reduce((a, i) => a || (i ? i.title === e.title : false), false)
+					e.show = !this.service.reduce((a, i) => a || (i ? i === e._id : false), false)
 					return e;
 				});
 			},
 			incomplete() {
-				return !this.preference.reduce((a,i) => a && !!i, true)
+				//-- There must be set all 3 service preference, otherwise incomplete
+				return !this.service.reduce((a,i) => a && !!i, true)
 			},
 			...mapState({
 				user: "user",
+				committees: "committees",
 				reCAPTCHA_KEY: "reCAPTCHA_KEY"
 			}),
 		},
 		methods: {
-			renderInfo(index) {
-				this.modalTitle = this.preference[index].title;
-				this.modalText = this.preference[index].desc;
+			preferenceUpdate(index, value) {
+				this.service[index] = value;
+				console.log(this.service);
+			},
+			renderInfo(service_id) {
+				const option = this.options.find(e => e._id === service_id)
+				this.modalTitle = option.title;
+				this.modalText = option.desc;
 			},
 			async submit(response) {
 				try {
-					await this.$store.dispatch('SUBMIT_PREFERENCE', {
+					await this.$store.dispatch('SET_SERVICE', {
 						response,
 						user: this.user,
-						preference: this.preference,
+						service: this.service.map(service_id => {
+							const option = this.options.find(e => e._id === service_id)
+							return {
+								id: option._id,
+								title: option.title
+							};
+						}),
 					})
 				}
 				catch(error) {

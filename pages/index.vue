@@ -19,7 +19,7 @@
 					If this is not you, please correct the email address and continue with submitting your committee preferences.
 				</p>
 				<history/>
-				<service :committees="committees"/>
+				<service v-if="committees.length" :storedService="service"/>
 			</div>
 		</div>
 	</section>
@@ -40,7 +40,7 @@ export default {
 		});
 	},
 	async fetch({ store }) {
-		await store.dispatch('SET_COMMITTEES');
+		await store.dispatch('GET_COMMITTEES');
 	},
 	data: () => ({
 		rawEmail: '',
@@ -60,13 +60,15 @@ export default {
 		},
 		...mapState({
 			user: "user",
-			committees: "committees"
+			committees: "committees",
+			service: "service"
 		}),
 	},
 	methods: {
 		async evalEmail() {
 			try {
-				await this.$store.dispatch('EVAL_EMAIL', this.rawEmail);
+				await this.$store.dispatch('GET_USER', this.rawEmail);
+				await this.$store.dispatch('GET_SERVICE');
 			}
 			catch(error) {
 				console.error(error.message);
@@ -79,6 +81,8 @@ export default {
 			}
 			else {
 				this.$store.commit('SET_USER', null);
+				this.$store.commit('SET_SERVICE', [null, null, null]);
+				this.$store.commit('SET_UUID', null);
 			}
 		},
 		debouncer: debounce(function(e) {
@@ -91,32 +95,19 @@ export default {
 </script>
 
 <style>
-
 	form {
 		min-width: 80vw !important;
 		text-align: center;
 	}
-
 	.card {
 		border-radius: 11px;
 	}
 	.card-header {
 		border-radius: 10px 10px 0 0 !important;
 	}
-
 	.container {
 		min-height: 100vh;
 		display: flex;
 		justify-content: center;
 	}
-
-	.subtitle {
-		font-weight: 300;
-		font-size: 42px;
-		color: #526488;
-		word-spacing: 5px;
-		padding-bottom: 15px;
-	}
-
-
 </style>
