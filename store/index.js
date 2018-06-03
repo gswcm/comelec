@@ -4,7 +4,7 @@ export const state = () => ({
 	user: {},
 	committees: [],
 	reCAPTCHA_KEY: '',
-	isHuman: false
+	uuid: null
 });
 
 export const mutations = {
@@ -17,8 +17,8 @@ export const mutations = {
 	SET_reCAPTCHA_KEY(state, value) {
 		state.reCAPTCHA_KEY = value;
 	},
-	SET_IS_HUMAN(state, value) {
-		state.isHuman = value
+	SET_UUID(state, value) {
+		state.uuid = value
 	}
 };
 
@@ -80,10 +80,15 @@ export const actions = {
 			throw new Error(error.message);
 		}
 	},
-	async SUBMIT_PREFERENCE({ commit }, { token, user, preference }) {
+	async SUBMIT_PREFERENCE({ commit, state }, { response, user, preference }) {
 		try {
-			const { data } = await axios.post('/api/service/update', { token, user, preference } );
-			console.log(JSON.stringify(data,null,3));
+			const { data } = await axios.post('/api/service/update', {
+				response,
+				user,
+				preference,
+				uuid: state.uuid
+			});
+			commit('SET_UUID', data.uuid);
 		}
 		catch(error) {
 			if(error.response && error.response.data) {

@@ -81,14 +81,13 @@
 				this.modalTitle = this.preference[index].title;
 				this.modalText = this.preference[index].desc;
 			},
-			async submit(token) {
+			async submit(response) {
 				try {
 					await this.$store.dispatch('SUBMIT_PREFERENCE', {
-						token,
+						response,
 						user: this.user,
 						preference: this.preference,
 					})
-					console.log('OK');
 				}
 				catch(error) {
 					console.error(error.message);

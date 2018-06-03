@@ -16,7 +16,7 @@ const serviceSchema = mongoose.Schema({
 		},
 		title: String
 	}],
-	cteatedAt: {
+	createdAt: {
 		type: Date,
 		default: Date.now,
 	},

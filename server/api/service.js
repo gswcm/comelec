@@ -1,7 +1,10 @@
 const router = require('express').Router();
 const axios = require('axios');
+const emailTemplates = require('email-templates');
+const ObjectId = require('mongodb').ObjectId;
 const Committee = require('../models/committee');
 const Service = require('../models/service');
+const Token = require('../models/token');
 
 router.get('/list', async (req,res) => {
 	try {
@@ -15,7 +18,7 @@ router.get('/list', async (req,res) => {
 	}
 })
 router.post('/update', async (req,res) => {
-	const { token, user, preference } = req.body;
+	const { response, user, preference, uuid } = req.body;
 	try {
 		// validate reCAPTCHA response
 		const { data } = await axios({
@@ -23,7 +26,7 @@ router.post('/update', async (req,res) => {
 			url: 'https://www.google.com/recaptcha/api/siteverify',
 			params: {
 				secret: process.env.reCAPTCHA_SECRET,
-				response: token
+				response
 			}
 		})
 		if(data.success) {
@@ -39,9 +42,23 @@ router.post('/update', async (req,res) => {
 					title: e.title
 				})),
 			}).save()
+			//-- Create token for e-mail confirmation
+			let token = await Token.findOne({uuid});
+			if(!token) {
+				token = await new Token({
+					target: [
+						ObjectId(record._id)
+					]
+				}).save();
+			}
+			else {
+				token.target.push(ObjectId(record._id));
+				await token.save();
+			}
 			//-- Return response
 			res.json({
-				record
+				record,
+				uuid: token.uuid
 			});
 		}
 		else {
