@@ -24,7 +24,7 @@ router.get('/', async (req,res) => {
 		const { person_id } = req.query;
 		const service = await Service.find({
 			"person.id": person_id,
-			confirmed: false
+			confirmed: true
 		})
 		.sort({createdAt: -1})
 		.limit(1);

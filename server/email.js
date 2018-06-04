@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const ObjectId = require('mongodb').ObjectId;
-const Committee = require('../models/committee');
-const Service = require('../models/service');
-const Token = require('../models/token');
+const Service = require('./models/service');
+const Token = require('./models/token');
 
 router.get('/', async (req,res) => {
 	try {
 		const { action, uuid } = req.query;
+		//-- Validate query params
 		if(action !== 'confirm') {
 			throw new Error('Invalid action parameter');
 		}
@@ -14,9 +14,19 @@ router.get('/', async (req,res) => {
 		if(!token) {
 			throw new Error('Invalid UUID parameter');
 		}
-		//await Service.update({''})
-
-		res.json(committees);
+		//-- Update all records referenced in Target array
+		await Service.update({
+			_id: {
+				$in: token.target.map(e => ObjectId(e))
+			}
+		},{
+			$set: {
+				confirmed: true
+			}
+		});
+		//-- Remove token
+		await token.remove();
+		res.json({ok:1});
 	}
 	catch (error) {
 		res.status(500).json({

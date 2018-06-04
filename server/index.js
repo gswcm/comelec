@@ -4,7 +4,6 @@ const connectMongoDBSession = require('connect-mongodb-session');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const express = require('express');
-const debug = require('debug')('comelec:server');
 const { Nuxt, Builder } = require('nuxt');
 const api = require('./api');
 
@@ -31,7 +30,7 @@ config.dev = !isProd;
 const nuxt = new Nuxt(config);
 
 // Logger
-app.use(logger('dev'));
+// app.use(logger('dev'));
 // Body parser, to access `req.body`
 app.use(bodyParser.json());
 
@@ -49,7 +48,8 @@ app.use(
 	}),
 );
 // Run every request through API
-app.use("/api", api);
+app.use('/email', require('./email'));
+app.use('/api', api);
 // Render every route with Nuxt.js
 app.use(nuxt.render);
 
