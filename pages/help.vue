@@ -42,7 +42,7 @@
 				About this application
 			</h2>
 			<p>
-				This application is an open source software developed by <a href="mailto:simon.baev@gsw.edu">Dr. Simon Baev</a> for the needs of Campus community. The source code of the application is available on GitHub at <a href="https://github.com/gswcm/comelec">https://github.com/gswcm/comelec</a>
+				This application is an open source software developed by <a href="mailto:simon.baev@gsw.edu">Dr. Simon Baev</a> from the Department of Computer Science for the needs of Campus community. The source code of the application is available on GitHub at <a href="https://github.com/gswcm/comelec">https://github.com/gswcm/comelec</a>
 			</p>
 			<p>
 				Feel free to file an <a href="https://github.com/gswcm/comelec/issues">issue</a> directly on GitHub should you notice some bug(s) or have a request for features.

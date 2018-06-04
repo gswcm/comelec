@@ -48,7 +48,6 @@ app.use(
 	}),
 );
 // Run every request through API
-app.use('/email', require('./email'));
 app.use('/api', api);
 // Render every route with Nuxt.js
 app.use(nuxt.render);

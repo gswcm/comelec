@@ -21234,7 +21234,7 @@ store.on('error', function (error) {
 });
 
 // We instantiate nuxt.js with the options
-const config = __webpack_require__(121);
+const config = __webpack_require__(122);
 config.dev = !isProd;
 const nuxt = new Nuxt(config);
 
@@ -21255,7 +21255,6 @@ app.use(session({
 	store
 }));
 // Run every request through API
-app.use('/email', __webpack_require__(122));
 app.use('/api', api);
 // Render every route with Nuxt.js
 app.use(nuxt.render);
@@ -21321,6 +21320,7 @@ const router = __webpack_require__(17).Router();
 // API Routes
 router.use('/user', __webpack_require__(70));
 router.use('/service', __webpack_require__(113));
+router.use('/email', __webpack_require__(121));
 
 module.exports = router;
 
@@ -39695,6 +39695,50 @@ module.exports = require("bunyan");
 
 /***/ }),
 /* 121 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const router = __webpack_require__(17).Router();
+const ObjectId = __webpack_require__(39).ObjectId;
+const Service = __webpack_require__(61);
+const Token = __webpack_require__(62);
+
+router.get('/', async (req, res) => {
+	try {
+		const { action, uuid } = req.query;
+		//-- Validate query params
+		if (action !== 'confirm') {
+			throw new Error('Invalid action parameter');
+		}
+		const token = await Token.findOne({ uuid });
+		if (!token) {
+			throw new Error('Invalid UUID parameter');
+		}
+		//-- Update all records referenced in Target array
+		await Service.update({
+			_id: {
+				$in: token.target.map(e => ObjectId(e))
+			}
+		}, {
+			$set: {
+				confirmed: true
+			}
+		}, {
+			multi: true
+		});
+		//-- Remove token
+		await token.remove();
+		res.json({ ok: 1 });
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
+});
+
+module.exports = router;
+
+/***/ }),
+/* 122 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -39739,50 +39783,6 @@ module.exports = {
 		// ]
 	}
 };
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const router = __webpack_require__(17).Router();
-const ObjectId = __webpack_require__(39).ObjectId;
-const Service = __webpack_require__(61);
-const Token = __webpack_require__(62);
-
-router.get('/', async (req, res) => {
-	try {
-		const { action, uuid } = req.query;
-		//-- Validate query params
-		if (action !== 'confirm') {
-			throw new Error('Invalid action parameter');
-		}
-		const token = await Token.findOne({ uuid });
-		if (!token) {
-			throw new Error('Invalid UUID parameter');
-		}
-		//-- Update all records referenced in Target array
-		await Service.update({
-			_id: {
-				$in: token.target.map(e => ObjectId(e))
-			}
-		}, {
-			$set: {
-				confirmed: true
-			}
-		}, {
-			multi: true
-		});
-		//-- Remove token
-		await token.remove();
-		res.json({ ok: 1 });
-	} catch (error) {
-		res.status(500).json({
-			message: error.message
-		});
-	}
-});
-
-module.exports = router;
 
 /***/ })
 /******/ ]);

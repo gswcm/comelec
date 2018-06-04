@@ -34,7 +34,7 @@ module.exports = {
 		],
 	],
 	plugins: [
-		{ src: '~/plugins/font-awesome' }
+		{ src: '~/plugins/font-awesome' },
 	],
 	//--
 	build: {

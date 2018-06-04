@@ -76,7 +76,7 @@ export const actions = {
 	},
 	async GET_COMMITTEES({ commit }) {
 		try {
-			const { data } = await axios.get('http://localhost:3000/api/service/list');
+			const { data } = await axios.get(`http://${process.env.HOST}:${process.env.PORT}/api/service/list`);
 			commit('SET_COMMITTEES', data);
 		}
 		catch(error) {

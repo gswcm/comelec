@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const ObjectId = require('mongodb').ObjectId;
-const Service = require('./models/service');
-const Token = require('./models/token');
+const Service = require('../models/service');
+const Token = require('../models/token');
 
 router.get('/', async (req,res) => {
 	try {
