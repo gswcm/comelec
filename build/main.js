@@ -62,7 +62,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 62);
+/******/ 	return __webpack_require__(__webpack_require__.s = 63);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -586,7 +586,7 @@ exports.applyWriteConcern = applyWriteConcern;
 "use strict";
 
 
-var BSON = __webpack_require__(49);
+var BSON = __webpack_require__(48);
 var require_optional = __webpack_require__(29);
 
 try {
@@ -602,14 +602,14 @@ try {
 module.exports = {
   MongoError: __webpack_require__(3).MongoError,
   MongoNetworkError: __webpack_require__(3).MongoNetworkError,
-  Connection: __webpack_require__(53),
-  Server: __webpack_require__(43),
-  ReplSet: __webpack_require__(98),
-  Mongos: __webpack_require__(100),
+  Connection: __webpack_require__(51),
+  Server: __webpack_require__(44),
+  ReplSet: __webpack_require__(92),
+  Mongos: __webpack_require__(94),
   Logger: __webpack_require__(9),
   Cursor: __webpack_require__(36),
   ReadPreference: __webpack_require__(13),
-  Sessions: __webpack_require__(101),
+  Sessions: __webpack_require__(95),
   BSON: BSON,
   // Raw operations
   Query: __webpack_require__(5).Query,
@@ -620,7 +620,7 @@ module.exports = {
   GSSAPI: __webpack_require__(34),
   ScramSHA1: __webpack_require__(35),
   // Utilities
-  parseConnectionString: __webpack_require__(103)
+  parseConnectionString: __webpack_require__(97)
 };
 
 
@@ -726,7 +726,7 @@ module.exports = {
 "use strict";
 
 
-const os = __webpack_require__(39),
+const os = __webpack_require__(52),
   f = __webpack_require__(2).format,
   ReadPreference = __webpack_require__(13),
   retrieveBSON = __webpack_require__(6).retrieveBSON;
@@ -744,7 +744,7 @@ function emitSDAMEvent(self, event, description) {
 }
 
 // Get package.json variable
-var driverVersion = __webpack_require__(93).version;
+var driverVersion = __webpack_require__(87).version;
 var nodejsversion = f('Node.js %s, %s', process.version, os.endianness());
 var type = os.type();
 var name = process.platform;
@@ -1799,7 +1799,7 @@ var debugOptions = function(debugFields, options) {
 };
 
 var retrieveBSON = function() {
-  var BSON = __webpack_require__(49);
+  var BSON = __webpack_require__(48);
   BSON.native = false;
 
   try {
@@ -4499,7 +4499,7 @@ module.exports = require("stream");
 const EventEmitter = __webpack_require__(7),
   MongoError = __webpack_require__(1).MongoError,
   f = __webpack_require__(2).format,
-  os = __webpack_require__(39),
+  os = __webpack_require__(52),
   translateReadPreference = __webpack_require__(0).translateReadPreference,
   ClientSession = __webpack_require__(1).Sessions.ClientSession;
 
@@ -4751,7 +4751,7 @@ var ServerCapabilities = function(ismaster) {
 };
 
 // Get package.json variable
-const driverVersion = __webpack_require__(107).version,
+const driverVersion = __webpack_require__(101).version,
   nodejsversion = f('Node.js %s, %s', process.version, os.endianness()),
   type = os.type(),
   name = process.platform,
@@ -4957,6 +4957,12 @@ exports.TopologyBase = TopologyBase;
 /* 17 */
 /***/ (function(module, exports) {
 
+module.exports = require("express");
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
 /**
  * A class representation of the BSON MinKey type.
  *
@@ -4974,7 +4980,7 @@ module.exports.MinKey = MinKey;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -4985,7 +4991,7 @@ module.exports.MinKey = MinKey;
 // Test if we're in Node via presence of "global" not absence of "window"
 // to support hybrid environments like Electron
 if (typeof global !== 'undefined') {
-  var Buffer = __webpack_require__(50).Buffer; // TODO just use global Buffer
+  var Buffer = __webpack_require__(49).Buffer; // TODO just use global Buffer
 }
 
 /**
@@ -5350,12 +5356,6 @@ Binary.SUBTYPE_USER_DEFINED = 128;
 module.exports = Binary;
 module.exports.Binary = Binary;
 
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports) {
-
-module.exports = require("express");
 
 /***/ }),
 /* 20 */
@@ -7652,11 +7652,11 @@ module.exports.DBRef = DBRef;
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var path = __webpack_require__(51),
-  fs = __webpack_require__(52),
+/* WEBPACK VAR INJECTION */(function(module) {var path = __webpack_require__(42),
+  fs = __webpack_require__(50),
   f = __webpack_require__(2).format,
-  resolveFrom = __webpack_require__(85),
-  semver = __webpack_require__(87);
+  resolveFrom = __webpack_require__(79),
+  semver = __webpack_require__(81);
 
 var exists = fs.existsSync || path.existsSync;
 
@@ -7781,7 +7781,7 @@ require_optional.exists = function(name) {
 
 module.exports = require_optional;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(84)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(78)(module)))
 
 /***/ }),
 /* 30 */
@@ -7791,7 +7791,7 @@ module.exports = require_optional;
 
 
 var Snappy = __webpack_require__(6).retrieveSnappy(),
-  zlib = __webpack_require__(90);
+  zlib = __webpack_require__(84);
 
 var compressorIDs = {
   snappy: 1,
@@ -10959,9 +10959,74 @@ exports.REMOVE = REMOVE;
 
 /***/ }),
 /* 39 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = require("os");
+"use strict";
+
+
+// Core module
+const core = __webpack_require__(1);
+const Instrumentation = __webpack_require__(99);
+
+// Set up the connect function
+const connect = __webpack_require__(55).connect;
+
+// Expose error class
+connect.MongoError = core.MongoError;
+
+// Actual driver classes exported
+connect.Admin = __webpack_require__(59);
+connect.MongoClient = __webpack_require__(55);
+connect.Db = __webpack_require__(46);
+connect.Collection = __webpack_require__(47);
+connect.Server = __webpack_require__(37);
+connect.ReplSet = __webpack_require__(57);
+connect.Mongos = __webpack_require__(56);
+connect.ReadPreference = __webpack_require__(1).ReadPreference;
+connect.GridStore = __webpack_require__(107);
+connect.Chunk = __webpack_require__(60);
+connect.Logger = core.Logger;
+connect.Cursor = __webpack_require__(14);
+connect.GridFSBucket = __webpack_require__(108);
+// Exported to be used in tests not to be used anywhere else
+connect.CoreServer = __webpack_require__(1).Server;
+connect.CoreConnection = __webpack_require__(1).Connection;
+
+// BSON types exported
+connect.Binary = core.BSON.Binary;
+connect.Code = core.BSON.Code;
+connect.Map = core.BSON.Map;
+connect.DBRef = core.BSON.DBRef;
+connect.Double = core.BSON.Double;
+connect.Int32 = core.BSON.Int32;
+connect.Long = core.BSON.Long;
+connect.MinKey = core.BSON.MinKey;
+connect.MaxKey = core.BSON.MaxKey;
+connect.ObjectID = core.BSON.ObjectID;
+connect.ObjectId = core.BSON.ObjectID;
+connect.Symbol = core.BSON.Symbol;
+connect.Timestamp = core.BSON.Timestamp;
+connect.BSONRegExp = core.BSON.BSONRegExp;
+connect.Decimal128 = core.BSON.Decimal128;
+
+// Add connect method
+connect.connect = connect;
+
+// Set up the instrumentation method
+connect.instrument = function(options, callback) {
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+
+  const instrumentation = new Instrumentation();
+  instrumentation.instrument(connect.MongoClient, callback);
+  return instrumentation;
+};
+
+// Set our exports to be the connect function
+module.exports = connect;
+
 
 /***/ }),
 /* 40 */
@@ -11141,16 +11206,22 @@ module.exports.Int32 = Int32;
 /* 42 */
 /***/ (function(module, exports) {
 
+module.exports = require("path");
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports) {
+
 function webpackEmptyContext(req) {
 	throw new Error("Cannot find module '" + req + "'.");
 }
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 42;
+webpackEmptyContext.id = 43;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11163,12 +11234,12 @@ var inherits = __webpack_require__(2).inherits,
   Logger = __webpack_require__(9),
   debugOptions = __webpack_require__(6).debugOptions,
   retrieveBSON = __webpack_require__(6).retrieveBSON,
-  Pool = __webpack_require__(91),
+  Pool = __webpack_require__(85),
   Query = __webpack_require__(5).Query,
   MongoError = __webpack_require__(3).MongoError,
   MongoNetworkError = __webpack_require__(3).MongoNetworkError,
-  TwoSixWireProtocolSupport = __webpack_require__(96),
-  ThreeTwoWireProtocolSupport = __webpack_require__(97),
+  TwoSixWireProtocolSupport = __webpack_require__(90),
+  ThreeTwoWireProtocolSupport = __webpack_require__(91),
   BasicCursor = __webpack_require__(36),
   sdam = __webpack_require__(4),
   createClientInfo = __webpack_require__(4).createClientInfo,
@@ -12264,7 +12335,7 @@ module.exports = Server;
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12575,7 +12646,7 @@ module.exports = SSPI;
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12587,18 +12658,18 @@ const getSingleProperty = __webpack_require__(0).getSingleProperty;
 const shallowClone = __webpack_require__(0).shallowClone;
 const parseIndexOptions = __webpack_require__(0).parseIndexOptions;
 const debugOptions = __webpack_require__(0).debugOptions;
-const CommandCursor = __webpack_require__(59);
+const CommandCursor = __webpack_require__(58);
 const handleCallback = __webpack_require__(0).handleCallback;
 const filterOptions = __webpack_require__(0).filterOptions;
 const toError = __webpack_require__(0).toError;
 const ReadPreference = __webpack_require__(1).ReadPreference;
 const f = __webpack_require__(2).format;
-const Admin = __webpack_require__(60);
+const Admin = __webpack_require__(59);
 const Code = __webpack_require__(1).BSON.Code;
 const MongoError = __webpack_require__(1).MongoError;
 const ObjectID = __webpack_require__(1).ObjectID;
 const Logger = __webpack_require__(1).Logger;
-const Collection = __webpack_require__(46);
+const Collection = __webpack_require__(47);
 const crypto = __webpack_require__(12);
 const mergeOptionsAndWriteConcern = __webpack_require__(0).mergeOptionsAndWriteConcern;
 const executeOperation = __webpack_require__(0).executeOperation;
@@ -14322,7 +14393,7 @@ module.exports = Db;
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14333,7 +14404,7 @@ const ObjectID = __webpack_require__(1).BSON.ObjectID;
 const Long = __webpack_require__(1).BSON.Long;
 const Code = __webpack_require__(1).BSON.Code;
 const f = __webpack_require__(2).format;
-const AggregationCursor = __webpack_require__(108);
+const AggregationCursor = __webpack_require__(102);
 const MongoError = __webpack_require__(1).MongoError;
 const shallowClone = __webpack_require__(0).shallowClone;
 const isObject = __webpack_require__(0).isObject;
@@ -14343,10 +14414,10 @@ const handleCallback = __webpack_require__(0).handleCallback;
 const decorateCommand = __webpack_require__(0).decorateCommand;
 const formattedOrderClause = __webpack_require__(0).formattedOrderClause;
 const ReadPreference = __webpack_require__(1).ReadPreference;
-const CommandCursor = __webpack_require__(59);
-const unordered = __webpack_require__(109);
-const ordered = __webpack_require__(110);
-const ChangeStream = __webpack_require__(111);
+const CommandCursor = __webpack_require__(58);
+const unordered = __webpack_require__(103);
+const ordered = __webpack_require__(104);
+const ChangeStream = __webpack_require__(105);
 const executeOperation = __webpack_require__(0).executeOperation;
 const applyWriteConcern = __webpack_require__(0).applyWriteConcern;
 
@@ -17263,7 +17334,7 @@ var mapReduce = function(self, map, reduce, options, callback) {
     if (result.result != null && typeof result.result === 'object') {
       var doc = result.result;
       // Return a collection from another db
-      var Db = __webpack_require__(45);
+      var Db = __webpack_require__(46);
       collection = new Db(doc.db, self.s.db.s.topology, self.s.db.s.options).collection(
         doc.collection
       );
@@ -17350,83 +17421,11 @@ module.exports = Collection;
 
 
 /***/ }),
-/* 47 */,
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-// Core module
-const core = __webpack_require__(1);
-const Instrumentation = __webpack_require__(105);
-
-// Set up the connect function
-const connect = __webpack_require__(56).connect;
-
-// Expose error class
-connect.MongoError = core.MongoError;
-
-// Actual driver classes exported
-connect.Admin = __webpack_require__(60);
-connect.MongoClient = __webpack_require__(56);
-connect.Db = __webpack_require__(45);
-connect.Collection = __webpack_require__(46);
-connect.Server = __webpack_require__(37);
-connect.ReplSet = __webpack_require__(58);
-connect.Mongos = __webpack_require__(57);
-connect.ReadPreference = __webpack_require__(1).ReadPreference;
-connect.GridStore = __webpack_require__(113);
-connect.Chunk = __webpack_require__(61);
-connect.Logger = core.Logger;
-connect.Cursor = __webpack_require__(14);
-connect.GridFSBucket = __webpack_require__(114);
-// Exported to be used in tests not to be used anywhere else
-connect.CoreServer = __webpack_require__(1).Server;
-connect.CoreConnection = __webpack_require__(1).Connection;
-
-// BSON types exported
-connect.Binary = core.BSON.Binary;
-connect.Code = core.BSON.Code;
-connect.Map = core.BSON.Map;
-connect.DBRef = core.BSON.DBRef;
-connect.Double = core.BSON.Double;
-connect.Int32 = core.BSON.Int32;
-connect.Long = core.BSON.Long;
-connect.MinKey = core.BSON.MinKey;
-connect.MaxKey = core.BSON.MaxKey;
-connect.ObjectID = core.BSON.ObjectID;
-connect.ObjectId = core.BSON.ObjectID;
-connect.Symbol = core.BSON.Symbol;
-connect.Timestamp = core.BSON.Timestamp;
-connect.BSONRegExp = core.BSON.BSONRegExp;
-connect.Decimal128 = core.BSON.Decimal128;
-
-// Add connect method
-connect.connect = connect;
-
-// Set up the instrumentation method
-connect.instrument = function(options, callback) {
-  if (typeof options === 'function') {
-    callback = options;
-    options = {};
-  }
-
-  const instrumentation = new Instrumentation();
-  instrumentation.instrument(connect.MongoClient, callback);
-  return instrumentation;
-};
-
-// Set our exports to be the connect function
-module.exports = connect;
-
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var BSON = __webpack_require__(79),
-  Binary = __webpack_require__(18),
+var BSON = __webpack_require__(73),
+  Binary = __webpack_require__(19),
   Code = __webpack_require__(25),
   DBRef = __webpack_require__(28),
   Decimal128 = __webpack_require__(26),
@@ -17435,7 +17434,7 @@ var BSON = __webpack_require__(79),
   Long = __webpack_require__(11),
   Map = __webpack_require__(40),
   MaxKey = __webpack_require__(27),
-  MinKey = __webpack_require__(17),
+  MinKey = __webpack_require__(18),
   ObjectId = __webpack_require__(22),
   BSONRegExp = __webpack_require__(23),
   Symbol = __webpack_require__(24),
@@ -17474,25 +17473,19 @@ module.exports = BSON;
 
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = require("buffer");
 
 /***/ }),
-/* 51 */
-/***/ (function(module, exports) {
-
-module.exports = require("path");
-
-/***/ }),
-/* 52 */
+/* 50 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 53 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17500,8 +17493,8 @@ module.exports = require("fs");
 
 var inherits = __webpack_require__(2).inherits,
   EventEmitter = __webpack_require__(7).EventEmitter,
-  net = __webpack_require__(88),
-  tls = __webpack_require__(89),
+  net = __webpack_require__(82),
+  tls = __webpack_require__(83),
   crypto = __webpack_require__(12),
   f = __webpack_require__(2).format,
   debugOptions = __webpack_require__(6).debugOptions,
@@ -18303,38 +18296,44 @@ module.exports = Connection;
 
 
 /***/ }),
-/* 54 */
+/* 52 */
+/***/ (function(module, exports) {
+
+module.exports = require("os");
+
+/***/ }),
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = require("dns");
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const parse = __webpack_require__(106);
+const parse = __webpack_require__(100);
 const Server = __webpack_require__(37);
-const Mongos = __webpack_require__(57);
-const ReplSet = __webpack_require__(58);
+const Mongos = __webpack_require__(56);
+const ReplSet = __webpack_require__(57);
 const EventEmitter = __webpack_require__(7).EventEmitter;
 const inherits = __webpack_require__(2).inherits;
 const ReadPreference = __webpack_require__(1).ReadPreference;
 const Logger = __webpack_require__(1).Logger;
 const MongoError = __webpack_require__(1).MongoError;
 const handleCallback = __webpack_require__(0).handleCallback;
-const Db = __webpack_require__(45);
+const Db = __webpack_require__(46);
 const f = __webpack_require__(2).format;
 const shallowClone = __webpack_require__(0).shallowClone;
-const authenticate = __webpack_require__(112);
+const authenticate = __webpack_require__(106);
 const ServerSessionPool = __webpack_require__(1).Sessions.ServerSessionPool;
 const executeOperation = __webpack_require__(0).executeOperation;
 
@@ -19272,7 +19271,7 @@ module.exports = MongoClient;
 
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19731,7 +19730,7 @@ module.exports = Mongos;
 
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20235,7 +20234,7 @@ module.exports = ReplSet;
 
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20566,7 +20565,7 @@ module.exports = CommandCursor;
 
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20901,7 +20900,7 @@ module.exports = Admin;
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21142,17 +21141,80 @@ module.exports = Chunk;
 
 
 /***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const mongoose = __webpack_require__(10);
+
+const serviceSchema = mongoose.Schema({
+	person: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'people'
+		},
+		name: String,
+		email: String
+	},
+	committees: [{
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'committee'
+		},
+		title: String
+	}],
+	createdAt: {
+		type: Date,
+		default: Date.now
+	},
+	confirmed: {
+		type: Boolean,
+		default: false
+	}
+});
+
+module.exports = mongoose.model('service', serviceSchema, 'service');
+
+/***/ }),
 /* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const mongoose = __webpack_require__(10);
-const session = __webpack_require__(63);
-const connectMongoDBSession = __webpack_require__(64);
-const bodyParser = __webpack_require__(65);
-const logger = __webpack_require__(66);
-const express = __webpack_require__(19);
-const { Nuxt, Builder } = __webpack_require__(74);
-const api = __webpack_require__(75);
+const uuid = __webpack_require__(117);
+
+const tokenSchema = mongoose.Schema({
+	uuid: String,
+	cteatedAt: {
+		type: Date,
+		default: Date.now,
+		expires: '1d'
+	},
+	target: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'service'
+	}]
+}).pre('save', function (next) {
+	if (!this.uuid) {
+		this.uuid = uuid.v4();
+	}
+	next();
+}).index({
+	uuid: 1
+});
+
+module.exports = mongoose.model('Token', tokenSchema, 'token');
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const mongoose = __webpack_require__(10);
+const session = __webpack_require__(64);
+const connectMongoDBSession = __webpack_require__(65);
+const bodyParser = __webpack_require__(66);
+const logger = __webpack_require__(67);
+const express = __webpack_require__(17);
+const { Nuxt, Builder } = __webpack_require__(68);
+const api = __webpack_require__(69);
 
 //-- Express app
 const app = express();
@@ -21172,7 +21234,7 @@ store.on('error', function (error) {
 });
 
 // We instantiate nuxt.js with the options
-const config = __webpack_require__(129);
+const config = __webpack_require__(121);
 config.dev = !isProd;
 const nuxt = new Nuxt(config);
 
@@ -21193,7 +21255,7 @@ app.use(session({
 	store
 }));
 // Run every request through API
-app.use('/email', __webpack_require__(131));
+app.use('/email', __webpack_require__(122));
 app.use('/api', api);
 // Render every route with Nuxt.js
 app.use(nuxt.render);
@@ -21221,64 +21283,57 @@ function listen() {
 }
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 module.exports = require("express-session");
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports) {
 
 module.exports = require("connect-mongodb-session");
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
 module.exports = require("body-parser");
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports) {
 
 module.exports = require("morgan");
 
 /***/ }),
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */
+/* 68 */
 /***/ (function(module, exports) {
 
 module.exports = require("nuxt");
 
 /***/ }),
-/* 75 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const router = __webpack_require__(19).Router();
+const router = __webpack_require__(17).Router();
 
 // API Routes
-router.use('/user', __webpack_require__(76));
-router.use('/service', __webpack_require__(119));
+router.use('/user', __webpack_require__(70));
+router.use('/service', __webpack_require__(113));
 
 module.exports = router;
 
 /***/ }),
-/* 76 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const router = __webpack_require__(19).Router();
-const restler = __webpack_require__(77);
-const moment = __webpack_require__(78);
-const ObjectId = __webpack_require__(48).ObjectId;
-const People = __webpack_require__(117);
-const YCF = __webpack_require__(118);
+const router = __webpack_require__(17).Router();
+const restler = __webpack_require__(71);
+const moment = __webpack_require__(72);
+const ObjectId = __webpack_require__(39).ObjectId;
+const People = __webpack_require__(111);
+const YCF = __webpack_require__(112);
 // const mongoose = require('mongoose');
 
 String.prototype.capitalize = function () {
@@ -21403,19 +21458,19 @@ router.get('/details', function (req, res, next) {
 module.exports = router;
 
 /***/ }),
-/* 77 */
+/* 71 */
 /***/ (function(module, exports) {
 
 module.exports = require("restler");
 
 /***/ }),
-/* 78 */
+/* 72 */
 /***/ (function(module, exports) {
 
 module.exports = require("moment");
 
 /***/ }),
-/* 79 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21431,15 +21486,15 @@ var Map = __webpack_require__(40),
   Int32 = __webpack_require__(41),
   Code = __webpack_require__(25),
   Decimal128 = __webpack_require__(26),
-  MinKey = __webpack_require__(17),
+  MinKey = __webpack_require__(18),
   MaxKey = __webpack_require__(27),
   DBRef = __webpack_require__(28),
-  Binary = __webpack_require__(18);
+  Binary = __webpack_require__(19);
 
 // Parts of the parser
-var deserialize = __webpack_require__(80),
-  serializer = __webpack_require__(81),
-  calculateObjectSize = __webpack_require__(83);
+var deserialize = __webpack_require__(74),
+  serializer = __webpack_require__(75),
+  calculateObjectSize = __webpack_require__(77);
 
 /**
  * @ignore
@@ -21807,7 +21862,7 @@ module.exports.Decimal128 = Decimal128;
 
 
 /***/ }),
-/* 80 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21819,13 +21874,13 @@ var Long = __webpack_require__(11).Long,
   ObjectID = __webpack_require__(22).ObjectID,
   Symbol = __webpack_require__(24).Symbol,
   Code = __webpack_require__(25).Code,
-  MinKey = __webpack_require__(17).MinKey,
+  MinKey = __webpack_require__(18).MinKey,
   MaxKey = __webpack_require__(27).MaxKey,
   Decimal128 = __webpack_require__(26),
   Int32 = __webpack_require__(41),
   DBRef = __webpack_require__(28).DBRef,
   BSONRegExp = __webpack_require__(23).BSONRegExp,
-  Binary = __webpack_require__(18).Binary;
+  Binary = __webpack_require__(19).Binary;
 
 var deserialize = function(buffer, options, isArray) {
   options = options == null ? {} : options;
@@ -22594,17 +22649,17 @@ module.exports = deserialize;
 
 
 /***/ }),
-/* 81 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var writeIEEE754 = __webpack_require__(82).writeIEEE754,
+var writeIEEE754 = __webpack_require__(76).writeIEEE754,
   Long = __webpack_require__(11).Long,
-  MinKey = __webpack_require__(17).MinKey,
+  MinKey = __webpack_require__(18).MinKey,
   Map = __webpack_require__(40),
-  Binary = __webpack_require__(18).Binary;
+  Binary = __webpack_require__(19).Binary;
 
 // try {
 //   var _Buffer = Uint8Array;
@@ -23780,7 +23835,7 @@ module.exports = serializeInto;
 
 
 /***/ }),
-/* 82 */
+/* 76 */
 /***/ (function(module, exports) {
 
 // Copyright (c) 2008, Fair Oaks Labs, Inc.
@@ -23910,7 +23965,7 @@ exports.writeIEEE754 = writeIEEE754;
 
 
 /***/ }),
-/* 83 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23924,10 +23979,10 @@ var Long = __webpack_require__(11).Long,
   BSONRegExp = __webpack_require__(23).BSONRegExp,
   Code = __webpack_require__(25).Code,
   Decimal128 = __webpack_require__(26),
-  MinKey = __webpack_require__(17).MinKey,
+  MinKey = __webpack_require__(18).MinKey,
   MaxKey = __webpack_require__(27).MaxKey,
   DBRef = __webpack_require__(28).DBRef,
-  Binary = __webpack_require__(18).Binary;
+  Binary = __webpack_require__(19).Binary;
 
 // To ensure that 0.4 of node works correctly
 var isDate = function isDate(d) {
@@ -24170,7 +24225,7 @@ module.exports = calculateObjectSize;
 
 
 /***/ }),
-/* 84 */
+/* 78 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -24198,13 +24253,13 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 85 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var path = __webpack_require__(51);
-var Module = __webpack_require__(86);
+var path = __webpack_require__(42);
+var Module = __webpack_require__(80);
 
 module.exports = function (fromDir, moduleId) {
 	if (typeof fromDir !== 'string' || typeof moduleId !== 'string') {
@@ -24228,13 +24283,13 @@ module.exports = function (fromDir, moduleId) {
 
 
 /***/ }),
-/* 86 */
+/* 80 */
 /***/ (function(module, exports) {
 
 module.exports = require("module");
 
 /***/ }),
-/* 87 */
+/* 81 */
 /***/ (function(module, exports) {
 
 exports = module.exports = SemVer;
@@ -25564,25 +25619,25 @@ function coerce(version) {
 
 
 /***/ }),
-/* 88 */
+/* 82 */
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
-/* 89 */
+/* 83 */
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
-/* 90 */
+/* 84 */
 /***/ (function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ }),
-/* 91 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25590,13 +25645,13 @@ module.exports = require("zlib");
 
 var inherits = __webpack_require__(2).inherits,
   EventEmitter = __webpack_require__(7).EventEmitter,
-  Connection = __webpack_require__(53),
+  Connection = __webpack_require__(51),
   MongoError = __webpack_require__(3).MongoError,
   MongoNetworkError = __webpack_require__(3).MongoNetworkError,
   Logger = __webpack_require__(9),
   f = __webpack_require__(2).format,
   Query = __webpack_require__(5).Query,
-  CommandResult = __webpack_require__(92),
+  CommandResult = __webpack_require__(86),
   MESSAGE_HEADER_SIZE = __webpack_require__(8).MESSAGE_HEADER_SIZE,
   opcodes = __webpack_require__(8).opcodes,
   compress = __webpack_require__(30).compress,
@@ -25604,13 +25659,13 @@ var inherits = __webpack_require__(2).inherits,
   uncompressibleCommands = __webpack_require__(30).uncompressibleCommands,
   resolveClusterTime = __webpack_require__(4).resolveClusterTime;
 
-const apm = __webpack_require__(94);
+const apm = __webpack_require__(88);
 
 var MongoCR = __webpack_require__(31),
   X509 = __webpack_require__(32),
   Plain = __webpack_require__(33),
   GSSAPI = __webpack_require__(34),
-  SSPI = __webpack_require__(44),
+  SSPI = __webpack_require__(45),
   ScramSHA1 = __webpack_require__(35);
 
 var DISCONNECTED = 'disconnected';
@@ -27254,7 +27309,7 @@ module.exports = Pool;
 
 
 /***/ }),
-/* 92 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27295,20 +27350,20 @@ module.exports = CommandResult;
 
 
 /***/ }),
-/* 93 */
+/* 87 */
 /***/ (function(module, exports) {
 
 module.exports = {"_from":"mongodb-core@3.0.8","_id":"mongodb-core@3.0.8","_inBundle":false,"_integrity":"sha512-dFxfhH9N7ohuQnINyIl6dqEF8sYOE0WKuymrFf3L3cipJNrx+S8rAbNOTwa00/fuJCjBMJNFsaA+R2N16//UIw==","_location":"/mongodb-core","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"mongodb-core@3.0.8","name":"mongodb-core","escapedName":"mongodb-core","rawSpec":"3.0.8","saveSpec":null,"fetchSpec":"3.0.8"},"_requiredBy":["/mongodb"],"_resolved":"https://registry.npmjs.org/mongodb-core/-/mongodb-core-3.0.8.tgz","_shasum":"8d401f4eab6056c0d874a3d5844a4844f761d4d7","_spec":"mongodb-core@3.0.8","_where":"/Users/gswcm/Projects/comelec/node_modules/mongodb","author":{"name":"Christian Kvalheim"},"bugs":{"url":"https://github.com/mongodb-js/mongodb-core/issues"},"bundleDependencies":false,"dependencies":{"bson":"~1.0.4","require_optional":"^1.0.1"},"deprecated":false,"description":"Core MongoDB driver functionality, no bells and whistles and meant for integration not end applications","devDependencies":{"chai":"^4.1.2","co":"^4.6.0","conventional-changelog-cli":"^1.3.5","eslint":"^4.6.1","eslint-plugin-prettier":"^2.2.0","jsdoc":"3.5.4","mongodb-mock-server":"^1.0.0","mongodb-test-runner":"^1.1.18","prettier":"^1.6.1","snappy":"^6.0.1"},"homepage":"https://github.com/mongodb-js/mongodb-core","keywords":["mongodb","core"],"license":"Apache-2.0","main":"index.js","name":"mongodb-core","peerOptionalDependencies":{"kerberos":"^0.0.23","snappy":"^6.0.1","bson-ext":"1.0.5"},"repository":{"type":"git","url":"git://github.com/mongodb-js/mongodb-core.git"},"scripts":{"changelog":"conventional-changelog -p angular -i HISTORY.md -s","coverage":"nyc node test/runner.js -t functional -l && node_modules/.bin/nyc report --reporter=text-lcov | node_modules/.bin/coveralls","format":"prettier --print-width 100 --tab-width 2 --single-quote --write index.js 'test/**/*.js' 'lib/**/*.js'","lint":"eslint index.js lib test","test":"npm run lint && mongodb-test-runner -t 60000 test/tests"},"version":"3.0.8"}
 
 /***/ }),
-/* 94 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const KillCursor = __webpack_require__(5).KillCursor;
 const GetMore = __webpack_require__(5).GetMore;
-const process = __webpack_require__(95);
+const process = __webpack_require__(89);
 
 /** Commands that we want to redact because of the sensitive nature of their contents */
 const SENSITIVE_COMMANDS = new Set([
@@ -27536,13 +27591,13 @@ module.exports = {
 
 
 /***/ }),
-/* 95 */
+/* 89 */
 /***/ (function(module, exports) {
 
 module.exports = require("process");
 
 /***/ }),
-/* 96 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27917,7 +27972,7 @@ module.exports = WireProtocol;
 
 
 /***/ }),
-/* 97 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28514,7 +28569,7 @@ module.exports = WireProtocol;
 
 
 /***/ }),
-/* 98 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28529,8 +28584,8 @@ var inherits = __webpack_require__(2).inherits,
   Logger = __webpack_require__(9),
   MongoError = __webpack_require__(3).MongoError,
   errors = __webpack_require__(3),
-  Server = __webpack_require__(43),
-  ReplSetState = __webpack_require__(99),
+  Server = __webpack_require__(44),
+  ReplSetState = __webpack_require__(93),
   clone = __webpack_require__(4).clone,
   Timeout = __webpack_require__(4).Timeout,
   Interval = __webpack_require__(4).Interval,
@@ -28544,7 +28599,7 @@ var MongoCR = __webpack_require__(31),
   X509 = __webpack_require__(32),
   Plain = __webpack_require__(33),
   GSSAPI = __webpack_require__(34),
-  SSPI = __webpack_require__(44),
+  SSPI = __webpack_require__(45),
   ScramSHA1 = __webpack_require__(35);
 
 var BSON = retrieveBSON();
@@ -30217,7 +30272,7 @@ module.exports = ReplSet;
 
 
 /***/ }),
-/* 99 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31328,7 +31383,7 @@ module.exports = ReplSetState;
 
 
 /***/ }),
-/* 100 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31342,7 +31397,7 @@ const inherits = __webpack_require__(2).inherits,
   retrieveBSON = __webpack_require__(6).retrieveBSON,
   MongoError = __webpack_require__(3).MongoError,
   errors = __webpack_require__(3),
-  Server = __webpack_require__(43),
+  Server = __webpack_require__(44),
   clone = __webpack_require__(4).clone,
   diff = __webpack_require__(4).diff,
   cloneOptions = __webpack_require__(4).cloneOptions,
@@ -31377,7 +31432,7 @@ var MongoCR = __webpack_require__(31),
   X509 = __webpack_require__(32),
   Plain = __webpack_require__(33),
   GSSAPI = __webpack_require__(34),
-  SSPI = __webpack_require__(44),
+  SSPI = __webpack_require__(45),
   ScramSHA1 = __webpack_require__(35);
 
 //
@@ -32817,7 +32872,7 @@ module.exports = Mongos;
 
 
 /***/ }),
-/* 101 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32827,7 +32882,7 @@ const retrieveBSON = __webpack_require__(6).retrieveBSON,
   EventEmitter = __webpack_require__(7),
   BSON = retrieveBSON(),
   Binary = BSON.Binary,
-  uuidV4 = __webpack_require__(102).uuidV4;
+  uuidV4 = __webpack_require__(96).uuidV4;
 
 /**
  *
@@ -33018,7 +33073,7 @@ module.exports = {
 
 
 /***/ }),
-/* 102 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33039,14 +33094,14 @@ module.exports = {
 
 
 /***/ }),
-/* 103 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const URL = __webpack_require__(54);
-const qs = __webpack_require__(104);
-const dns = __webpack_require__(55);
+const URL = __webpack_require__(53);
+const qs = __webpack_require__(98);
+const dns = __webpack_require__(54);
 const MongoParseError = __webpack_require__(3).MongoParseError;
 
 /**
@@ -33360,13 +33415,13 @@ module.exports = parseConnectionString;
 
 
 /***/ }),
-/* 104 */
+/* 98 */
 /***/ (function(module, exports) {
 
 module.exports = require("querystring");
 
 /***/ }),
-/* 105 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33404,17 +33459,17 @@ module.exports = Instrumentation;
 
 
 /***/ }),
-/* 106 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 const ReadPreference = __webpack_require__(1).ReadPreference,
-  parser = __webpack_require__(54),
+  parser = __webpack_require__(53),
   f = __webpack_require__(2).format,
   Logger = __webpack_require__(1).Logger,
-  dns = __webpack_require__(55);
+  dns = __webpack_require__(54);
 
 module.exports = function(url, options, callback) {
   if (typeof options === 'function') (callback = options), (options = {});
@@ -34031,13 +34086,13 @@ function parseConnectionString(url, options) {
 
 
 /***/ }),
-/* 107 */
+/* 101 */
 /***/ (function(module, exports) {
 
 module.exports = {"_from":"mongodb@3.0.8","_id":"mongodb@3.0.8","_inBundle":false,"_integrity":"sha512-mj7yIUyAr9xnO2ev8pcVJ9uX7gSum5LLs1qIFoWLxA5Il50+jcojKtaO1/TbexsScZ9Poz00Pc3b86GiSqJ7WA==","_location":"/mongodb","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"mongodb@3.0.8","name":"mongodb","escapedName":"mongodb","rawSpec":"3.0.8","saveSpec":null,"fetchSpec":"3.0.8"},"_requiredBy":["/mongoose"],"_resolved":"https://registry.npmjs.org/mongodb/-/mongodb-3.0.8.tgz","_shasum":"2c1daecac9a0ec2de2f2aea4dc97d76ae70f8951","_spec":"mongodb@3.0.8","_where":"/Users/gswcm/Projects/comelec/node_modules/mongoose","author":{"name":"Christian Kvalheim"},"bugs":{"url":"https://github.com/mongodb/node-mongodb-native/issues"},"bundleDependencies":false,"dependencies":{"mongodb-core":"3.0.8"},"deprecated":false,"description":"The official MongoDB driver for Node.js","devDependencies":{"bluebird":"3.5.0","bson":"^1.0.4","chai":"^4.1.1","co":"4.6.0","conventional-changelog-cli":"^1.3.5","coveralls":"^2.11.6","eslint":"^4.5.0","eslint-plugin-prettier":"^2.2.0","istanbul":"^0.4.5","jsdoc":"3.5.4","mongodb-extjson":"^2.1.1","mongodb-mock-server":"^1.0.0","mongodb-test-runner":"^1.1.18","prettier":"^1.5.3","semver":"5.4.1","sinon":"^4.3.0","worker-farm":"^1.5.0"},"engines":{"node":">=4"},"homepage":"https://github.com/mongodb/node-mongodb-native","keywords":["mongodb","driver","official"],"license":"Apache-2.0","main":"index.js","name":"mongodb","repository":{"type":"git","url":"git+ssh://git@github.com/mongodb/node-mongodb-native.git"},"scripts":{"bench":"node test/driverBench/","changelog":"conventional-changelog -p angular -i HISTORY.md -s","coverage":"istanbul cover mongodb-test-runner -- -t 60000  test/unit test/functional","format":"prettier --print-width 100 --tab-width 2 --single-quote --write 'test/**/*.js' 'lib/**/*.js'","lint":"eslint lib test","test":"npm run lint && mongodb-test-runner -t 60000 test/unit test/functional"},"version":"3.0.8"}
 
 /***/ }),
-/* 108 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34441,7 +34496,7 @@ module.exports = AggregationCursor;
 
 
 /***/ }),
-/* 109 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35072,7 +35127,7 @@ module.exports.Bulk = UnorderedBulkOperation;
 
 
 /***/ }),
-/* 110 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35689,7 +35744,7 @@ module.exports.Bulk = OrderedBulkOperation;
 
 
 /***/ }),
-/* 111 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35721,7 +35776,7 @@ var cursorOptionNames = ['maxAwaitTimeMS', 'collation', 'readPreference'];
  * @return {ChangeStream} a ChangeStream instance.
  */
 var ChangeStream = function(collection, pipeline, options) {
-  var Collection = __webpack_require__(46);
+  var Collection = __webpack_require__(47);
 
   // Ensure the provided collection is actually a collection
   if (!(collection instanceof Collection)) {
@@ -36055,7 +36110,7 @@ module.exports = ChangeStream;
 
 
 /***/ }),
-/* 112 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36192,7 +36247,7 @@ module.exports = function(self, username, password, options, callback) {
 
 
 /***/ }),
-/* 113 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36233,11 +36288,11 @@ module.exports = function(self, username, password, options, callback) {
  *   });
  * });
  */
-const Chunk = __webpack_require__(61);
+const Chunk = __webpack_require__(60);
 const ObjectID = __webpack_require__(1).BSON.ObjectID;
 const ReadPreference = __webpack_require__(1).ReadPreference;
-const Buffer = __webpack_require__(50).Buffer;
-const fs = __webpack_require__(52);
+const Buffer = __webpack_require__(49).Buffer;
+const fs = __webpack_require__(50);
 const f = __webpack_require__(2).format;
 const util = __webpack_require__(2);
 const MongoError = __webpack_require__(1).MongoError;
@@ -38101,15 +38156,15 @@ module.exports = GridStore;
 
 
 /***/ }),
-/* 114 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var Emitter = __webpack_require__(7).EventEmitter;
-var GridFSBucketReadStream = __webpack_require__(115);
-var GridFSBucketWriteStream = __webpack_require__(116);
+var GridFSBucketReadStream = __webpack_require__(109);
+var GridFSBucketWriteStream = __webpack_require__(110);
 var shallowClone = __webpack_require__(0).shallowClone;
 var toError = __webpack_require__(0).toError;
 var util = __webpack_require__(2);
@@ -38454,7 +38509,7 @@ function _drop(_this, callback) {
 
 
 /***/ }),
-/* 115 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38876,7 +38931,7 @@ function __handleError(_this, error) {
 
 
 /***/ }),
-/* 116 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39412,7 +39467,7 @@ function checkAborted(_this, callback) {
 
 
 /***/ }),
-/* 117 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const mongoose = __webpack_require__(10);
@@ -39429,7 +39484,7 @@ const peopleSchema = mongoose.Schema({
 module.exports = mongoose.model('people', peopleSchema, 'people');
 
 /***/ }),
-/* 118 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const mongoose = __webpack_require__(10);
@@ -39447,18 +39502,18 @@ const ycfSchema = mongoose.Schema({
 module.exports = mongoose.model('ycf', ycfSchema, 'ycf');
 
 /***/ }),
-/* 119 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__dirname) {const router = __webpack_require__(19).Router();
-const axios = __webpack_require__(120);
-const path = __webpack_require__(51);
-const emailTemplates = __webpack_require__(121);
-const ObjectId = __webpack_require__(48).ObjectId;
-const Committee = __webpack_require__(122);
-const Service = __webpack_require__(123);
-const Token = __webpack_require__(124);
-const smtpTransport = __webpack_require__(126);
+/* WEBPACK VAR INJECTION */(function(__dirname) {const router = __webpack_require__(17).Router();
+const axios = __webpack_require__(114);
+const path = __webpack_require__(42);
+const emailTemplates = __webpack_require__(115);
+const ObjectId = __webpack_require__(39).ObjectId;
+const Committee = __webpack_require__(116);
+const Service = __webpack_require__(61);
+const Token = __webpack_require__(62);
+const smtpTransport = __webpack_require__(118);
 
 router.get('/list', async (req, res) => {
 	try {
@@ -39564,19 +39619,19 @@ module.exports = router;
 /* WEBPACK VAR INJECTION */}.call(exports, "server/api"))
 
 /***/ }),
-/* 120 */
+/* 114 */
 /***/ (function(module, exports) {
 
 module.exports = require("axios");
 
 /***/ }),
-/* 121 */
+/* 115 */
 /***/ (function(module, exports) {
 
 module.exports = require("email-templates");
 
 /***/ }),
-/* 122 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const mongoose = __webpack_require__(10);
@@ -39590,84 +39645,21 @@ const committeeSchema = mongoose.Schema({
 module.exports = mongoose.model('committee', committeeSchema, 'committee');
 
 /***/ }),
-/* 123 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const mongoose = __webpack_require__(10);
-
-const serviceSchema = mongoose.Schema({
-	person: {
-		id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'people'
-		},
-		name: String,
-		email: String
-	},
-	committees: [{
-		id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'committee'
-		},
-		title: String
-	}],
-	createdAt: {
-		type: Date,
-		default: Date.now
-	},
-	confirmed: {
-		type: Boolean,
-		default: false
-	}
-});
-
-module.exports = mongoose.model('service', serviceSchema, 'service');
-
-/***/ }),
-/* 124 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const mongoose = __webpack_require__(10);
-const uuid = __webpack_require__(125);
-
-const tokenSchema = mongoose.Schema({
-	uuid: String,
-	cteatedAt: {
-		type: Date,
-		default: Date.now,
-		expires: '1d'
-	},
-	target: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'service'
-	}]
-}).pre('save', function (next) {
-	if (!this.uuid) {
-		this.uuid = uuid.v4();
-	}
-	next();
-}).index({
-	uuid: 1
-});
-
-module.exports = mongoose.model('Token', tokenSchema, 'token');
-
-/***/ }),
-/* 125 */
+/* 117 */
 /***/ (function(module, exports) {
 
 module.exports = require("uuid");
 
 /***/ }),
-/* 126 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const nodemailer = __webpack_require__(127);
+const nodemailer = __webpack_require__(119);
 
 const smtpConfig = {
 	host: 'smtp.gswcm.net',
 	port: 25,
-	logger: __webpack_require__(128).createLogger({
+	logger: __webpack_require__(120).createLogger({
 		name: 'Mailer',
 		streams: [{
 			type: 'rotating-file',
@@ -39690,19 +39682,19 @@ const smtpTransport = nodemailer.createTransport(smtpConfig);
 module.exports = smtpTransport;
 
 /***/ }),
-/* 127 */
+/* 119 */
 /***/ (function(module, exports) {
 
 module.exports = require("nodemailer");
 
 /***/ }),
-/* 128 */
+/* 120 */
 /***/ (function(module, exports) {
 
 module.exports = require("bunyan");
 
 /***/ }),
-/* 129 */
+/* 121 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -39749,14 +39741,13 @@ module.exports = {
 };
 
 /***/ }),
-/* 130 */,
-/* 131 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const router = __webpack_require__(19).Router();
-const ObjectId = __webpack_require__(48).ObjectId;
-const Service = __webpack_require__(123);
-const Token = __webpack_require__(124);
+const router = __webpack_require__(17).Router();
+const ObjectId = __webpack_require__(39).ObjectId;
+const Service = __webpack_require__(61);
+const Token = __webpack_require__(62);
 
 router.get('/', async (req, res) => {
 	try {
@@ -39778,6 +39769,8 @@ router.get('/', async (req, res) => {
 			$set: {
 				confirmed: true
 			}
+		}, {
+			multi: true
 		});
 		//-- Remove token
 		await token.remove();

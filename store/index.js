@@ -4,10 +4,10 @@ export const strict = false;
 
 export const state = () => ({
 	user: null,
-	committees: [],
+	committees: null,
 	reCAPTCHA_KEY: null,
 	uuid: null,
-	service: [null, null, null]
+	service: null
 });
 
 export const mutations = {
@@ -111,9 +111,7 @@ export const actions = {
 						person_id: state.user._id
 					}
 				})
-				if(data) {
-					commit('SET_SERVICE', data.committees.map(e => e ? e.id : null));
-				}
+				commit('SET_SERVICE', data ? data.committees.map(e => e ? e.id : null) : [ null, null, null ]);
 			}
 		}
 		catch(error) {

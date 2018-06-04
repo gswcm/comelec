@@ -23,6 +23,8 @@ router.get('/', async (req,res) => {
 			$set: {
 				confirmed: true
 			}
+		},{
+			multi: true
 		});
 		//-- Remove token
 		await token.remove();

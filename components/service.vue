@@ -55,12 +55,12 @@
 				modalTitle: null,
 				modalText: null,
 				//-- Array of _id of committee entries
-				service: [...this.storedService]
+				service: this.storedService ? [...this.storedService] : [null, null, null]
 			};
 		},
 		watch: {
 			storedService() {
-				this.service = [...this.storedService];
+				this.service = this.storedService ? [...this.storedService] : [null, null, null]
 			}
 		},
 		computed: {
