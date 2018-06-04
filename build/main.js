@@ -22215,6 +22215,7 @@ const router = __webpack_require__(19).Router();
 // API Routes
 router.use('/user', __webpack_require__(76));
 router.use('/service', __webpack_require__(119));
+router.use('/email', __webpack_require__(130));
 
 module.exports = router;
 
@@ -40399,8 +40400,9 @@ module.exports = mongoose.model('ycf', ycfSchema, 'ycf');
 /* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const router = __webpack_require__(19).Router();
+/* WEBPACK VAR INJECTION */(function(__dirname) {const router = __webpack_require__(19).Router();
 const axios = __webpack_require__(120);
+const path = __webpack_require__(51);
 const emailTemplates = __webpack_require__(121);
 const ObjectId = __webpack_require__(48).ObjectId;
 const Committee = __webpack_require__(122);
@@ -40467,16 +40469,23 @@ router.post('/', async (req, res) => {
 				}).save();
 				//-- Create new confirmation email
 				const host = `${req.protocol}://${req.get('host')}`;
-				const url = `${host}/email?action=confirm&token=${token.uuid}`;
-				await new emailTemplates({
-					transport: smtpTransport
-				}).send({
-					views: {
-						root: '..'
+				const url = `${host}/email?action=confirm&uuid=${token.uuid}`;
+				const message = await new emailTemplates({
+					message: {
+						from: 'GSW ComElec <no-reply@comelec.gswcm.net>'
 					},
+					transport: smtpTransport,
+					juice: true,
+					juiceResources: {
+						preserveImportant: true,
+						webResources: {
+							relativeTo: path.join(__dirname, '..', '..', 'static')
+						}
+					}
+				}).send({
 					template: 'confirm',
 					message: {
-						to: user.email
+						to: `${record.person.name} <${record.person.email}>`
 					},
 					locals: {
 						host, url
@@ -40502,6 +40511,7 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
+/* WEBPACK VAR INJECTION */}.call(exports, "server/api"))
 
 /***/ }),
 /* 120 */
@@ -40625,12 +40635,7 @@ const smtpConfig = {
 	connectionTimeout: 2000
 };
 
-const defaultMailingOptions = {
-	from: 'GSW ComElec Mailing Robot <noreply@comelec.gswcm.net>',
-	replyTo: 'noreply@comelec.gswcm.net'
-};
-
-const smtpTransport = nodemailer.createTransport(smtpConfig, defaultMailingOptions);
+const smtpTransport = nodemailer.createTransport(smtpConfig);
 
 module.exports = smtpTransport;
 
@@ -40692,6 +40697,38 @@ module.exports = {
 		// ]
 	}
 };
+
+/***/ }),
+/* 130 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const router = __webpack_require__(19).Router();
+const ObjectId = __webpack_require__(48).ObjectId;
+const Committee = __webpack_require__(122);
+const Service = __webpack_require__(123);
+const Token = __webpack_require__(124);
+
+router.get('/', async (req, res) => {
+	try {
+		const { action, uuid } = req.query;
+		if (action !== 'confirm') {
+			throw new Error('Invalid action parameter');
+		}
+		const token = await Token.findOne({ uuid });
+		if (!token) {
+			throw new Error('Invalid UUID parameter');
+		}
+		//await Service.update({''})
+
+		res.json(committees);
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
+});
+
+module.exports = router;
 
 /***/ })
 /******/ ]);

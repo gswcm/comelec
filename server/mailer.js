@@ -24,11 +24,6 @@ const smtpConfig = {
 	connectionTimeout: 2000
 };
 
-const defaultMailingOptions = {
-	from: 'GSW ComElec Mailing Robot <noreply@comelec.gswcm.net>',
-	replyTo: 'noreply@comelec.gswcm.net'
-};
-
-const smtpTransport = nodemailer.createTransport(smtpConfig, defaultMailingOptions);
+const smtpTransport = nodemailer.createTransport(smtpConfig);
 
 module.exports = smtpTransport;

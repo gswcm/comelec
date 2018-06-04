@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const axios = require('axios');
+const path = require('path');
 const emailTemplates = require('email-templates');
 const ObjectId = require('mongodb').ObjectId;
 const Committee = require('../models/committee');
@@ -72,22 +73,29 @@ router.post('/', async (req,res) => {
 				}).save();
 				//-- Create new confirmation email
 				const host = `${req.protocol}://${req.get('host')}`;
-				const url = `${host}/email?action=confirm&token=${token.uuid}`;
-				await new emailTemplates({
-					transport: smtpTransport
+				const url = `${host}/email?action=confirm&uuid=${token.uuid}`;
+				const message = await new emailTemplates({
+					message: {
+						from: 'GSW ComElec <no-reply@comelec.gswcm.net>'
+					},
+					transport: smtpTransport,
+					juice: true,
+					juiceResources: {
+						preserveImportant: true,
+						webResources: {
+							relativeTo: path.join(__dirname, '..','..', 'static'),
+						}
+					}
 				})
 				.send({
-					views: {
-						root: '..'
-					},
 					template: 'confirm',
 					message: {
-						to: user.email
+						to: `${record.person.name} <${record.person.email}>`
 					},
 					locals: {
 						host, url
 					},
-				})
+				});
 			}
 			else {
 				token.target.push(ObjectId(record._id));
