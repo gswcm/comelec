@@ -23,7 +23,7 @@
 				<div id="history" class="p-3 border">
 					<div v-if="serviceSummary">
 						<p>
-							Over the last 3 years you have served in the following committees:
+							Over the last 3 years you have served on the following committees:
 						</p>
 						<ul class="mt-2">
 							<li v-for="(service, index) in serviceSummary" :key="index">
