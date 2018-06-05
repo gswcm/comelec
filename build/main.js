@@ -39743,13 +39743,10 @@ module.exports = router;
 
 module.exports = {
 	//--
-	nuxt: {
-		host: "0.0.0.0",
-		port: "4000"
-	},
 	env: {
 		reCAPTCHA_KEY: process.env.reCAPTCHA_KEY,
-		reCAPTCHA_SECRET: process.env.reCAPTCHA_SECRET
+		reCAPTCHA_SECRET: process.env.reCAPTCHA_SECRET,
+		baseUrl: process.env.BASE_UR || 'localhost:3000'
 	},
 	head: {
 		title: "GSW ComElec",
@@ -39759,12 +39756,12 @@ module.exports = {
 	//--
 	loading: { color: "#3B8070" },
 	//--
-	css: ['bootswatch/dist/yeti/bootstrap.min.css', '@/assets/css/main.css'],
+	css: ['bootswatch/dist/yeti/bootstrap.min.css', 'vuejs-noty/dist/vuejs-noty.css', 'animate.css/animate.min.css', '@/assets/css/main.css'],
 	//--
 	modules: [["bootstrap-vue/nuxt", {
 		css: false
 	}]],
-	plugins: [{ src: '~/plugins/font-awesome' }],
+	plugins: [{ src: '~/plugins/font-awesome' }, { src: '~/plugins/notifications.js', ssr: false }],
 	//--
 	build: {
 		vendor: ["axios", "moment"],

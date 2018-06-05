@@ -7,7 +7,7 @@ export const state = () => ({
 	committees: null,
 	reCAPTCHA_KEY: null,
 	uuid: null,
-	service: null
+	service: null,
 });
 
 export const mutations = {
@@ -25,7 +25,7 @@ export const mutations = {
 	},
 	SET_SERVICE(state, value) {
 		state.service = value
-	}
+	},
 };
 
 export const actions = {
@@ -74,9 +74,9 @@ export const actions = {
 			throw new Error(error.message);
 		}
 	},
-	async GET_COMMITTEES({ commit }) {
+	async GET_COMMITTEES({ commit, state }) {
 		try {
-			const { data } = await axios.get(`http://${process.env.HOST}:${process.env.PORT}/api/service/list`);
+			const { data } = await axios.get(`http://${process.env.baseUrl}/api/service/list`);
 			commit('SET_COMMITTEES', data);
 		}
 		catch(error) {

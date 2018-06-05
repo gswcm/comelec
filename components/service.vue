@@ -102,7 +102,8 @@
 								title: option.title
 							};
 						}),
-					})
+					});
+					this.$noty.success(`Your preference submission has been received`);
 				}
 				catch(error) {
 					console.error(error.message);

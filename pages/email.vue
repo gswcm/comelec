@@ -23,7 +23,7 @@
 		},
 		async asyncData ({ query, error }) {
 			try {
-				const{ data } = await axios.get(`http://${process.env.HOST}:${process.env.PORT}/api/email`, { params: query })
+				const{ data } = await axios.get(`http://${process.env.baseUrl}/api/email`, { params: query })
 				return {
 					ok: data.ok
 				};
