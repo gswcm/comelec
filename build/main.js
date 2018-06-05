@@ -21218,7 +21218,7 @@ const api = __webpack_require__(69);
 
 //-- Express app
 const app = express();
-const isProd = "development" === "production";
+const isProd = "production" === "production";
 const port = process.env.PORT || 3000;
 //-- Express Session Store
 const mongoDB_URI = 'mongodb://127.0.0.1/comelec';
