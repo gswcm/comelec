@@ -55,6 +55,8 @@ import axios from 'axios';
 import moment from 'moment';
 import service from '~/components/service';
 export default {
+	/*
+	//-- Auto focus doesn't properly work in IE
 	mounted() {
 		this.$nextTick(() => {
 			if(this.$refs && this.$refs.email) {
@@ -62,6 +64,7 @@ export default {
 			}
 		});
 	},
+	*/
 	async fetch({ store, req }) {
 		await store.dispatch('GET_COMMITTEES');
 	},
