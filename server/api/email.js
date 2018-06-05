@@ -27,7 +27,7 @@ router.get('/', async (req,res) => {
 			multi: true
 		});
 		//-- Remove token
-		await token.remove();
+		// await token.remove();
 		res.json({ok:1});
 	}
 	catch (error) {
