@@ -24,10 +24,31 @@
 				{{modalText}}
 			</p>
 		</b-modal>
-		<div class="my-3 p-3 border border-right-0 border-top-0 border-bottom-0 border-warning text-warning">
+
+		<!-- <div class="my-3 p-3 border border-right-0 border-top-0 border-bottom-0 border-warning text-warning">
 			<Strong>Note:</Strong> feel free to make multiple submissions, we will use the most recent one.
-		</div>
-		<div id="recaptcha" class="d-flex justify-content-end mt-5">
+		</div> -->
+
+		<b-alert variant="light" show class="my-4 rounded">
+		<b-row class="">
+			<b-col cols="auto">
+				<strong>Notes:</strong>
+			</b-col>
+			<b-col cols class="pl-0">
+				<ol>
+					<li>
+						You can make <i>multiple submissions</i>, we will use the most recent one
+					</li>
+					<li>
+						Your submission <i>must be confirmed</i> by following a link from an automated e-mail
+					</li>
+				</ol>
+			</b-col>
+		</b-row>
+		</b-alert>
+
+
+		<div id="recaptcha" class="d-flex justify-content-end">
 			<g-recaptcha
 				:data-sitekey="reCAPTCHA_KEY"
 				:data-validate="() => !incomplete"

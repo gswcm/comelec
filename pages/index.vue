@@ -9,7 +9,7 @@
 				<div class="card-body pb-1">
 					<form @submit.prevent="emailUpdate">
 						<b-form-group invalid-feedback="This is not a valid GSW e-mail address, try something that ends with <b>@gsw.edu</b>" :state="state">
-							<b-form-input :state="state" ref="email" :value="email" name='email' @input="debouncer" type="text" placeholder="Enter your GSW e-mail"></b-form-input>
+							<b-form-input id="email" :state="state" ref="email" :value="email" name='email' @input="debouncer" type="text" placeholder="Enter your GSW e-mail"></b-form-input>
 						</b-form-group>
 					</form>
 				</div>
@@ -107,7 +107,7 @@ export default {
 			}
 		},
 		emailUpdate(e) {
-			this.rawEmail = typeof e === "string" ? e : e.target.email.value || "";
+			this.rawEmail = (typeof e === "string" ? e : e.target.email.value || "").toLowerCase();
 			if(this.state === null) {
 				this.evalEmail();
 				this.dataReady = true;
@@ -146,5 +146,8 @@ export default {
 	}
 	#history {
 		border-radius: 10px;
+	}
+	#email {
+		text-transform: lowercase;
 	}
 </style>
