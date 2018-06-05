@@ -21218,7 +21218,7 @@ const api = __webpack_require__(69);
 
 //-- Express app
 const app = express();
-const isProd = "production" === "production";
+const isProd = "development" === "production";
 const port = process.env.PORT || 3000;
 //-- Express Session Store
 const mongoDB_URI = 'mongodb://127.0.0.1/comelec';
@@ -39726,7 +39726,7 @@ router.get('/', async (req, res) => {
 			multi: true
 		});
 		//-- Remove token
-		await token.remove();
+		// await token.remove();
 		res.json({ ok: 1 });
 	} catch (error) {
 		res.status(500).json({

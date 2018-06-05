@@ -2,7 +2,7 @@
 	<div>
 		<b-navbar sticky toggleable="md" type="dark" variant="dark" class="d-print-none">
 			<!-- Left group -->
-			<b-navbar-brand to="/">
+			<b-navbar-brand href="/">
 				<img src="~/assets/gsw_logo_inverted_1.png" alt="GSW Logo"/>
 				<span class="d-none d-sm-inline-block">
 					GSW Commitee Election Helper, a.k.a. ComElec
