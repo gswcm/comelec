@@ -37,7 +37,7 @@
 				<strong>For administrators (members of the Faculty Senate)</strong>. Yet to be written...
 			</p>
 		</section>
-		<section id="about">
+		<section id="about" class="p-3">
 			<h2>
 				About this application
 			</h2>
