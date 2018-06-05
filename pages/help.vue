@@ -10,15 +10,15 @@
 			</p>
 			<p>
 				The application has 2 interfaces
-				<ul>
-					<li>
-						Public interface for all faculty members to use to submit committee preferences. Up to 3 committees can be selected.
-					</li>
-					<li>
-						Admin interface for the members of the Faculty Senate allowing for the assisted distribution of all faculty into the set of existing committees.
-					</li>
-				</ul>
 			</p>
+			<ul>
+				<li>
+					Public interface for all faculty members to use to submit committee preferences. Up to 3 committees can be selected.
+				</li>
+				<li>
+					Admin interface for the members of the Faculty Senate allowing for the assisted distribution of all faculty into the set of existing committees.
+				</li>
+			</ul>
 		</section>
 		<section id="howto" class="p-3">
 			<h2>
