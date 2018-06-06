@@ -26,16 +26,19 @@
 		</b-modal>
 		<b-alert variant="light" show class="my-4 rounded">
 		<b-row class="">
-			<b-col cols="auto">
-				<strong>Notes:</strong>
+			<b-col cols="auto" class="pr-0">
+				<h5>Notes:</h5>
 			</b-col>
 			<b-col cols class="pl-0">
 				<ol>
 					<li>
-						You can make <i>multiple submissions</i>, we will use the most recent one
+						Two committees, i.e. <strong>University Promotion and Tenure</strong> and <strong>Institutional Effectiveness</strong> are not listed among possible options because both are appointed by Schools / Departments
 					</li>
 					<li>
-						Your submission <i>must be confirmed</i> by following a link from an automated e-mail
+						You can make <strong>multiple submissions</strong>, we will use the most recent one
+					</li>
+					<li>
+						Your submission <strong>must be confirmed</strong> by clicking on a link in an automated message sent to your GSW e-mail address
 					</li>
 				</ol>
 			</b-col>

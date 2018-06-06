@@ -10,7 +10,11 @@ const smtpTransport = require('../mailer');
 
 router.get('/list', async (req,res) => {
 	try {
-		const committees = await Committee.find({active:true}).sort({title:1});
+		const committees = await Committee.find({
+			active:true,
+			exclude: false
+		})
+		.sort({title:1});
 		res.json(committees);
 	}
 	catch (error) {
@@ -51,6 +55,8 @@ router.post('/', async (req,res) => {
 			}
 		})
 		if(data.success) {
+			//-- name
+			const name = user.email.split(/[.]/)[0].split('').map((letter,index) => index ? letter : letter.toUpperCase()).join('') || user.firstName;
 			//-- Create and save new service record
 			const record = await new Service({
 				person: {
@@ -93,7 +99,7 @@ router.post('/', async (req,res) => {
 						to: `${record.person.name} <${record.person.email}>`
 					},
 					locals: {
-						host, url
+						host, url, name
 					},
 				});
 			}
