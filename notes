@@ -1,0 +1,5 @@
+mongoimport -d comelec -c ycf --type csv --columnsHaveTypes --fields "name.string(),y.int32(),c.string(),f.auto(),x.boolean()" --file ~/Downloads/dump1.csv
+
+db.ycf.find().forEach(e => { e.f = ObjectId(e.f); db.ycf.save(e);})
+
+git push <remote> <local branch name>:<remote branch to push into>

@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"comelec.sessions"},{"v":2,"key":{"expires":1},"name":"expires_1","ns":"comelec.sessions","expireAfterSeconds":0}],"uuid":"2434b2c3d511487f9f89c0b677b83805"}

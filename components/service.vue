@@ -24,11 +24,6 @@
 				{{modalText}}
 			</p>
 		</b-modal>
-
-		<!-- <div class="my-3 p-3 border border-right-0 border-top-0 border-bottom-0 border-warning text-warning">
-			<Strong>Note:</Strong> feel free to make multiple submissions, we will use the most recent one.
-		</div> -->
-
 		<b-alert variant="light" show class="my-4 rounded">
 		<b-row class="">
 			<b-col cols="auto">

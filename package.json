@@ -1,6 +1,6 @@
 {
 	"name": "comelec",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "GSW Committee Election Helper",
 	"author": "Simon Baev <simonbaev@gmail.com>",
 	"private": true,

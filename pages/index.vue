@@ -37,6 +37,11 @@
 					<p v-else>
 						We cannot find any history of your previous committee service.
 					</p>
+					<!-- Show ex-officio members -->
+					<hr v-if="serviceSummary">
+					<b-form-checkbox v-model="showExOfficio">
+						Treat <strong>ex-officio</strong> service in committees as normal service
+					</b-form-checkbox>
 				</div>
 				<!-- Form to provide new year preference -->
 				<service :storedService="service"/>
@@ -72,7 +77,8 @@ export default {
 		rawEmail: '',
 		serviceSummary: [],
 		iecFlag: false,
-		dataReady: false
+		dataReady: false,
+		showExOfficio: false
 	}),
 	components: {
 		service
@@ -93,17 +99,30 @@ export default {
 			service: "service"
 		}),
 	},
+	watch: {
+		async showExOfficio() {
+			this.serviceSummary = await this.$store.dispatch('GET_HISTORY', {
+				user_id: this.user._id,
+				showExOfficio: this.showExOfficio
+			});
+		}
+	},
 	methods: {
 		async evalEmail() {
 			try {
 				await this.$store.dispatch('GET_USER', this.rawEmail);
 				await this.$store.dispatch('GET_SERVICE');
-				this.serviceSummary = await this.$store.dispatch('GET_HISTORY', this.user._id);
+				this.serviceSummary = await this.$store.dispatch('GET_HISTORY', {
+					user_id: this.user._id,
+					showExOfficio: this.showExOfficio
+				});
+				/*
 				const iecYears = await this.$store.dispatch('GET_IEC_FLAG', this.user._id);
 				const threeYearsBack = moment().subtract(3, 'years').format('YYYY');
 				if(iecYears.length > 0 && iecYears.length < 3 && iecYears.indexOf(threeYearsBack) === -1) {
 					this.iecFlag = true;
 				}
+				*/
 			}
 			catch(error) {
 				console.error(error.message);

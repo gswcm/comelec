@@ -50,9 +50,9 @@ export const actions = {
 			throw new Error(error.message);
 		}
 	},
-	async GET_HISTORY({ commit }, id) {
+	async GET_HISTORY({ commit }, {user_id,showExOfficio}) {
 		try {
-			const { data } = await axios.get('/api/user/last', { params: { id } })
+			const { data } = await axios.get('/api/user/last', { params: { user_id, showExOfficio } })
 			return (data && data.c) ? data.c : null;
 		}
 		catch(error) {

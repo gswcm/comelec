@@ -15,16 +15,16 @@ String.prototype.capitalize = function() {
 };
 
 router.get('/last', async (req,res) => {
-	let { id } = req.query;
-	let thisYear = moment().format('YYYY');
+	let { user_id, showExOfficio } = req.query;
 	try {
 		const last = await YCF.aggregate([
 			{
 				$match: {
-					f: ObjectId(id),
+					f: ObjectId(user_id),
 					y: {
-						$gte: (thisYear - 3)
-					}
+						$gte: parseInt(moment().subtract(3, 'years').format('YYYY'))
+					},
+					x: !!(showExOfficio === 'true') ? {$in: [true, false]} : false
 				}
 			},
 			{

@@ -21345,15 +21345,15 @@ String.prototype.capitalize = function () {
 };
 
 router.get('/last', async (req, res) => {
-	let { id } = req.query;
-	let thisYear = moment().format('YYYY');
+	let { user_id, showExOfficio } = req.query;
 	try {
 		const last = await YCF.aggregate([{
 			$match: {
-				f: ObjectId(id),
+				f: ObjectId(user_id),
 				y: {
-					$gte: thisYear - 3
-				}
+					$gte: parseInt(moment().subtract(3, 'years').format('YYYY'))
+				},
+				x: !!(showExOfficio === 'true') ? { $in: [true, false] } : false
 			}
 		}, {
 			$group: {
@@ -39490,13 +39490,22 @@ module.exports = mongoose.model('people', peopleSchema, 'people');
 const mongoose = __webpack_require__(10);
 
 const ycfSchema = mongoose.Schema({
+	//-- year of service
 	y: Number,
+	//-- committee title
 	c: String,
+	//-- person binding to the "people" collection
 	f: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'people'
 	},
-	name: String
+	//-- person's name
+	name: String,
+	//-- ex-officio flag
+	x: {
+		type: Boolean,
+		default: false
+	}
 });
 
 module.exports = mongoose.model('ycf', ycfSchema, 'ycf');
@@ -39639,7 +39648,11 @@ const mongoose = __webpack_require__(10);
 const committeeSchema = mongoose.Schema({
 	title: String,
 	active: Boolean,
-	desc: String
+	desc: String,
+	exclude: {
+		type: Boolean,
+		default: false
+	}
 });
 
 module.exports = mongoose.model('committee', committeeSchema, 'committee');
