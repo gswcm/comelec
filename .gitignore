@@ -6,8 +6,12 @@ npm-debug.log
 
 # Nuxt build
 .nuxt
+build
 
 # Nuxt generate
 dist
+
+# Log files
+mailer.log
 
 .DS_Store
