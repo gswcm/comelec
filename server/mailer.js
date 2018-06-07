@@ -21,7 +21,7 @@ const smtpConfig = {
 	}),
 	secure: false,
 	ignoreTLS: true,
-	connectionTimeout: 2000
+	connectionTimeout: 3000
 };
 
 const smtpTransport = nodemailer.createTransport(smtpConfig);

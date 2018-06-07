@@ -46,7 +46,7 @@
 		</b-alert>
 
 
-		<div id="recaptcha" class="d-flex justify-content-end">
+		<div id="recaptcha" class="d-flex justify-content-begin">
 			<g-recaptcha
 				:data-sitekey="reCAPTCHA_KEY"
 				:data-validate="() => !incomplete"
@@ -111,6 +111,14 @@
 			},
 			async submit(response) {
 				try {
+					let confirmed = false;
+					const timeOut = 5;
+					let timer = setTimeout(() => {
+						if(!confirmed) {
+							this.$noty.warning(`No response from the server in ${timeOut} seconds... Please repeat your attempt later`);
+						}
+					}, timeOut * 1000);
+
 					await this.$store.dispatch('SET_SERVICE', {
 						response,
 						user: this.user,
@@ -122,10 +130,13 @@
 							};
 						}),
 					});
-					this.$noty.success(`Your preference submission has been received`);
+					confirmed = true;
+					this.$noty.success(`Submission handled successfully`);
+					clearTimeout(timer);
 				}
 				catch(error) {
 					console.error(error.message);
+					this.$noty.error(`Server error: ${error.message}`);
 				}
 			}
 		}
