@@ -12,6 +12,6 @@ build
 dist
 
 # Log files
-mailer.log
+server/logs
 
 .DS_Store
