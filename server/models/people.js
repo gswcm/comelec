@@ -10,7 +10,14 @@ const peopleSchema = mongoose.Schema({
 })
 .index(
 	{
-		email: 1,
+		email: 1
+	},
+	{
+		name: 'people_email_index'
+	}
+)
+.index(
+	{
 		firstName: 'text',
 		lastName: 'text'
 	},
@@ -19,7 +26,7 @@ const peopleSchema = mongoose.Schema({
 			lastName: 3,
 			firstName: 1
 		},
-		name: 'people_email_name_index'
+		name: 'people_name_index'
 	}
 );
 

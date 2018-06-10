@@ -11,10 +11,56 @@ function range(from = 'a', to = 'z') {
 	return (to >= from) ? [...Array(to - from + 1)].map((_, i) => String.fromCharCode(from + i)) : [];
 }
 
+router.get('/group', async (req,res) => {
+	try {
+		let { query } = req.query;
+		query = query ? {
+			$text: {
+				$search: query
+			}
+		} : {};
+		const records = await People.aggregate([
+			{
+				$match: query
+			},
+			{
+				$group: {
+					_id: '$dept',
+					people: {
+						$addToSet: {
+							email: '$email',
+							firstName: '$firstName',
+							lastName: '$lastName'
+						}
+					}
+				}
+			},
+			{
+				$project: {
+					_id: 0,
+					people: 1,
+					dept: '$_id',
+				}
+			},
+			{
+				$sort: {
+					dept: 1
+				}
+			}
+		]);
+		res.json(records);
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+
 
 router.get('/find', async (req,res) => {
 	/**
-	 * Searches by lastName field in the 'people' collection
+	 * Searches by lastName and/or firstName field in the 'people' collection
 	 */
 	try {
 		let { query } = req.query;
@@ -22,8 +68,21 @@ router.get('/find', async (req,res) => {
 			throw new Error('Requires "query" parameter with a list of CSV of name queries');
 		}
 		query = query.split(/,\s*/);
-		const records = (await Promise.all(query.map(e => People.find({lastName: e})))).reduce((a,e) => a.concat(e), []);
-		res.json({ records });
+		const records = (await Promise.all(query.map(e => People.find(
+			{
+				$text: {
+					$search: e
+				}
+			},
+			{
+				firstName: 1,
+				lastName: 1,
+				email: 1,
+				dept: 1,
+				_id: 0
+			}
+		)))).reduce((a,e) => a.concat(e), []);
+		res.json(records);
 	}
 	catch (error) {
 		res.status(500).json({
