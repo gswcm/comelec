@@ -28,7 +28,7 @@
 		<b-row class="">
 			<b-col cols="auto" class="pr-0">
 				<h5>Notes:</h5>
-				<hr style="border-color: black;">
+				<hr style="border-color: black;" >
 			</b-col>
 			<b-col cols class="pl-0">
 				<ol>
