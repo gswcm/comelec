@@ -12,10 +12,30 @@ function range(from = 'a', to = 'z') {
 }
 
 
+router.get('/find', async (req,res) => {
+	/**
+	 * Searches by lastName field in the 'people' collection
+	 */
+	try {
+		let { query } = req.query;
+		if(!query) {
+			throw new Error('Requires "query" parameter with a list of CSV of name queries');
+		}
+		query = query.split(/,\s*/);
+		const records = (await Promise.all(query.map(e => People.find({lastName: e})))).reduce((a,e) => a.concat(e), []);
+		res.json({ records });
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+
 router.get('/refresh', async (req,res) => {
-	/*
-	Route requires 'session.authUser' to be set and allows 'query' parameter to list query prefixes separated by comma.
-	*/
+	/**
+	 * Route requires 'session.authUser' to be set and allows 'query' parameter to list query prefixes separated by comma.
+	 */
 	try {
 		if(!req.session.authUser) {
 			// Unauthorized
