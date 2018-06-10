@@ -25,10 +25,15 @@
 		</b-form>
 		<!-- Forgotten -->
 		<div class="footer py-5">
-			<b-link>
-				Forgot password?
-			</b-link>
+			<div v-b-tooltip.hover>
+				<b-btn variant="link" :disabled="disabled" v-b-modal.forgotten>
+					Forgot password?
+				</b-btn>
+			</div>
 		</div>
+		<b-modal centered no-fade header-bg-variant="dark" header-text-variant="light" ok-variant="outline-dark" id="forgotten" title="Password recovery">
+			<h3>hello</h3>
+		</b-modal>
 	</div>
 </template>
 
@@ -41,6 +46,9 @@ export default {
 	computed: {
 		state () {
 			return /^[^@]+@gsw[.]edu$/.test(this.email) || !this.email.length ? null : false;
+		},
+		disabled() {
+			return !this.email.length || this.state === false
 		}
 	}
 }
@@ -49,6 +57,9 @@ export default {
 <style>
 	.group .icon {
 		box-shadow: inset 0px 0px 0px 1px rgb(204,204,204);
+	}
+	.group svg {
+		color: #888;
 	}
 	.group-email input {
 		text-transform: lowercase;
@@ -66,6 +77,9 @@ export default {
 	.footer {
 		position: absolute;
 		bottom: 0;
+	}
+	.footer button:hover  {
+		text-decoration: none;
 	}
 </style>
 
