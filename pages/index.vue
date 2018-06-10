@@ -1,5 +1,5 @@
 <template>
-	<section class="container">
+	<section id="index" class="container">
 		<div class="py-5">
 			<div class="py-2"><!-- vertical spacer --></div>
 			<div class="card border-dark">
@@ -171,5 +171,18 @@ export default {
 	}
 	#email {
 		text-transform: lowercase;
+	}
+	#index .form-control,
+	#index .form-control:focus {
+		border: none;
+		border-bottom: 1px solid #ccc !important;
+		box-shadow: none !important;
+	}
+	#index .card .form-control,
+	#index .card .form-control:focus {
+		border-bottom: none !important;
+		text-align: center;
+		font-size: large;
+		font-weight: bold;
 	}
 </style>

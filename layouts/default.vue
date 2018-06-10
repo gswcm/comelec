@@ -13,7 +13,10 @@
 			</b-navbar-brand>
 			<!-- right group -->
 			<b-navbar-nav class="ml-auto">
-				<b-nav-item href="/help" class="ml-auto">
+				<b-nav-item href="/login" class="ml-auto" v-b-tooltip.hover title="Faculty Senate interface">
+					<font-awesome-icon :icon="['far', 'eye-slash']" size="2x"/>
+				</b-nav-item>
+				<b-nav-item href="/help" class="ml-3" v-b-tooltip.hover title="Help / About">
 					<font-awesome-icon :icon="['far', 'question-circle']" size="2x"/>
 				</b-nav-item>
 			</b-navbar-nav>
