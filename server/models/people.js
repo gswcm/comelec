@@ -6,7 +6,11 @@ const peopleSchema = mongoose.Schema({
 	firstName: String,
 	lastName: String,
 	email: String,
-	dept: String
+	dept: String,
+	isAdmin: {
+		type: Boolean,
+		default: false
+	}
 })
 .index(
 	{

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const fs = require('fs');
+const People = require('../models/people');
 const AD = require('activedirectory2').promiseWrapper;
 const domain = 'gswcm.local';
 const ad = new AD({
@@ -18,10 +19,12 @@ router.post('/login', async (req,res) => {
 	try {
 		const { username, password } = req.body;
 		await ad.authenticate(`${username}@${domain}`, password);
+		const person = await People.findOne({email:`${username}@gsw.edu`, isAdmin: true});
+		if(!person) {
+			throw new Error('Not a member of the Faculty Senate');
+		}
 		req.session.admin = true;
-		res.json({
-			ok: true
-		});
+		res.json(person);
 	}
 	catch (error) {
 		res.status(500).json({

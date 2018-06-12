@@ -21158,7 +21158,11 @@ const peopleSchema = mongoose.Schema({
 	firstName: String,
 	lastName: String,
 	email: String,
-	dept: String
+	dept: String,
+	isAdmin: {
+		type: Boolean,
+		default: false
+	}
 }).index({
 	email: 1
 }, {
@@ -39941,6 +39945,7 @@ module.exports = require("lodash");
 
 const router = __webpack_require__(10).Router();
 const fs = __webpack_require__(43);
+const People = __webpack_require__(62);
 const AD = __webpack_require__(125).promiseWrapper;
 const domain = 'gswcm.local';
 const ad = new AD({
@@ -39957,10 +39962,12 @@ router.post('/login', async (req, res) => {
 	try {
 		const { username, password } = req.body;
 		await ad.authenticate(`${username}@${domain}`, password);
+		const person = await People.findOne({ email: `${username}@gsw.edu`, isAdmin: true });
+		if (!person) {
+			throw new Error('Not a member of the Faculty Senate');
+		}
 		req.session.admin = true;
-		res.json({
-			ok: true
-		});
+		res.json(person);
 	} catch (error) {
 		res.status(500).json({
 			message: error.message

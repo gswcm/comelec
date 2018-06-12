@@ -41,17 +41,22 @@ export default {
 	}),
 	computed: {
 		state () {
-			return /^[^.]+[.][^.]+$/.test(this.username) || !this.username.length ? null : false;
+			return /^[^.]+/.test(this.username) || !this.username.length ? null : false;
 		},
 		disabled() {
 			return !this.username.length || this.state === false
+		},
+		usernameFiltered() {
+			return this.username.toLowerCase().split(/@/)[0]
 		}
 	},
 	methods: {
 		async login() {
-			const { username, password } = this;
 			try {
-				await this.$store.dispatch('LOGIN', { username, password });
+				await this.$store.dispatch('LOGIN', {
+					username: this.usernameFiltered,
+					password: this.password
+				});
 				this.$router.push('/admin');
 			}
 			catch(error) {
