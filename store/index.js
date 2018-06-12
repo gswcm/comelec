@@ -8,7 +8,7 @@ export const state = () => ({
 	reCAPTCHA_KEY: null,
 	uuid: null,
 	service: null,
-	isLoggedIn: false
+	authenticated: false
 });
 
 export const mutations = {
@@ -27,8 +27,8 @@ export const mutations = {
 	SET_SERVICE(state, value) {
 		state.service = value
 	},
-	SET_IS_LOGGED_IN(state, value) {
-		state.isLoggedIn = value
+	SET_AUTHENTICATED(state, value) {
+		state.authenticated = value
 	},
 };
 
@@ -41,17 +41,20 @@ export const actions = {
 			commit('SET_SERVICE', req.session.service.committees.map(e => e ? e.id : null));
 		}
 		if(req.session && req.session.admin) {
-			commit('SET_IS_LOGGED_IN', req.session.admin);
+			commit('SET_AUTHENTICATED', req.session.admin);
+		}
+		else {
+			commit('SET_AUTHENTICATED', false);
 		}
 		commit('SET_reCAPTCHA_KEY', env.reCAPTCHA_KEY);
 	},
 	async LOGIN({ commit }, { username, password }) {
 		await axios.post('/api/auth/login', { username, password });
-		commit('SET_IS_LOGGED_IN', true);
+		commit('SET_AUTHENTICATED', true);
 	},
 	async LOGOUT({ commit }) {
 		await axios.post(`http://${process.env.baseUrl}/api/auth/logout`);
-		commit('SET_IS_LOGGED_IN', false);
+		commit('SET_AUTHENTICATED', false);
 	},
 	async GET_USER({ commit }, email) {
 		try {

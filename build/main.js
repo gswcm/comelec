@@ -586,7 +586,7 @@ exports.applyWriteConcern = applyWriteConcern;
 "use strict";
 
 
-var BSON = __webpack_require__(49);
+var BSON = __webpack_require__(50);
 var require_optional = __webpack_require__(29);
 
 try {
@@ -603,7 +603,7 @@ module.exports = {
   MongoError: __webpack_require__(3).MongoError,
   MongoNetworkError: __webpack_require__(3).MongoNetworkError,
   Connection: __webpack_require__(52),
-  Server: __webpack_require__(44),
+  Server: __webpack_require__(45),
   ReplSet: __webpack_require__(93),
   Mongos: __webpack_require__(95),
   Logger: __webpack_require__(9),
@@ -1799,7 +1799,7 @@ var debugOptions = function(debugFields, options) {
 };
 
 var retrieveBSON = function() {
-  var BSON = __webpack_require__(49);
+  var BSON = __webpack_require__(50);
   BSON.native = false;
 
   try {
@@ -4991,7 +4991,7 @@ module.exports.MinKey = MinKey;
 // Test if we're in Node via presence of "global" not absence of "window"
 // to support hybrid environments like Electron
 if (typeof global !== 'undefined') {
-  var Buffer = __webpack_require__(50).Buffer; // TODO just use global Buffer
+  var Buffer = __webpack_require__(51).Buffer; // TODO just use global Buffer
 }
 
 /**
@@ -7653,7 +7653,7 @@ module.exports.DBRef = DBRef;
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var path = __webpack_require__(42),
-  fs = __webpack_require__(51),
+  fs = __webpack_require__(43),
   f = __webpack_require__(2).format,
   resolveFrom = __webpack_require__(80),
   semver = __webpack_require__(82);
@@ -10977,8 +10977,8 @@ connect.MongoError = core.MongoError;
 // Actual driver classes exported
 connect.Admin = __webpack_require__(60);
 connect.MongoClient = __webpack_require__(56);
-connect.Db = __webpack_require__(46);
-connect.Collection = __webpack_require__(47);
+connect.Db = __webpack_require__(47);
+connect.Collection = __webpack_require__(48);
 connect.Server = __webpack_require__(37);
 connect.ReplSet = __webpack_require__(58);
 connect.Mongos = __webpack_require__(57);
@@ -11212,16 +11212,22 @@ module.exports = require("path");
 /* 43 */
 /***/ (function(module, exports) {
 
+module.exports = require("fs");
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports) {
+
 function webpackEmptyContext(req) {
 	throw new Error("Cannot find module '" + req + "'.");
 }
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 43;
+webpackEmptyContext.id = 44;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12335,7 +12341,7 @@ module.exports = Server;
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12646,7 +12652,7 @@ module.exports = SSPI;
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12669,7 +12675,7 @@ const Code = __webpack_require__(1).BSON.Code;
 const MongoError = __webpack_require__(1).MongoError;
 const ObjectID = __webpack_require__(1).ObjectID;
 const Logger = __webpack_require__(1).Logger;
-const Collection = __webpack_require__(47);
+const Collection = __webpack_require__(48);
 const crypto = __webpack_require__(13);
 const mergeOptionsAndWriteConcern = __webpack_require__(0).mergeOptionsAndWriteConcern;
 const executeOperation = __webpack_require__(0).executeOperation;
@@ -14393,7 +14399,7 @@ module.exports = Db;
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17334,7 +17340,7 @@ var mapReduce = function(self, map, reduce, options, callback) {
     if (result.result != null && typeof result.result === 'object') {
       var doc = result.result;
       // Return a collection from another db
-      var Db = __webpack_require__(46);
+      var Db = __webpack_require__(47);
       collection = new Db(doc.db, self.s.db.s.topology, self.s.db.s.options).collection(
         doc.collection
       );
@@ -17421,13 +17427,13 @@ module.exports = Collection;
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = require("restler");
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var BSON = __webpack_require__(74),
@@ -17479,16 +17485,10 @@ module.exports = BSON;
 
 
 /***/ }),
-/* 50 */
-/***/ (function(module, exports) {
-
-module.exports = require("buffer");
-
-/***/ }),
 /* 51 */
 /***/ (function(module, exports) {
 
-module.exports = require("fs");
+module.exports = require("buffer");
 
 /***/ }),
 /* 52 */
@@ -18336,7 +18336,7 @@ const ReadPreference = __webpack_require__(1).ReadPreference;
 const Logger = __webpack_require__(1).Logger;
 const MongoError = __webpack_require__(1).MongoError;
 const handleCallback = __webpack_require__(0).handleCallback;
-const Db = __webpack_require__(46);
+const Db = __webpack_require__(47);
 const f = __webpack_require__(2).format;
 const shallowClone = __webpack_require__(0).shallowClone;
 const authenticate = __webpack_require__(107);
@@ -21358,7 +21358,7 @@ router.use('/user', __webpack_require__(72));
 router.use('/service', __webpack_require__(113));
 router.use('/email', __webpack_require__(121));
 router.use('/directory', __webpack_require__(122));
-router.use('/auth', __webpack_require__(127));
+router.use('/auth', __webpack_require__(124));
 
 module.exports = router;
 
@@ -21367,7 +21367,7 @@ module.exports = router;
 /***/ (function(module, exports, __webpack_require__) {
 
 const router = __webpack_require__(10).Router();
-const restler = __webpack_require__(48);
+const restler = __webpack_require__(49);
 const moment = __webpack_require__(73);
 const ObjectId = __webpack_require__(39).ObjectId;
 const People = __webpack_require__(62);
@@ -25697,7 +25697,7 @@ var MongoCR = __webpack_require__(31),
   X509 = __webpack_require__(32),
   Plain = __webpack_require__(33),
   GSSAPI = __webpack_require__(34),
-  SSPI = __webpack_require__(45),
+  SSPI = __webpack_require__(46),
   ScramSHA1 = __webpack_require__(35);
 
 var DISCONNECTED = 'disconnected';
@@ -28616,7 +28616,7 @@ var inherits = __webpack_require__(2).inherits,
   Logger = __webpack_require__(9),
   MongoError = __webpack_require__(3).MongoError,
   errors = __webpack_require__(3),
-  Server = __webpack_require__(44),
+  Server = __webpack_require__(45),
   ReplSetState = __webpack_require__(94),
   clone = __webpack_require__(4).clone,
   Timeout = __webpack_require__(4).Timeout,
@@ -28631,7 +28631,7 @@ var MongoCR = __webpack_require__(31),
   X509 = __webpack_require__(32),
   Plain = __webpack_require__(33),
   GSSAPI = __webpack_require__(34),
-  SSPI = __webpack_require__(45),
+  SSPI = __webpack_require__(46),
   ScramSHA1 = __webpack_require__(35);
 
 var BSON = retrieveBSON();
@@ -31429,7 +31429,7 @@ const inherits = __webpack_require__(2).inherits,
   retrieveBSON = __webpack_require__(6).retrieveBSON,
   MongoError = __webpack_require__(3).MongoError,
   errors = __webpack_require__(3),
-  Server = __webpack_require__(44),
+  Server = __webpack_require__(45),
   clone = __webpack_require__(4).clone,
   diff = __webpack_require__(4).diff,
   cloneOptions = __webpack_require__(4).cloneOptions,
@@ -31464,7 +31464,7 @@ var MongoCR = __webpack_require__(31),
   X509 = __webpack_require__(32),
   Plain = __webpack_require__(33),
   GSSAPI = __webpack_require__(34),
-  SSPI = __webpack_require__(45),
+  SSPI = __webpack_require__(46),
   ScramSHA1 = __webpack_require__(35);
 
 //
@@ -35808,7 +35808,7 @@ var cursorOptionNames = ['maxAwaitTimeMS', 'collation', 'readPreference'];
  * @return {ChangeStream} a ChangeStream instance.
  */
 var ChangeStream = function(collection, pipeline, options) {
-  var Collection = __webpack_require__(47);
+  var Collection = __webpack_require__(48);
 
   // Ensure the provided collection is actually a collection
   if (!(collection instanceof Collection)) {
@@ -36323,8 +36323,8 @@ module.exports = function(self, username, password, options, callback) {
 const Chunk = __webpack_require__(61);
 const ObjectID = __webpack_require__(1).BSON.ObjectID;
 const ReadPreference = __webpack_require__(1).ReadPreference;
-const Buffer = __webpack_require__(50).Buffer;
-const fs = __webpack_require__(51);
+const Buffer = __webpack_require__(51).Buffer;
+const fs = __webpack_require__(43);
 const f = __webpack_require__(2).format;
 const util = __webpack_require__(2);
 const MongoError = __webpack_require__(1).MongoError;
@@ -39775,7 +39775,7 @@ module.exports = router;
 /***/ (function(module, exports, __webpack_require__) {
 
 const router = __webpack_require__(10).Router();
-const restler = __webpack_require__(48);
+const restler = __webpack_require__(49);
 const _ = __webpack_require__(123);
 const People = __webpack_require__(62);
 
@@ -39936,7 +39936,48 @@ module.exports = router;
 module.exports = require("lodash");
 
 /***/ }),
-/* 124 */,
+/* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const router = __webpack_require__(10).Router();
+const fs = __webpack_require__(43);
+const AD = __webpack_require__(125).promiseWrapper;
+const domain = 'gswcm.local';
+const ad = new AD({
+	url: 'ldaps://dc.gswcm.local',
+	baseDN: 'dc=gswcm,dc=local',
+	username: `${process.env.AD_USER}@${domain}`,
+	password: process.env.AD_PASS,
+	tlsOptions: {
+		ca: [fs.readFileSync('./server/gswcm-ca.cer')]
+	}
+});
+
+router.post('/login', async (req, res) => {
+	try {
+		const { username, password } = req.body;
+		await ad.authenticate(`${username}@${domain}`, password);
+		req.session.admin = true;
+		res.json({
+			ok: true
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
+});
+
+router.post('/logout', (req, res) => {
+	delete req.session.admin;
+	res.json({
+		ok: true
+	});
+});
+
+module.exports = router;
+
+/***/ }),
 /* 125 */
 /***/ (function(module, exports) {
 
@@ -39985,48 +40026,6 @@ module.exports = {
 		// ]
 	}
 };
-
-/***/ }),
-/* 127 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const router = __webpack_require__(10).Router();
-const fs = __webpack_require__(51);
-const AD = __webpack_require__(125).promiseWrapper;
-const domain = 'gswcm.local';
-const ad = new AD({
-	url: 'ldaps://dc.gswcm.local',
-	baseDN: 'dc=gswcm,dc=local',
-	username: `${process.env.AD_USER}@${domain}`,
-	password: process.env.AD_PASS,
-	tlsOptions: {
-		ca: [fs.readFileSync('./server/gswcm-ca.cer')]
-	}
-});
-
-router.post('/login', async (req, res) => {
-	try {
-		const { username, password } = req.body;
-		await ad.authenticate(`${username}@${domain}`, password);
-		req.session.admin = true;
-		res.json({
-			ok: true
-		});
-	} catch (error) {
-		res.status(500).json({
-			message: error.message
-		});
-	}
-});
-
-router.post('/logout', (req, res) => {
-	delete req.session.admin;
-	res.json({
-		ok: true
-	});
-});
-
-module.exports = router;
 
 /***/ })
 /******/ ]);

@@ -6,26 +6,28 @@
 			<br>
 			<span class="text-warning">Only members of the <strong>GSW Faculty Senate</strong> are allowed in this area.</span>
 		</p>
-		<b-form @submit.prevent="submit" class="col col-12 col-sm-7 col-md-6 col-lg-5">
-			<!-- E-mail -->
+		<b-form @submit.prevent="login" class="d-flex justify-content-center w-100">
+			<!-- Username -->
+			<div class="col col-12 col-sm-7 col-md-6 col-lg-5">
 			<b-input-group  class="mt-3 group group-username">
 				<b-input-group-prepend class="px-3 icon d-flex align-items-center">
 					<font-awesome-icon :icon="['fas', 'user']"/>
 				</b-input-group-prepend>
-				<b-form-input :state="state" name="username" v-model="username" type="text" placeholder="username"/>
+				<b-form-input :state="state" v-model="username" type="text" placeholder="username"/>
 			</b-input-group>
 			<!-- Password -->
 			<b-input-group class="mt-3 group group-password">
 				<b-input-group-prepend class="px-3 icon d-flex align-items-center">
 					<font-awesome-icon :icon="['fas', 'lock']"/>
 				</b-input-group-prepend>
-				<b-form-input v-model="password" name="password" type="password" placeholder="Password"/>
+				<b-form-input v-model="password" type="password" placeholder="Password"/>
 			</b-input-group>
 			<!-- Buttons -->
 			<div class="mt-5">
 				<b-btn type="submit" variant="dark" class="d-block mx-auto px-3" :disabled="!username.length || !password.length">
 					Login
 				</b-btn>
+			</div>
 			</div>
 		</b-form>
 	</div>
@@ -46,9 +48,8 @@ export default {
 		}
 	},
 	methods: {
-		async submit(e) {
-			const username = e.target.username.value;
-			const password = e.target.password.value;
+		async login() {
+			const { username, password } = this;
 			try {
 				await this.$store.dispatch('LOGIN', { username, password });
 				this.$router.push('/admin');

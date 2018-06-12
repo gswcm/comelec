@@ -2,7 +2,7 @@
 	<div>
 		<b-navbar sticky toggleable="md" type="dark" variant="dark" class="d-print-none">
 			<!-- Left group -->
-			<b-navbar-brand href="/">
+			<b-navbar-brand to="/">
 				<img src="~/assets/gsw_logo_inverted_1.png" alt="GSW Logo"/>
 				<span class="d-none d-sm-inline-block">
 					GSW Commitee Election Helper, a.k.a. ComElec
@@ -13,13 +13,18 @@
 			</b-navbar-brand>
 			<!-- right group -->
 			<b-navbar-nav class="ml-auto">
-				<b-nav-item v-if="!isLoggedIn" href="/login" class="ml-auto login" v-b-tooltip.hover title="Faculty Senate login">
+				<template v-if="$store.state.authenticated">
+					<b-nav-item  @click="logout" class="ml-auto logout" v-b-tooltip.hover title="Logout">
+						<font-awesome-icon :icon="['fas', 'sign-out-alt']" size="2x"/>
+					</b-nav-item>
+					<b-nav-item  to="/admin" class="ml-3 admin" v-b-tooltip.hover title="Faculty Senate interface ">
+						<font-awesome-icon :icon="['fas', 'user-cog']" size="2x"/>
+					</b-nav-item>
+				</template>
+				<b-nav-item v-else to="/login" class="ml-auto login" v-b-tooltip.hover title="Faculty Senate login">
 					<font-awesome-icon :icon="['fas', 'sign-in-alt']" size="2x"/>
 				</b-nav-item>
-				<b-nav-item v-else href="/logout" class="ml-auto logout" v-b-tooltip.hover title="Logout">
-					<font-awesome-icon :icon="['fas', 'sign-out-alt']" size="2x"/>
-				</b-nav-item>
-				<b-nav-item href="/help" class="ml-3" v-b-tooltip.hover title="Help / About">
+				<b-nav-item to="/help" class="ml-3" v-b-tooltip.hover title="Help / About">
 					<font-awesome-icon :icon="['far', 'question-circle']" size="2x"/>
 				</b-nav-item>
 			</b-navbar-nav>
@@ -29,12 +34,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 export default {
-	computed: {
-		...mapState({
-			isLoggedIn: "isLoggedIn"
-		}),
+	methods: {
+		async logout() {
+			await this.$store.dispatch('LOGOUT');
+			this.$router.replace('/');
+		}
 	}
 }
 </script>
@@ -65,6 +70,14 @@ html {
 	margin-right: 1em !important;
 }
 
+.admin svg {
+	color: #ccc;
+	color: rgba(255,255,255, 0.7);
+	cursor: pointer;
+}
+.admin svg:hover {
+	color: #fff;
+}
 .login svg {
 	color: rgb(67, 172, 106);
 	color: rgba(67, 172, 106, 0.7);
