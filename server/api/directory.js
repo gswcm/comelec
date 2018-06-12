@@ -1,8 +1,6 @@
-const mongoose = require('mongoose');
 const router = require('express').Router();
 const restler = require('restler');
 const _ = require('lodash');
-const ObjectId = require('mongodb').ObjectId;
 const People = require('../models/people');
 
 function range(from = 'a', to = 'z') {
@@ -96,7 +94,7 @@ router.get('/refresh', async (req,res) => {
 	 * Route requires 'session.authUser' to be set and allows 'query' parameter to list query prefixes separated by comma.
 	 */
 	try {
-		if(!req.session.authUser) {
+		if(!req.session.admin) {
 			// Unauthorized
 			throw new Error('Unauthorized access');
 		}

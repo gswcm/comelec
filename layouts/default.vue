@@ -13,8 +13,11 @@
 			</b-navbar-brand>
 			<!-- right group -->
 			<b-navbar-nav class="ml-auto">
-				<b-nav-item href="/login" class="ml-auto" v-b-tooltip.hover title="Faculty Senate interface">
-					<font-awesome-icon :icon="['far', 'eye-slash']" size="2x"/>
+				<b-nav-item v-if="!isLoggedIn" href="/login" class="ml-auto login" v-b-tooltip.hover title="Faculty Senate login">
+					<font-awesome-icon :icon="['fas', 'sign-in-alt']" size="2x"/>
+				</b-nav-item>
+				<b-nav-item v-else href="/logout" class="ml-auto logout" v-b-tooltip.hover title="Logout">
+					<font-awesome-icon :icon="['fas', 'sign-out-alt']" size="2x"/>
 				</b-nav-item>
 				<b-nav-item href="/help" class="ml-3" v-b-tooltip.hover title="Help / About">
 					<font-awesome-icon :icon="['far', 'question-circle']" size="2x"/>
@@ -24,6 +27,18 @@
 		<nuxt/>
 	</div>
 </template>
+
+<script>
+import { mapState } from 'vuex';
+export default {
+	computed: {
+		...mapState({
+			isLoggedIn: "isLoggedIn"
+		}),
+	}
+}
+</script>
+
 
 <style>
 html {
@@ -48,6 +63,17 @@ html {
 .navbar-brand img {
 	max-height: 30px !important;
 	margin-right: 1em !important;
+}
+
+.login svg {
+	color: rgb(67, 172, 106);
+	color: rgba(67, 172, 106, 0.7);
+	cursor: pointer;
+}
+.logout svg {
+	color: rgb(240, 65, 36);
+	color: rgba(240, 65, 36, 0.7);
+	cursor: pointer;
 }
 
 </style>
