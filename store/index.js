@@ -50,7 +50,7 @@ export const actions = {
 		commit('SET_IS_LOGGED_IN', true);
 	},
 	async LOGOUT({ commit }) {
-		await axios.post('/api/auth/logout');
+		await axios.post(`http://${process.env.baseUrl}/api/auth/logout`);
 		commit('SET_IS_LOGGED_IN', false);
 	},
 	async GET_USER({ commit }, email) {
