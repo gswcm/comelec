@@ -586,7 +586,7 @@ exports.applyWriteConcern = applyWriteConcern;
 "use strict";
 
 
-var BSON = __webpack_require__(50);
+var BSON = __webpack_require__(51);
 var require_optional = __webpack_require__(29);
 
 try {
@@ -602,7 +602,7 @@ try {
 module.exports = {
   MongoError: __webpack_require__(3).MongoError,
   MongoNetworkError: __webpack_require__(3).MongoNetworkError,
-  Connection: __webpack_require__(52),
+  Connection: __webpack_require__(53),
   Server: __webpack_require__(45),
   ReplSet: __webpack_require__(93),
   Mongos: __webpack_require__(95),
@@ -726,7 +726,7 @@ module.exports = {
 "use strict";
 
 
-const os = __webpack_require__(53),
+const os = __webpack_require__(54),
   f = __webpack_require__(2).format,
   ReadPreference = __webpack_require__(14),
   retrieveBSON = __webpack_require__(6).retrieveBSON;
@@ -1799,7 +1799,7 @@ var debugOptions = function(debugFields, options) {
 };
 
 var retrieveBSON = function() {
-  var BSON = __webpack_require__(50);
+  var BSON = __webpack_require__(51);
   BSON.native = false;
 
   try {
@@ -4505,7 +4505,7 @@ module.exports = require("stream");
 const EventEmitter = __webpack_require__(7),
   MongoError = __webpack_require__(1).MongoError,
   f = __webpack_require__(2).format,
-  os = __webpack_require__(53),
+  os = __webpack_require__(54),
   translateReadPreference = __webpack_require__(0).translateReadPreference,
   ClientSession = __webpack_require__(1).Sessions.ClientSession;
 
@@ -4991,7 +4991,7 @@ module.exports.MinKey = MinKey;
 // Test if we're in Node via presence of "global" not absence of "window"
 // to support hybrid environments like Electron
 if (typeof global !== 'undefined') {
-  var Buffer = __webpack_require__(51).Buffer; // TODO just use global Buffer
+  var Buffer = __webpack_require__(52).Buffer; // TODO just use global Buffer
 }
 
 /**
@@ -10969,22 +10969,22 @@ const core = __webpack_require__(1);
 const Instrumentation = __webpack_require__(100);
 
 // Set up the connect function
-const connect = __webpack_require__(56).connect;
+const connect = __webpack_require__(57).connect;
 
 // Expose error class
 connect.MongoError = core.MongoError;
 
 // Actual driver classes exported
-connect.Admin = __webpack_require__(60);
-connect.MongoClient = __webpack_require__(56);
+connect.Admin = __webpack_require__(61);
+connect.MongoClient = __webpack_require__(57);
 connect.Db = __webpack_require__(47);
 connect.Collection = __webpack_require__(48);
 connect.Server = __webpack_require__(37);
-connect.ReplSet = __webpack_require__(58);
-connect.Mongos = __webpack_require__(57);
+connect.ReplSet = __webpack_require__(59);
+connect.Mongos = __webpack_require__(58);
 connect.ReadPreference = __webpack_require__(1).ReadPreference;
 connect.GridStore = __webpack_require__(108);
-connect.Chunk = __webpack_require__(61);
+connect.Chunk = __webpack_require__(62);
 connect.Logger = core.Logger;
 connect.Cursor = __webpack_require__(15);
 connect.GridFSBucket = __webpack_require__(109);
@@ -12664,13 +12664,13 @@ const getSingleProperty = __webpack_require__(0).getSingleProperty;
 const shallowClone = __webpack_require__(0).shallowClone;
 const parseIndexOptions = __webpack_require__(0).parseIndexOptions;
 const debugOptions = __webpack_require__(0).debugOptions;
-const CommandCursor = __webpack_require__(59);
+const CommandCursor = __webpack_require__(60);
 const handleCallback = __webpack_require__(0).handleCallback;
 const filterOptions = __webpack_require__(0).filterOptions;
 const toError = __webpack_require__(0).toError;
 const ReadPreference = __webpack_require__(1).ReadPreference;
 const f = __webpack_require__(2).format;
-const Admin = __webpack_require__(60);
+const Admin = __webpack_require__(61);
 const Code = __webpack_require__(1).BSON.Code;
 const MongoError = __webpack_require__(1).MongoError;
 const ObjectID = __webpack_require__(1).ObjectID;
@@ -14420,7 +14420,7 @@ const handleCallback = __webpack_require__(0).handleCallback;
 const decorateCommand = __webpack_require__(0).decorateCommand;
 const formattedOrderClause = __webpack_require__(0).formattedOrderClause;
 const ReadPreference = __webpack_require__(1).ReadPreference;
-const CommandCursor = __webpack_require__(59);
+const CommandCursor = __webpack_require__(60);
 const unordered = __webpack_require__(104);
 const ordered = __webpack_require__(105);
 const ChangeStream = __webpack_require__(106);
@@ -17428,12 +17428,46 @@ module.exports = Collection;
 
 /***/ }),
 /* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const mongoose = __webpack_require__(11);
+
+const peopleSchema = mongoose.Schema({
+	f: String,
+	query: String,
+	firstName: String,
+	lastName: String,
+	email: String,
+	dept: String,
+	isAdmin: {
+		type: Boolean,
+		default: false
+	}
+}).index({
+	email: 1
+}, {
+	name: 'people_email_index'
+}).index({
+	firstName: 'text',
+	lastName: 'text'
+}, {
+	weights: {
+		lastName: 3,
+		firstName: 1
+	},
+	name: 'people_name_index'
+});
+
+module.exports = mongoose.model('people', peopleSchema, 'people');
+
+/***/ }),
+/* 50 */
 /***/ (function(module, exports) {
 
 module.exports = require("restler");
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var BSON = __webpack_require__(74),
@@ -17485,13 +17519,13 @@ module.exports = BSON;
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports) {
 
 module.exports = require("buffer");
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18302,25 +18336,25 @@ module.exports = Connection;
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = require("dns");
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18328,8 +18362,8 @@ module.exports = require("dns");
 
 const parse = __webpack_require__(101);
 const Server = __webpack_require__(37);
-const Mongos = __webpack_require__(57);
-const ReplSet = __webpack_require__(58);
+const Mongos = __webpack_require__(58);
+const ReplSet = __webpack_require__(59);
 const EventEmitter = __webpack_require__(7).EventEmitter;
 const inherits = __webpack_require__(2).inherits;
 const ReadPreference = __webpack_require__(1).ReadPreference;
@@ -19277,7 +19311,7 @@ module.exports = MongoClient;
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19736,7 +19770,7 @@ module.exports = Mongos;
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20240,7 +20274,7 @@ module.exports = ReplSet;
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20571,7 +20605,7 @@ module.exports = CommandCursor;
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20906,7 +20940,7 @@ module.exports = Admin;
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21147,40 +21181,6 @@ module.exports = Chunk;
 
 
 /***/ }),
-/* 62 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const mongoose = __webpack_require__(11);
-
-const peopleSchema = mongoose.Schema({
-	f: String,
-	query: String,
-	firstName: String,
-	lastName: String,
-	email: String,
-	dept: String,
-	isAdmin: {
-		type: Boolean,
-		default: false
-	}
-}).index({
-	email: 1
-}, {
-	name: 'people_email_index'
-}).index({
-	firstName: 'text',
-	lastName: 'text'
-}, {
-	weights: {
-		lastName: 3,
-		firstName: 1
-	},
-	name: 'people_name_index'
-});
-
-module.exports = mongoose.model('people', peopleSchema, 'people');
-
-/***/ }),
 /* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21371,10 +21371,10 @@ module.exports = router;
 /***/ (function(module, exports, __webpack_require__) {
 
 const router = __webpack_require__(10).Router();
-const restler = __webpack_require__(49);
+const restler = __webpack_require__(50);
 const moment = __webpack_require__(73);
 const ObjectId = __webpack_require__(39).ObjectId;
-const People = __webpack_require__(62);
+const People = __webpack_require__(49);
 const YCF = __webpack_require__(112);
 // const mongoose = require('mongoose');
 
@@ -25681,7 +25681,7 @@ module.exports = require("zlib");
 
 var inherits = __webpack_require__(2).inherits,
   EventEmitter = __webpack_require__(7).EventEmitter,
-  Connection = __webpack_require__(52),
+  Connection = __webpack_require__(53),
   MongoError = __webpack_require__(3).MongoError,
   MongoNetworkError = __webpack_require__(3).MongoNetworkError,
   Logger = __webpack_require__(9),
@@ -33135,9 +33135,9 @@ module.exports = {
 
 "use strict";
 
-const URL = __webpack_require__(54);
+const URL = __webpack_require__(55);
 const qs = __webpack_require__(99);
-const dns = __webpack_require__(55);
+const dns = __webpack_require__(56);
 const MongoParseError = __webpack_require__(3).MongoParseError;
 
 /**
@@ -33502,10 +33502,10 @@ module.exports = Instrumentation;
 
 
 const ReadPreference = __webpack_require__(1).ReadPreference,
-  parser = __webpack_require__(54),
+  parser = __webpack_require__(55),
   f = __webpack_require__(2).format,
   Logger = __webpack_require__(1).Logger,
-  dns = __webpack_require__(55);
+  dns = __webpack_require__(56);
 
 module.exports = function(url, options, callback) {
   if (typeof options === 'function') (callback = options), (options = {});
@@ -36324,10 +36324,10 @@ module.exports = function(self, username, password, options, callback) {
  *   });
  * });
  */
-const Chunk = __webpack_require__(61);
+const Chunk = __webpack_require__(62);
 const ObjectID = __webpack_require__(1).BSON.ObjectID;
 const ReadPreference = __webpack_require__(1).ReadPreference;
-const Buffer = __webpack_require__(51).Buffer;
+const Buffer = __webpack_require__(52).Buffer;
 const fs = __webpack_require__(43);
 const f = __webpack_require__(2).format;
 const util = __webpack_require__(2);
@@ -39779,9 +39779,9 @@ module.exports = router;
 /***/ (function(module, exports, __webpack_require__) {
 
 const router = __webpack_require__(10).Router();
-const restler = __webpack_require__(49);
+const restler = __webpack_require__(50);
 const _ = __webpack_require__(123);
-const People = __webpack_require__(62);
+const People = __webpack_require__(49);
 
 function range(from = 'a', to = 'z') {
 	from = from.charCodeAt();
@@ -39945,7 +39945,7 @@ module.exports = require("lodash");
 
 const router = __webpack_require__(10).Router();
 const fs = __webpack_require__(43);
-const People = __webpack_require__(62);
+const People = __webpack_require__(49);
 const AD = __webpack_require__(125).promiseWrapper;
 const domain = 'gswcm.local';
 const ad = new AD({
