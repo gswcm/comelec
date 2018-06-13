@@ -39543,6 +39543,81 @@ const Service = __webpack_require__(63);
 const Token = __webpack_require__(64);
 const smtpTransport = __webpack_require__(118);
 
+router.get('/test', async (req, res) => {
+	try {
+		const items = await Service.aggregate([{
+			$match: {
+				confirmed: true
+			}
+		}, {
+			$group: {
+				_id: {
+					person: '$person'
+				},
+				data: {
+					$push: {
+						createdAt: '$createdAt',
+						committees: '$committees'
+					}
+				},
+				latest: {
+					$max: '$createdAt'
+				}
+			}
+		}, {
+			$unwind: '$data'
+		}, {
+			$project: {
+				person: '$_id.person',
+				createdAt: '$data.createdAt',
+				committees: '$data.committees',
+				latest: 1,
+				_id: 0
+			}
+		}, {
+			$redact: {
+				$cond: [{
+					$eq: ['$latest', '$createdAt']
+				}, '$$KEEP', '$$PRUNE']
+			}
+		}, {
+			$unwind: {
+				path: '$committees',
+				includeArrayIndex: 'index'
+			}
+		}, {
+			$project: {
+				person: 1,
+				committee: {
+					id: '$committees.id',
+					title: '$committees.title',
+					preference: {
+						$add: ['$index', 1]
+					}
+				}
+			}
+		}, {
+			$group: {
+				_id: '$committee',
+				people: {
+					$push: '$person'
+				}
+			}
+		}, {
+			$project: {
+				committee: '$_id',
+				people: 1,
+				_id: 0
+			}
+		}]);
+		res.json(items);
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
+});
+
 router.get('/list', async (req, res) => {
 	try {
 		const committees = await Committee.find({
