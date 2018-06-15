@@ -110,8 +110,7 @@ export const actions = {
 	},
 	async GET_COMMITTEES({ commit, state }) {
 		try {
-			console.log(process.server);
-			const { data } = await axios.get(`${process.env.baseUrl}/api/service/list`);
+			const { data } = await axios.get(`${process.server ? process.env.baseUrl : ''}/api/service/list`);
 			commit('SET_COMMITTEES', data);
 		}
 		catch(error) {
