@@ -53,8 +53,14 @@ export const actions = {
 		commit('SET_AUTHENTICATED', true);
 	},
 	async LOGOUT({ commit }) {
-		await axios.post(`http://${process.env.baseUrl}/api/auth/logout`);
-		commit('SET_AUTHENTICATED', false);
+		try {
+			console.log(process.env.baseUrl);
+			await axios.post(`http://${process.env.baseUrl}/api/auth/logout`);
+			commit('SET_AUTHENTICATED', false);
+		}
+		catch(error) {
+			throw new Error(error.message)
+		}
 	},
 	async GET_USER({ commit }, email) {
 		try {
@@ -66,7 +72,8 @@ export const actions = {
 				throw new Error(error.response.data.message);
 			}
 			throw new Error(error.message);
-		}try {
+		}
+		try {
 			const { data } = await axios.get('/api/user/details', { params: { email } })
 			commit('SET_USER', data);
 		}

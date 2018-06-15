@@ -24,6 +24,9 @@ const options =
 			]
 		}
 	}
+//-- Debug
+console.log(['AD_USER_DEV','AD_PASS_DEV','AD_USER_PROD','AD_PASS_PROD'].map(e => process.env[e]));
+
 const ad = new AD(options);
 
 router.post('/login', async (req,res) => {

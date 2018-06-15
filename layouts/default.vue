@@ -40,8 +40,13 @@
 export default {
 	methods: {
 		async logout() {
-			await this.$store.dispatch('LOGOUT');
-			this.$router.replace('/');
+			try {
+				await this.$store.dispatch('LOGOUT');
+				this.$router.replace('/');
+			}
+			catch(error) {
+				console.error(error.message);
+			}
 		}
 	}
 }
