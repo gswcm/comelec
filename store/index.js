@@ -54,7 +54,7 @@ export const actions = {
 	},
 	async LOGOUT({ commit }) {
 		try {
-			await axios.post(`${process.env.baseUrl}/api/auth/logout`);
+			await axios.post(`/api/auth/logout`);
 			commit('SET_AUTHENTICATED', false);
 		}
 		catch(error) {
