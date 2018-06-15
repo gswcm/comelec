@@ -19,9 +19,9 @@
 						<b-nav-item  @click="logout" class="ml-auto logout" v-b-tooltip.hover title="Logout">
 							<font-awesome-icon :icon="['fas', 'sign-out-alt']" size="2x"/>
 						</b-nav-item>
-						<b-nav-item  to="/admin" class="ml-auto admin" v-b-tooltip.hover title="Faculty Senate interface ">
+						<!-- <b-nav-item  to="/admin" class="ml-auto admin" v-b-tooltip.hover title="Faculty Senate interface ">
 							<font-awesome-icon :icon="['fas', 'user-cog']" size="2x"/>
-						</b-nav-item>
+						</b-nav-item> -->
 					</template>
 					<b-nav-item v-else to="/login" class="ml-auto login" v-b-tooltip.hover title="Faculty Senate login">
 						<font-awesome-icon :icon="['fas', 'sign-in-alt']" size="2x"/>

@@ -40022,16 +40022,22 @@ const router = __webpack_require__(10).Router();
 const fs = __webpack_require__(43);
 const People = __webpack_require__(49);
 const AD = __webpack_require__(125).promiseWrapper;
-const domain = 'gswcm.local';
-const ad = new AD({
+const domain =  false ? 'gsw.local' : 'gswcm.local';
+const options =  false ? {
+	url: 'ldaps://trapper.gsw.edu',
+	baseDN: 'DC=gsw,DC=local',
+	username: process.env.AD_USER_PROD,
+	password: process.env.AD_PASS_PROD
+} : {
 	url: 'ldaps://dc.gswcm.local',
 	baseDN: 'dc=gswcm,dc=local',
-	username: `${process.env.AD_USER}@${domain}`,
-	password: process.env.AD_PASS,
+	username: process.env.AD_USER_DEV,
+	password: process.env.AD_PASS_DEV,
 	tlsOptions: {
 		ca: [fs.readFileSync('./server/gswcm-ca.cer')]
 	}
-});
+};
+const ad = new AD(options);
 
 router.post('/login', async (req, res) => {
 	try {
