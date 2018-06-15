@@ -16,13 +16,11 @@
 
 <script>
 import preferences from '~/components/admin/preferences';
-// import axios from 'axios';
 import axios from '~/plugins/axios';
 export default {
 	middleware: "auth",
 	async asyncData({ error }) {
 		try {
-			// const { data } = await axios.get(`${process.server ? process.env.baseUrl : ''}/api/service/list`);
 			const { data } = await axios.get('/api/service/list');
 			let summaryItems = data.map(e => ({
 				title: e.title,

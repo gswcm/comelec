@@ -1,4 +1,3 @@
-// import axios from "axios";
 import axios from '~/plugins/axios';
 
 export const strict = false;
@@ -110,7 +109,6 @@ export const actions = {
 	},
 	async GET_COMMITTEES({ commit, state }) {
 		try {
-			// const { data } = await axios.get(`${process.server ? process.env.baseUrl : ''}/api/service/list`);
 			const { data } = await axios.get('/api/service/list');
 			commit('SET_COMMITTEES', data);
 		}
