@@ -21,7 +21,7 @@ export default {
 	middleware: "auth",
 	async asyncData({ error }) {
 		try {
-			const { data } = await axios.get(`http://${process.env.baseUrl}/api/service/list`);
+			const { data } = await axios.get(`${process.env.baseUrl}/api/service/list`);
 			let summaryItems = data.map(e => ({
 				title: e.title,
 				first: 1,

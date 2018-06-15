@@ -40036,9 +40036,7 @@ const options =  false ? {
 	tlsOptions: {
 		ca: [fs.readFileSync('./server/gswcm-ca.cer')]
 	}
-	//-- Debug
-};console.log(['AD_USER_DEV', 'AD_PASS_DEV', 'AD_USER_PROD', 'AD_PASS_PROD'].map(e => process.env[e]));
-
+};
 const ad = new AD(options);
 
 router.post('/login', async (req, res) => {
@@ -40082,7 +40080,7 @@ module.exports = {
 	env: {
 		reCAPTCHA_KEY: process.env.reCAPTCHA_KEY,
 		reCAPTCHA_SECRET: process.env.reCAPTCHA_SECRET,
-		baseUrl: process.env.BASE_URL || 'localhost:3000'
+		baseUrl: process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`
 	},
 	head: {
 		title: "GSW ComElec",

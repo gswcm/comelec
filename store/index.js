@@ -54,8 +54,7 @@ export const actions = {
 	},
 	async LOGOUT({ commit }) {
 		try {
-			console.log(process.env.baseUrl);
-			await axios.post(`http://${process.env.baseUrl}/api/auth/logout`);
+			await axios.post(`${process.env.baseUrl}/api/auth/logout`);
 			commit('SET_AUTHENTICATED', false);
 		}
 		catch(error) {
@@ -110,7 +109,7 @@ export const actions = {
 	},
 	async GET_COMMITTEES({ commit, state }) {
 		try {
-			const { data } = await axios.get(`http://${process.env.baseUrl}/api/service/list`);
+			const { data } = await axios.get(`${process.env.baseUrl}/api/service/list`);
 			commit('SET_COMMITTEES', data);
 		}
 		catch(error) {
