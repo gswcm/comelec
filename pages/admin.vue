@@ -4,7 +4,7 @@
 		<b-card no-body>
 			<b-tabs pills card>
 				<b-tab title="Summary" active class="p-3">
-					<committees :items="summaryItems"/>
+					<preferences :items="summaryItems"/>
 				</b-tab>
 				<b-tab title="Maintenance" title-item-class="ml-auto" class="p-3">
 					Tab Contents 2
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import committees from '~/components/admin/committees';
+import preferences from '~/components/admin/preferences';
 import axios from 'axios';
 export default {
 	middleware: "auth",

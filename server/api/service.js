@@ -9,7 +9,7 @@ const Token = require('../models/token');
 const smtpTransport = require('../mailer');
 
 
-router.get('/test', async (req,res) => {
+router.get('/preferences', async (req,res) => {
 	try {
 		const items = await Service.aggregate([
 			{
