@@ -3,7 +3,7 @@ module.exports = {
 	env: {
 		reCAPTCHA_KEY: process.env.reCAPTCHA_KEY,
 		reCAPTCHA_SECRET: process.env.reCAPTCHA_SECRET,
-		baseUrl: process.env.BASE_UR || 'localhost:3000',
+		baseUrl: process.env.BASE_URL || 'localhost:3000',
 	},
 	head: {
 		title: "GSW ComElec",

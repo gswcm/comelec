@@ -1,29 +1,31 @@
-map $sent_http_content_type $expires {
-	"text/html"                 epoch;
-	"text/html; charset=utf-8"  epoch;
-	default                     off;
+//this is proxy-level config file
+
+upstream comelec3000 {
+	server comelec:3000;
 }
 
 server {
 	listen 80;
+	server_name comelec.gswcm.net;
+	return 301 https://$host$request_uri;
+}
 
-	gzip            on;
-	gzip_types      text/plain application/xml text/css application/javascript;
-	gzip_min_length 1000;
+server {
+	listen 443 ssl;
+	ssl on;
+	server_name comelec.gswcm.net;
+   ssl_certificate /etc/nginx/ssl/gswcm_net.crt;
+   ssl_certificate_key /etc/nginx/ssl/gswcm_net.key;
+   ssl_trusted_certificate /etc/nginx/ssl/AlphaSSL_CA.crt;
 
 	location / {
-
-		expires $expires;
-		proxy_redirect                      off;
-		proxy_set_header Host               $host;
-		proxy_set_header X-Real-IP          $remote_addr;
-		proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
-		proxy_set_header X-Forwarded-Proto  $scheme;
-		proxy_read_timeout          1m;
-		proxy_connect_timeout       1m;
-		proxy_pass http://127.0.0.1:3000;
-		#proxy_http_version 1.1;
-		#proxy_set_header Upgrade $http_upgrade;
-		#proxy_set_header Connection "upgrade";
+		proxy_redirect off;
+		proxy_http_version 1.1;
+		proxy_pass http://comelec3000;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 	}
 }
