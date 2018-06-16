@@ -38,19 +38,25 @@ export default {
 				label: 'Committee',
 				key: 'title',
 				variant: 'dark',
-				thClass: 'cols-auto'
+				tdClass: 'nowrap'
 			},
 			{
 				label: '1<span class="superscript">st</span> preference',
 				key: '1',
+				thClass: 'nowrap',
+				tdClass: 'nowrap'
 			},
 			{
 				label: '2<span class="superscript">nd</span> preference',
 				key: '2',
+				thClass: 'nowrap',
+				tdClass: 'nowrap'
 			},
 			{
 				label: '3<span class="superscript">rd</span> preference',
 				key: '3',
+				thClass: 'nowrap',
+				tdClass: 'nowrap'
 			}
 		]
 	})
@@ -66,6 +72,9 @@ export default {
 	}
 	ul {
 		margin-bottom: 0 !important;
+	}
+	.nowrap {
+		white-space: nowrap;
 	}
 
 </style>
