@@ -3,7 +3,29 @@
 		<p>
 			The following table summarizes preferences of individual faculty members and provides possible draft of committee assignments
 		</p>
-		<b-table responsive striped :items="items" :fields="fields"/>
+		<b-table responsive striped bordered :items="items" :fields="fields">
+			<template slot="1" slot-scope="data">
+				<ul class="list-unstyled">
+					<li v-for="(v,i) of data.value" :key="i">
+						{{v}}
+					</li>
+				</ul>
+			</template>
+			<template slot="2" slot-scope="data">
+				<ul class="list-unstyled">
+					<li v-for="(v,i) of data.value" :key="i">
+						{{v}}
+					</li>
+				</ul>
+			</template>
+			<template slot="3" slot-scope="data">
+				<ul class="list-unstyled">
+					<li v-for="(v,i) of data.value" :key="i">
+						{{v}}
+					</li>
+				</ul>
+			</template>
+		</b-table>
 	</div>
 </template>
 
@@ -20,15 +42,15 @@ export default {
 			},
 			{
 				label: '1<span class="superscript">st</span> preference',
-				key: 'first',
+				key: '1',
 			},
 			{
 				label: '2<span class="superscript">nd</span> preference',
-				key: 'second',
+				key: '2',
 			},
 			{
 				label: '3<span class="superscript">rd</span> preference',
-				key: 'third',
+				key: '3',
 			}
 		]
 	})
@@ -41,6 +63,9 @@ export default {
 	}
 	.superscript {
 		vertical-align: super;
+	}
+	ul {
+		margin-bottom: 0 !important;
 	}
 
 </style>

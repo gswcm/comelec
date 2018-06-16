@@ -4,7 +4,7 @@
 		<b-card no-body>
 			<b-tabs pills card>
 				<b-tab title="Summary" active class="p-3">
-					<preferences :items="summaryItems"/>
+					<preferences :items="prefItems"/>
 				</b-tab>
 				<b-tab title="Maintenance" title-item-class="ml-auto" class="p-3">
 					Tab Contents 2
@@ -18,17 +18,20 @@
 import preferences from '~/components/admin/preferences';
 import axios from '~/plugins/axios';
 export default {
-	middleware: "auth",
+	// middleware: "auth",
 	async asyncData({ error }) {
 		try {
-			const { data } = await axios.get('/api/service/list');
-			let summaryItems = data.map(e => ({
+			const preferences = (await axios.get('/api/service/preferences')).data;
+			let prefItems = (await axios.get('/api/service/list')).data.map(e => ({
 				title: e.title,
-				first: 1,
-				second: 2,
-				third: 3
+				1: [],
+				2: [],
+				3: []
 			}));
-			return { summaryItems };
+			for(let p of preferences) {
+				prefItems.find(e => e.title === p.committee.title)[p.committee.preference] = [...p.people.map(e => e.name)];
+			}
+			return { prefItems };
 		}
 		catch(err) {
 			error({
