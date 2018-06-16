@@ -4,26 +4,34 @@
 			The following table summarizes preferences of individual faculty members and provides possible draft of committee assignments
 		</p>
 		<b-table responsive striped bordered :items="items" :fields="fields">
-			<template slot="1" slot-scope="data">
+			<template slot="1" slot-scope="item">
 				<ul class="list-unstyled">
-					<li v-for="(v,i) of data.value" :key="i">
+					<li v-for="(v,i) of item.value" :key="i">
 						{{v}}
 					</li>
 				</ul>
 			</template>
-			<template slot="2" slot-scope="data">
+			<template slot="2" slot-scope="item">
 				<ul class="list-unstyled">
-					<li v-for="(v,i) of data.value" :key="i">
+					<li v-for="(v,i) of item.value" :key="i">
 						{{v}}
 					</li>
 				</ul>
 			</template>
-			<template slot="3" slot-scope="data">
+			<template slot="3" slot-scope="item">
 				<ul class="list-unstyled">
-					<li v-for="(v,i) of data.value" :key="i">
+					<li v-for="(v,i) of item.value" :key="i">
 						{{v}}
 					</li>
 				</ul>
+			</template>
+			<template slot="details" slot-scope="row">
+				<b-btn variant="link" @click="row.toggleDetails">
+					<font-awesome-icon :icon="['far', 'plus-square']"/>
+				</b-btn>
+			</template>
+			<template slot="row-details" slot-scope="row">
+				<pre>{{JSON.stringify(row.item,null,3)}}</pre>
 			</template>
 		</b-table>
 	</div>
@@ -57,9 +65,19 @@ export default {
 				key: '3',
 				thClass: 'nowrap',
 				tdClass: 'nowrap'
+			},
+			{
+				label: '',
+				key: 'details'
 			}
 		]
-	})
+	}),
+	methods: {
+		showDetails(item) {
+			console.log(item.index);
+		}
+	}
+
 }
 </script>
 
@@ -75,6 +93,9 @@ export default {
 	}
 	.nowrap {
 		white-space: nowrap;
+	}
+	.h-100 {
+		height: 100% !important;
 	}
 
 </style>
