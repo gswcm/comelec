@@ -33,13 +33,13 @@
 			<template slot="row-details" slot-scope="row">
 				<b-row>
 					<b-col cols sm="auto" class="ml-3">
-						<div v-for="(d,i) of row.item.departments" :key="`d_${i}`">
+						<div v-for="(d,i) of row.item.departments" :key="`d_${i}`" :class="{'mt-3': i>0}">
 							<h5>{{d.dept}}</h5>
-							<ol>
-								<li v-for="(p,j) of d.people" :key="`p_${j}`">
+							<ul class="list-unstyled">
+								<li v-for="(p,j) of d.people" :key="`p_${j}`" class="ml-3">
 									{{`${p.firstName} ${p.lastName}`}}
 								</li>
-							</ol>
+							</ul>
 						</div>
 					</b-col>
 				</b-row>
