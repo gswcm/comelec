@@ -4,26 +4,32 @@
 			The following table summarizes preferences of individual faculty members and provides possible draft of committee assignments
 		</p>
 		<b-table responsive striped bordered :items="items" :fields="fields">
-			<template slot="1" slot-scope="item">
-				<ul class="list-unstyled">
-					<li v-for="(v,i) of item.value" :key="`1_${i}`">
-						{{v}}
-					</li>
-				</ul>
+			<template slot="title" slot-scope="row">
+				{{row.item.committee.title}}
 			</template>
-			<template slot="2" slot-scope="item">
-				<ul class="list-unstyled">
-					<li v-for="(v,i) of item.value" :key="`2_${i}`">
-						{{v}}
-					</li>
-				</ul>
+			<template slot="1" slot-scope="row">
+				<b-form-checkbox-group
+					:id="`id_${row.item.committee.title}_1`"
+					stacked
+					v-model="selections[row.item.committee.id].people"
+					:options="row.item[1].map(e => ({text: e.name, value: e}))">
+				</b-form-checkbox-group>
 			</template>
-			<template slot="3" slot-scope="item">
-				<ul class="list-unstyled">
-					<li v-for="(v,i) of item.value" :key="`3_${i}`">
-						{{v}}
-					</li>
-				</ul>
+			<template slot="2" slot-scope="row">
+				<b-form-checkbox-group
+					:id="`id_${row.item.committee.title}_2`"
+					stacked
+					v-model="selections[row.item.committee.id].people"
+					:options="row.item[2].map(e => ({text: e.name, value: e}))">
+				</b-form-checkbox-group>
+			</template>
+			<template slot="3" slot-scope="row">
+				<b-form-checkbox-group
+					:id="`id_${row.item.committee.title}_3`"
+					stacked
+					v-model="selections[row.item.committee.id].people"
+					:options="row.item[3].map(e => ({text: e.name, value: e}))">
+				</b-form-checkbox-group>
 			</template>
 			<template slot="details" slot-scope="row">
 				<b-btn variant="link" @click="row.toggleDetails" v-if="!!row.item.departments.length">
@@ -51,38 +57,51 @@
 <script>
 export default {
 	props: ['items'],
-	data: () => ({
-		fields: [
-			{
-				label: 'Committee',
-				key: 'title',
-				variant: 'dark',
-				tdClass: 'nowrap'
-			},
-			{
-				label: '1<span class="superscript">st</span> preference',
-				key: '1',
-				thClass: 'nowrap',
-				tdClass: 'nowrap'
-			},
-			{
-				label: '2<span class="superscript">nd</span> preference',
-				key: '2',
-				thClass: 'nowrap',
-				tdClass: 'nowrap'
-			},
-			{
-				label: '3<span class="superscript">rd</span> preference',
-				key: '3',
-				thClass: 'nowrap',
-				tdClass: 'nowrap'
-			},
-			{
-				label: 'Details',
-				key: 'details'
+	data: function() {
+		let selections = {};
+		for(let i of [...this.items]) {
+			selections[i.committee.id] = {
+				committee: {
+					title: i.committee.title,
+					id: i.committee.id
+				},
+				people: []
 			}
-		]
-	}),
+		};
+		return {
+			selections,
+			fields: [
+				{
+					label: 'Committee',
+					key: 'title',
+					variant: 'dark',
+					tdClass: 'nowrap'
+				},
+				{
+					label: '1<span class="superscript">st</span> preference',
+					key: '1',
+					thClass: 'nowrap',
+					tdClass: 'nowrap'
+				},
+				{
+					label: '2<span class="superscript">nd</span> preference',
+					key: '2',
+					thClass: 'nowrap',
+					tdClass: 'nowrap'
+				},
+				{
+					label: '3<span class="superscript">rd</span> preference',
+					key: '3',
+					thClass: 'nowrap',
+					tdClass: 'nowrap'
+				},
+				{
+					label: 'Details',
+					key: 'details'
+				}
+			]
+		}
+	},
 	methods: {
 		showDetails(item) {
 			console.log(item.index);

@@ -6,7 +6,7 @@
 				<b-tab title="Preferences" active class="p-3">
 					<preferences :items="prefItems"/>
 				</b-tab>
-				<b-tab title="Maintenance" title-item-class="ml-auto" class="p-3">
+				<b-tab title="Maintenance" title-item-class="ml-auto" class="p-3" disabled>
 					Tab Contents 2
 				</b-tab>
 			</b-tabs>
@@ -23,21 +23,24 @@ export default {
 		try {
 			const preferences = (await axios.get('/api/service/preferences')).data;
 			let prefItems = (await axios.get('/api/service/list')).data.map(e => ({
-				title: e.title,
+				committee: {
+					title: e.title,
+					id: e._id
+				},
 				1: [],
 				2: [],
 				3: [],
 				people: []
 			}));
 			for(let p of preferences) {
-				let committee = prefItems.find(e => e.title === p.committee.title);
-				committee[p.committee.preference] = [...p.people.map(e => e.name)];
-				committee.people.push(...p.people.map(e => e.id));
+				let committee = prefItems.find(e => e.committee.title === p.committee.title);
+				committee[p.committee.preference] = [...p.people];
+				committee.people.push(...p.people);
 			}
 			for(let e of prefItems) {
 				e.departments = (e.people && e.people.length) ? (await axios.get('/api/directory/group', {
 					params: {
-						query: e.people
+						query: e.people.map(e => e.id)
 					}
 				})).data : []
 			}
