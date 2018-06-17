@@ -6,32 +6,43 @@
 		<b-table responsive striped bordered :items="items" :fields="fields">
 			<template slot="1" slot-scope="item">
 				<ul class="list-unstyled">
-					<li v-for="(v,i) of item.value" :key="i">
+					<li v-for="(v,i) of item.value" :key="`1_${i}`">
 						{{v}}
 					</li>
 				</ul>
 			</template>
 			<template slot="2" slot-scope="item">
 				<ul class="list-unstyled">
-					<li v-for="(v,i) of item.value" :key="i">
+					<li v-for="(v,i) of item.value" :key="`2_${i}`">
 						{{v}}
 					</li>
 				</ul>
 			</template>
 			<template slot="3" slot-scope="item">
 				<ul class="list-unstyled">
-					<li v-for="(v,i) of item.value" :key="i">
+					<li v-for="(v,i) of item.value" :key="`3_${i}`">
 						{{v}}
 					</li>
 				</ul>
 			</template>
 			<template slot="details" slot-scope="row">
-				<b-btn variant="link" @click="row.toggleDetails">
+				<b-btn variant="link" @click="row.toggleDetails" v-if="!!row.item.departments.length">
 					<font-awesome-icon :icon="['far', 'plus-square']"/>
 				</b-btn>
 			</template>
 			<template slot="row-details" slot-scope="row">
-				<pre>{{JSON.stringify(row.item,null,3)}}</pre>
+				<b-row>
+					<b-col cols sm="auto" class="ml-3">
+						<div v-for="(d,i) of row.item.departments" :key="`d_${i}`">
+							<h5>{{d.dept}}</h5>
+							<ol>
+								<li v-for="(p,j) of d.people" :key="`p_${j}`">
+									{{`${p.firstName} ${p.lastName}`}}
+								</li>
+							</ol>
+						</div>
+					</b-col>
+				</b-row>
 			</template>
 		</b-table>
 	</div>
@@ -67,7 +78,7 @@ export default {
 				tdClass: 'nowrap'
 			},
 			{
-				label: '',
+				label: 'Details',
 				key: 'details'
 			}
 		]

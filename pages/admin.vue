@@ -3,7 +3,7 @@
 		<h3 class="text-center my-5">Restricted area only for members of the GSW Faculty Senate</h3>
 		<b-card no-body>
 			<b-tabs pills card>
-				<b-tab title="Summary" active class="p-3">
+				<b-tab title="Preferences" active class="p-3">
 					<preferences :items="prefItems"/>
 				</b-tab>
 				<b-tab title="Maintenance" title-item-class="ml-auto" class="p-3">
@@ -26,10 +26,20 @@ export default {
 				title: e.title,
 				1: [],
 				2: [],
-				3: []
+				3: [],
+				people: []
 			}));
 			for(let p of preferences) {
-				prefItems.find(e => e.title === p.committee.title)[p.committee.preference] = [...p.people.map(e => e.name)];
+				let committee = prefItems.find(e => e.title === p.committee.title);
+				committee[p.committee.preference] = [...p.people.map(e => e.name)];
+				committee.people.push(...p.people.map(e => e.id));
+			}
+			for(let e of prefItems) {
+				e.departments = (e.people && e.people.length) ? (await axios.get('/api/directory/group', {
+					params: {
+						query: e.people
+					}
+				})).data : []
 			}
 			return { prefItems };
 		}

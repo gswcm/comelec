@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const ObjectId = require('mongodb').ObjectId;
 const restler = require('restler');
 const _ = require('lodash');
 const People = require('../models/people');
@@ -12,11 +13,16 @@ function range(from = 'a', to = 'z') {
 router.get('/group', async (req,res) => {
 	try {
 		let { query } = req.query;
-		query = query ? {
-			$text: {
-				$search: query
+		if(query && Array.isArray(query)) {
+			query = {
+				_id: {
+					$in: query.map(e => ObjectId(e))
+				}
 			}
-		} : {};
+		}
+		else {
+			query = {}
+		}
 		const records = await People.aggregate([
 			{
 				$match: query
