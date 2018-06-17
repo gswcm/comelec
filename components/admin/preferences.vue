@@ -1,9 +1,17 @@
 <template>
 	<div class="px-1">
 		<p>
-			The following table summarizes preferences of individual faculty members and provides possible draft of committee assignments
+			This interface implements 2 features
 		</p>
-		<b-table responsive striped bordered :items="items" :fields="fields">
+		<ol>
+			<li>
+				Use faculty preferences as a starting point and <strong>manually exclude</strong> some committee members by un-checking the marks
+			</li>
+			<li>
+				Identify membership of individual servants as members of particular <strong>departments</strong> by using <font-awesome-icon :icon="['far', 'plus-square']" transform="down-2"/>
+			</li>
+		</ol>
+		<b-table responsive striped bordered :items="items" :fields="fields" class="mt-5">
 			<template slot="title" slot-scope="row">
 				{{row.item.committee.title}}
 			</template>
