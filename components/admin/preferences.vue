@@ -11,7 +11,8 @@
 				<b-form-checkbox-group
 					:id="`id_${row.item.committee.title}_1`"
 					stacked
-					v-model="selections[row.item.committee.id].people"
+					v-model="selections.find(e => e.committee.id === row.item.committee.id).people"
+					@change="update"
 					:options="row.item[1].map(e => ({text: e.name, value: e}))">
 				</b-form-checkbox-group>
 			</template>
@@ -19,7 +20,8 @@
 				<b-form-checkbox-group
 					:id="`id_${row.item.committee.title}_2`"
 					stacked
-					v-model="selections[row.item.committee.id].people"
+					v-model="selections.find(e => e.committee.id === row.item.committee.id).people"
+					@change="update"
 					:options="row.item[2].map(e => ({text: e.name, value: e}))">
 				</b-form-checkbox-group>
 			</template>
@@ -27,7 +29,8 @@
 				<b-form-checkbox-group
 					:id="`id_${row.item.committee.title}_3`"
 					stacked
-					v-model="selections[row.item.committee.id].people"
+					v-model="selections.find(e => e.committee.id === row.item.committee.id).people"
+					@change="update"
 					:options="row.item[3].map(e => ({text: e.name, value: e}))">
 				</b-form-checkbox-group>
 			</template>
@@ -57,17 +60,22 @@
 <script>
 export default {
 	props: ['items'],
+	methods: {
+		update() {
+			this.$nextTick(function () {
+				this.$store.commit('SET_ASSIGNMENTS', this.selections)
+			})
+		}
+	},
 	data: function() {
-		let selections = {};
-		for(let i of [...this.items]) {
-			selections[i.committee.id] = {
-				committee: {
-					title: i.committee.title,
-					id: i.committee.id
-				},
-				people: []
-			}
-		};
+		let selections = [...this.items].map(e => ({
+			committee: {
+				title: e.committee.title,
+				id: e.committee.id
+			},
+			people: [...e.people]
+		}));
+		this.$store.commit('SET_ASSIGNMENTS', selections)
 		return {
 			selections,
 			fields: [
@@ -101,20 +109,11 @@ export default {
 				}
 			]
 		}
-	},
-	methods: {
-		showDetails(item) {
-			console.log(item.index);
-		}
 	}
-
 }
 </script>
 
 <style>
-	.thead-dark {
-		/* background-color: #333 */
-	}
 	.superscript {
 		vertical-align: super;
 	}

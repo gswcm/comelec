@@ -1,4 +1,5 @@
 import axios from '~/plugins/axios';
+import _ from 'lodash';
 
 export const strict = false;
 
@@ -8,7 +9,8 @@ export const state = () => ({
 	reCAPTCHA_KEY: null,
 	uuid: null,
 	service: null,
-	authenticated: false
+	authenticated: false,
+	assignments: []
 });
 
 export const mutations = {
@@ -30,6 +32,9 @@ export const mutations = {
 	SET_AUTHENTICATED(state, value) {
 		state.authenticated = value
 	},
+	SET_ASSIGNMENTS(state, selections) {
+		state.assignments = [...selections];
+	}
 };
 
 export const actions = {
