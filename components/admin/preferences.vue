@@ -1,6 +1,7 @@
 <template>
 	<div class="px-1">
-		<ol class="mt-3 mb-5">
+		<h4 class="my-3">This interface implements 2 features</h4>
+		<ol>
 			<li>
 				Use faculty preferences as a starting point and <strong>manually exclude</strong> some committee members by un-checking the marks
 			</li>

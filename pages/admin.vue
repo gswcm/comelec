@@ -6,6 +6,9 @@
 				<b-tab title="Committee assignments" active class="p-3" title-item-class="rounded">
 					<preferences :items="prefItems"/>
 				</b-tab>
+				<b-tab title="Modifications" class="p-3" title-item-class="rounded">
+					<modifications/>
+				</b-tab>
 				<b-tab title="Maintenance" title-item-class="ml-auto rounded" class="p-3" disabled>
 					Tab Contents 2
 				</b-tab>
@@ -16,6 +19,7 @@
 
 <script>
 import preferences from '~/components/admin/preferences';
+import modifications from '~/components/admin/modifications';
 import axios from '~/plugins/axios';
 export default {
 	// middleware: "auth",
@@ -54,7 +58,7 @@ export default {
 		}
 	},
 	components: {
-		preferences
+		preferences, modifications
 	}
 };
 </script>
