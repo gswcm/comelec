@@ -32,8 +32,8 @@ export const mutations = {
 	SET_AUTHENTICATED(state, value) {
 		state.authenticated = value
 	},
-	SET_ASSIGNMENTS(state, selections) {
-		state.assignments = [...selections];
+	SET_ASSIGNMENTS(state, value) {
+		state.assignments = value;
 	}
 };
 
