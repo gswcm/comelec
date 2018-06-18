@@ -20,6 +20,7 @@ module.exports = {
 	css: [
 		'bootswatch/dist/yeti/bootstrap.min.css',
 		'vuejs-noty/dist/vuejs-noty.css',
+		'v-autocomplete/dist/v-autocomplete.css',
 		'animate.css/animate.min.css',
 		'@/assets/css/main.css'
 	],
@@ -34,7 +35,8 @@ module.exports = {
 	],
 	plugins: [
 		{ src: '~/plugins/font-awesome' },
-		{ src: '~/plugins/notifications.js', ssr: false }
+		{ src: '~/plugins/notifications', ssr: false },
+		{ src: '~/plugins/autocomplete', ssr: false }
 	],
 	//--
 	build: {

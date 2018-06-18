@@ -10,7 +10,30 @@ function range(from = 'a', to = 'z') {
 	return (to >= from) ? [...Array(to - from + 1)].map((_, i) => String.fromCharCode(from + i)) : [];
 }
 
+router.get('/all', async (req,res) => {
+	/**
+	 * Reports all employees in un-categorized list
+	 */
+	try {
+		res.json(await People.find({},{
+			firstName: 1,
+			lastName: 1,
+			email: 1,
+			dept: 1,
+			_id: 0
+		}));
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+
 router.get('/group', async (req,res) => {
+	/**
+	 * Groups all employees listed in People collection with respect to their corresponding department
+	 */
 	try {
 		let { query } = req.query;
 		if(query && Array.isArray(query)) {

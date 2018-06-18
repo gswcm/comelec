@@ -129,9 +129,6 @@ export default {
 	.nowrap {
 		white-space: nowrap;
 	}
-	.h-100 {
-		height: 100% !important;
-	}
 
 </style>
 

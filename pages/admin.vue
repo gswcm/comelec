@@ -23,7 +23,7 @@ import modifications from '~/components/admin/modifications';
 import axios from '~/plugins/axios';
 export default {
 	// middleware: "auth",
-	async asyncData({ error }) {
+	async asyncData({ store, error }) {
 		try {
 			const preferences = (await axios.get('/api/service/preferences')).data;
 			let prefItems = (await axios.get('/api/service/list')).data.map(e => ({
@@ -48,6 +48,9 @@ export default {
 					}
 				})).data : []
 			}
+			//-- Pull the list of all em ployees from the database
+			//await store.dispatch('GET_PEOPLE');
+
 			return { prefItems };
 		}
 		catch(err) {

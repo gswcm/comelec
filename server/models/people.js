@@ -27,7 +27,7 @@ const peopleSchema = mongoose.Schema({
 	},
 	{
 		weights: {
-			lastName: 5,
+			lastName: 10,
 			firstName: 1
 		},
 		name: 'people_name_index'

@@ -158,5 +158,5 @@ export const actions = {
 			}
 			throw new Error(error.message);
 		}
-	},
+	}
 }

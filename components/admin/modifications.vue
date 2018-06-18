@@ -41,19 +41,70 @@
 							</b-alert>
 						</div>
 						<div>
-							<b-btn variant="outline-info" class="d-block px-3 ml-auto">
+							<b-btn variant="info" v-b-modal.addMore class="d-block px-3 ml-auto" @click="renderModal(a.committee)">
 								Add more...
 							</b-btn>
 						</div>
 					</div>
 				</b-tab>
 			</b-tabs>
+			<b-modal centered size="lg" no-fade header-bg-variant="dark" header-text-variant="light" ok-title="Add" ok-variant="outline-dark" id="addMore">
+				<div slot="modal-title">
+					<h5 class="modal-title" v-html="modalTitle"></h5>
+				</div>
+				<section class="mt-3 mb-4">
+					<h4>Instructions</h4>
+					<ol>
+						<li>
+							Start typing the <strong>official name</strong> (a.k.a. HR record) of GSW employee and select from the list of options.
+						</li>
+						<li>
+							Check <strong>ex-officio</strong> mark (if needed), and click on <font-awesome-icon :icon="['fas', 'plus']" transform="down-2"/> to add to the list of proposed additions.
+						</li>
+						<li>
+							Submit modifications by clicking "Add" button or simply close the form to discard changes.
+						</li>
+					</ol>
+				</section>
+				<b-row align-v="center">
+					<b-col cols="">
+						<no-ssr>
+							<v-autocomplete
+							:items="people"
+							v-model="person"
+							:get-label="item => item ? `${item.firstName} ${item.lastName}` : ''"
+							:component-item="template"
+							@update-items="acUpdateItems"
+							:input-attrs="{
+								class: 'form-control'
+							}"
+							>
+							</v-autocomplete>
+						</no-ssr>
+					</b-col>
+					<b-col cols="auto">
+						<b-form-checkbox id="ex-officio-flag" v-model="x">
+							Ex-officio
+						</b-form-checkbox>
+					</b-col>
+					<b-col cols="auto">
+						<b-btn variant="outline-info">
+							<font-awesome-icon :icon="['fas', 'plus']"/>
+						</b-btn>
+					</b-col>
+				</b-row>
+				<section class="result mt-3">
+					<pre>{{JSON.stringify(modalData,null,3)}}</pre>
+				</section>
+			</b-modal>
 		</b-card>
 	</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import axios from '~/plugins/axios';
+import itemTemplate from './itemTemplate';
 export default {
 	data: function() {
 		return {
@@ -74,12 +125,18 @@ export default {
 					label: 'Ex-officio'
 				}
 			],
-			added: []
+			added: [],
+			modalTitle: '',
+			modalData: null,
+			person: null,
+			people: [],
+			x: false,
+			template: itemTemplate
 		};
 	},
 	computed: {
 		...mapState({
-			assignments: "assignments"
+			assignments: "assignments",
 		}),
 		all() {
 			return this.assignments.map(e => {
@@ -93,6 +150,33 @@ export default {
 					people
 				}
 			});
+		}
+	},
+	methods: {
+		async acUpdateItems (text) {
+			try {
+				const { data } = await axios.get(`/api/directory/find?query=${text || '.'}`);
+				this.people = data;
+			}
+			catch(error) {
+				if(error.response && error.response.data) {
+					console.error(error.response.data.message);
+				}
+				else {
+					console.error(error.message);
+				}
+			}
+		},
+		renderModal(committee) {
+			this.modalTitle = `Add more members to the <strong>${committee.title}</strong> committee`;
+			let added = this.added.find(e => e.committee.id === committee.id);
+			if(!added || !added.people) {
+				this.added.push({
+					committee,
+					people: []
+				})
+			}
+			this.modalData = this.added.find(e => e.committee.id === committee.id);
 		}
 	}
 };

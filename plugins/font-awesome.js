@@ -15,7 +15,8 @@ import {
 	faSignInAlt,
 	faSignOutAlt,
 	faUserCog,
-	faCheck
+	faCheck,
+	faPlus
 } from '@fortawesome/fontawesome-free-solid';
 
 fontawesome.library.add(
@@ -29,7 +30,8 @@ fontawesome.library.add(
 	faSignOutAlt,
 	faUserCog,
 	faPlusSquare,
-	faCheck
+	faCheck,
+	faPlus
 );
 
 Vue.component(FontAwesomeIcon.name, FontAwesomeIcon);
