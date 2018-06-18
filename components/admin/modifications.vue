@@ -62,7 +62,7 @@
 							Check <strong>ex-officio</strong> mark (if needed), and click on <font-awesome-icon :icon="['fas', 'plus']" transform="down-2"/> to add to the list of proposed additions.
 						</li>
 						<li>
-							Submit modifications by clicking "Add" button or simply close the form to discard changes.
+							Submit modifications by clicking "<strong>Add</strong>" button or simply close the form to discard changes.
 						</li>
 					</ol>
 				</section>
@@ -76,7 +76,8 @@
 							:component-item="template"
 							@update-items="acUpdateItems"
 							:input-attrs="{
-								class: 'form-control'
+								class: 'form-control',
+								placeholder: 'Start entering the name...'
 							}"
 							>
 							</v-autocomplete>
@@ -186,7 +187,21 @@ export default {
 	.rounded a {
 		border-radius: 10px !important;
 	}
-	.btn-add-more {
-
+	.v-autocomplete-input-group .v-autocomplete-input {
+		box-shadow: none !important;
+		border: 1px solid #157977 !important;
+		width: calc(100% - 32px) !important;
+		outline: none !important;
+	}
+	.v-autocomplete-list {
+		overflow-y: auto;
+		width: 100% !important;
+	}
+	.v-autocomplete-list .v-autocomplete-list-item {
+		cursor: pointer;
+		background-color: #eee !important;
+	}
+	.v-autocomplete-list .v-autocomplete-list-item:hover {
+		background-color: #aaa !important;
 	}
 </style>

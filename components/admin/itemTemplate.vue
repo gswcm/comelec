@@ -1,5 +1,5 @@
 <template>
-	<div class="p-3 bg-light border">
+	<div class="p-3 border">
 		<strong>{{`${item.firstName} ${item.lastName}`}}</strong>
 		<span>{{ ` @ ${item.dept}` }}</span>
 	</div>
@@ -13,3 +13,8 @@ export default {
 	}
 };
 </script>
+
+<style>
+
+</style>
+
