@@ -106,7 +106,6 @@ router.get('/find', async (req,res) => {
 				lastName: 1,
 				email: 1,
 				dept: 1,
-				_id: 0
 			}
 		)))).reduce((a,e) => a.concat(e), []);
 		res.json(records);

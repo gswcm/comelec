@@ -4,7 +4,8 @@ import fontawesome from '@fortawesome/fontawesome';
 import {
 	faQuestionCircle,
 	faEyeSlash,
-	faPlusSquare
+	faPlusSquare,
+	faTrashAlt
 } from '@fortawesome/fontawesome-free-regular';
 
 import {
@@ -31,7 +32,8 @@ fontawesome.library.add(
 	faUserCog,
 	faPlusSquare,
 	faCheck,
-	faPlus
+	faPlus,
+	faTrashAlt
 );
 
 Vue.component(FontAwesomeIcon.name, FontAwesomeIcon);
