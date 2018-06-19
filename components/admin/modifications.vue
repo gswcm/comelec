@@ -193,40 +193,88 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss">
+	ol {
+		li {
+			margin-bottom: 0.5rem;
+		}
+	}
+	.modal-footer {
+		button {
+			border-radius: 5px !important;
+		}
+	}
+	.rounded {
+		border-radius: 5px !important;
+		a {
+			border-radius: 5px !important;
+		}
+	}
+	.form-control {
+		box-shadow: none !important;
+		border: 1px solid #157977 !important;
+		border-radius: 5px !important;
+		padding: 10px 15px !important;
+	}
+	.v-autocomplete {
+		.v-autocomplete-list {
+			width: 100%;
+			text-align: left;
+			border: none;
+			border-top: none;
+			max-height: 400px;
+			overflow-y: auto;
+			border-bottom: 1px solid #157977;
+			.v-autocomplete-list-item {
+				cursor: pointer;
+				background-color: #fff;
+				padding: 10px;
+				border-bottom: 1px solid #157977;
+				border-left: 1px solid #157977;
+				border-right: 1px solid #157977;
+				&:last-child {
+					border-bottom: none;
+				}
+				&:hover {
+					background-color: #eee;
+				}
+			}
+		}
+	}
 </style>
+
+
 <style lang="stylus">
-	ol
-		li
-			margin-bottom: 0.5rem
-	.modal-footer button,
-	.rounded,
-	.rounded a
-		border-radius 5px !important
-	.form-control
-		box-shadow none !important
-		border 1px solid #157977 !important
-		border-radius 5px !important
-		padding 10px 15px !important
-	.v-autocomplete
-		.v-autocomplete-list
-			width 100%
-			text-align left
-			border none
-			border-top none
-			max-height 400px
-			overflow-y auto
-			border-bottom 1px solid #157977
-			.v-autocomplete-list-item
-				cursor pointer
-				background-color #fff
-				padding 10px
-				border-bottom 1px solid #157977
-				border-left 1px solid #157977
-				border-right 1px solid #157977
-				&:last-child
-					border-bottom none
-				&:hover
-					background-color #eee
+	// ol
+	// 	li
+	// 		margin-bottom: 0.5rem
+	// .modal-footer button,
+	// .rounded,
+	// .rounded a
+	// 	border-radius 5px !important
+	// .form-control
+	// 	box-shadow none !important
+	// 	border 1px solid #157977 !important
+	// 	border-radius 5px !important
+	// 	padding 10px 15px !important
+	// .v-autocomplete
+	// 	.v-autocomplete-list
+	// 		width 100%
+	// 		text-align left
+	// 		border none
+	// 		border-top none
+	// 		max-height 400px
+	// 		overflow-y auto
+	// 		border-bottom 1px solid #157977
+	// 		.v-autocomplete-list-item
+	// 			cursor pointer
+	// 			background-color #fff
+	// 			padding 10px
+	// 			border-bottom 1px solid #157977
+	// 			border-left 1px solid #157977
+	// 			border-right 1px solid #157977
+	// 			&:last-child
+	// 				border-bottom none
+	// 			&:hover
+	// 				background-color #eee
 </style>
