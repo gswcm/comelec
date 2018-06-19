@@ -54,9 +54,11 @@
 				</div>
 				<section class="mt-3 mb-4">
 					<h4>Instructions</h4>
-					<ol>
+					<ol class="mt-3">
 						<li>
 							Start typing the <strong>official name</strong> (a.k.a. HR record) of GSW employee and select from the list of options.
+							<br>
+							<strong>Hint</strong>: If you are not sure about spelling, type all variants separated by a space, e.g. <i>brian bryan</i>
 						</li>
 						<li>
 							Check <strong>ex-officio</strong> mark (if needed), and click on <font-awesome-icon :icon="['fas', 'plus']" transform="down-2"/> to add to the list of proposed additions.
@@ -194,10 +196,13 @@ export default {
 
 </style>
 <style lang="stylus">
+	ol
+		li
+			margin-bottom: 0.5rem
 	.modal-footer button,
 	.rounded,
 	.rounded a
-		border-radius 5px !important;
+		border-radius 5px !important
 	.form-control
 		box-shadow none !important
 		border 1px solid #157977 !important
