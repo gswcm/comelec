@@ -56,9 +56,10 @@
 					<h4>Instructions</h4>
 					<ol class="mt-3">
 						<li>
-							Start typing the <strong>official name</strong> (a.k.a. HR record) of GSW employee and select from the list of options.
-							<br>
-							<strong>Hint</strong>: If you are not sure about spelling, type all variants separated by a space, e.g. <i>brian bryan</i>
+							Start typing the <strong>official name</strong> (a.k.a. HR record) of GSW employee <strong>OR</strong> name of the <strong>School / Department</strong> select from the list of options.
+							<b-alert show variant="light" class="mt-2 p-3">
+								<strong>Hint</strong>: If you are not sure about spelling, type all variants separated by a space, e.g. <i>brian bryan</i>
+							</b-alert>
 						</li>
 						<li>
 							Check <strong>ex-officio</strong> mark (if needed), and click on <font-awesome-icon :icon="['fas', 'plus']" transform="down-2"/> to add to the list of proposed additions.

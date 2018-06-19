@@ -10,6 +10,10 @@ const peopleSchema = mongoose.Schema({
 	isAdmin: {
 		type: Boolean,
 		default: false
+	},
+	isSuperAdmin: {
+		type: Boolean,
+		default: false
 	}
 })
 .index(
@@ -23,14 +27,16 @@ const peopleSchema = mongoose.Schema({
 .index(
 	{
 		firstName: 'text',
-		lastName: 'text'
+		lastName: 'text',
+		dept: 'text'
 	},
 	{
 		weights: {
 			lastName: 10,
+			dept: 5,
 			firstName: 1
 		},
-		name: 'people_name_index'
+		name: 'people_name_dept_index'
 	}
 );
 

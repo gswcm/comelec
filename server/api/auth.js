@@ -30,7 +30,17 @@ router.post('/login', async (req,res) => {
 	try {
 		const { username, password } = req.body;
 		await ad.authenticate(`${username}@${domain}`, password);
-		const person = await People.findOne({email:`${username}@gsw.edu`, isAdmin: true});
+		const person = await People.findOne({
+			email:`${username}@gsw.edu`,
+			$or: [
+				{
+					isAdmin: true
+				},
+				{
+					isSuperAdmin: true
+				}
+			]
+		});
 		if(!person) {
 			throw new Error('Not a member of the Faculty Senate');
 		}
