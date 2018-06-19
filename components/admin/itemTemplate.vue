@@ -1,5 +1,5 @@
 <template>
-	<div class="p-3 border">
+	<div class="">
 		<strong>{{`${item.firstName} ${item.lastName}`}}</strong>
 		<span>{{ ` @ ${item.dept}` }}</span>
 	</div>

@@ -41,7 +41,7 @@
 							</b-alert>
 						</div>
 						<div>
-							<b-btn variant="info" v-b-modal.addMore class="d-block px-3 ml-auto" @click="renderModal(a.committee)">
+							<b-btn variant="info" v-b-modal.addMore class="d-block px-3 ml-auto rounded" @click="renderModal(a.committee)">
 								Add more...
 							</b-btn>
 						</div>
@@ -70,17 +70,17 @@
 					<b-col cols="">
 						<no-ssr>
 							<v-autocomplete
-							:items="people"
-							v-model="person"
-							:get-label="item => item ? `${item.firstName} ${item.lastName}` : ''"
-							:component-item="template"
-							@update-items="acUpdateItems"
-							:input-attrs="{
-								class: 'form-control',
-								placeholder: 'Start entering the name...'
-							}"
-							>
-							</v-autocomplete>
+								:items="people"
+								:v-model="person"
+								:get-label="getLabel"
+								:component-item="template"
+								:auto-select-one-item="false"
+								@change="debouncer"
+								:min-len="3"
+								:input-attrs="{
+									class: 'form-control',
+									placeholder: 'Start entering the name...'
+								}"/>
 						</no-ssr>
 					</b-col>
 					<b-col cols="auto">
@@ -89,7 +89,7 @@
 						</b-form-checkbox>
 					</b-col>
 					<b-col cols="auto">
-						<b-btn variant="outline-info">
+						<b-btn variant="outline-info" class="rounded">
 							<font-awesome-icon :icon="['fas', 'plus']"/>
 						</b-btn>
 					</b-col>
@@ -103,7 +103,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
+import { debounce } from 'lodash';
 import axios from '~/plugins/axios';
 import itemTemplate from './itemTemplate';
 export default {
@@ -154,7 +155,13 @@ export default {
 		}
 	},
 	methods: {
-		async acUpdateItems (text) {
+		debouncer: debounce(function(e) {
+			this.UpdateItems(e);
+		}, 500),
+		getLabel(item) {
+			return item ? `${item.firstName} ${item.lastName}` : '';
+		},
+		async UpdateItems (text) {
 			try {
 				const { data } = await axios.get(`/api/directory/find?query=${text || '.'}`);
 				this.people = data;
@@ -184,24 +191,36 @@ export default {
 </script>
 
 <style>
-	.rounded a {
-		border-radius: 10px !important;
-	}
-	.v-autocomplete-input-group .v-autocomplete-input {
-		box-shadow: none !important;
-		border: 1px solid #157977 !important;
-		width: calc(100% - 32px) !important;
-		outline: none !important;
-	}
-	.v-autocomplete-list {
-		overflow-y: auto;
-		width: 100% !important;
-	}
-	.v-autocomplete-list .v-autocomplete-list-item {
-		cursor: pointer;
-		background-color: #eee !important;
-	}
-	.v-autocomplete-list .v-autocomplete-list-item:hover {
-		background-color: #aaa !important;
-	}
+
+</style>
+<style lang="stylus">
+	.modal-footer button,
+	.rounded,
+	.rounded a
+		border-radius 5px !important;
+	.form-control
+		box-shadow none !important
+		border 1px solid #157977 !important
+		border-radius 5px !important
+		padding 10px 15px !important
+	.v-autocomplete
+		.v-autocomplete-list
+			width 100%
+			text-align left
+			border none
+			border-top none
+			max-height 400px
+			overflow-y auto
+			border-bottom 1px solid #157977
+			.v-autocomplete-list-item
+				cursor pointer
+				background-color #fff
+				padding 10px
+				border-bottom 1px solid #157977
+				border-left 1px solid #157977
+				border-right 1px solid #157977
+				&:last-child
+					border-bottom none
+				&:hover
+					background-color #eee
 </style>
