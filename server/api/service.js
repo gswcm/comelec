@@ -175,6 +175,7 @@ router.post('/', async (req,res) => {
 					message: {
 						from: 'GSW ComElec <no-reply@comelec.gswcm.net>'
 					},
+					// send: true,
 					transport: smtpTransport,
 					juice: true,
 					juiceResources: {
