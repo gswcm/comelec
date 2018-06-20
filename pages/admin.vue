@@ -4,13 +4,13 @@
 		<div>
 			<b-card no-body>
 				<b-tabs pills card>
-					<b-tab title="Committee assignments" active class="p-3" title-item-class="rounded">
+					<b-tab title="Committee assignments" active class="p-3" title-item-class="">
 						<preferences :items="prefItems"/>
 					</b-tab>
-					<b-tab title="Modifications" class="p-3" title-item-class="rounded">
+					<b-tab title="Modifications" class="p-3" title-item-class="">
 						<modifications/>
 					</b-tab>
-					<b-tab title="Maintenance" title-item-class="ml-auto rounded" class="p-3" disabled>
+					<b-tab title="Maintenance" title-item-class="ml-auto" class="p-3" disabled>
 						Tab Contents 2
 					</b-tab>
 				</b-tabs>
@@ -69,9 +69,4 @@ export default {
 };
 </script>
 
-<style>
-	.rounded a {
-		border-radius: 10px !important;
-	}
-</style>
 

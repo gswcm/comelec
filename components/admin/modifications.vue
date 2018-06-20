@@ -18,14 +18,14 @@
 						v-for="(a,i) of all"
 						:title="a.committee.title"
 						:key="a.committee.id"
-						title-item-class="rounded"
+						title-item-class=""
 						:active="!i"
 						class="h-100">
 						<div class="h-100 d-flex flex-column">
 							<div class="h-100">
 								<div v-if="a.people.length">
 									<h4>Proposed members</h4>
-									<b-table responsive striped :items="a.people" :fields="fields">
+									<b-table responsive :items="a.people" :fields="fields">
 										<template slot="idx" slot-scope="row">
 											{{row.index + 1}}
 										</template>
@@ -42,7 +42,7 @@
 								</b-alert>
 							</div>
 							<div>
-								<b-btn variant="info" v-b-modal.addMore class="d-block px-3 ml-auto rounded" @click="renderModal(a.committee)">
+								<b-btn variant="info" v-b-modal.addMore class="d-block px-3 ml-auto" @click="renderModal(a.committee)">
 									Add more...
 								</b-btn>
 							</div>
@@ -60,7 +60,7 @@
 					no-close-on-esc
 					id="addMore">
 					<div slot="modal-title">
-						<h5 v-html="modalTitle"/>
+						<h5 v-html="modal.Title"/>
 					</div>
 					<div class="p-3 modal-sections">
 						<section id="instructions">
@@ -89,7 +89,6 @@
 									<no-ssr>
 										<v-autocomplete
 											:items="people"
-											:v-model="person"
 											:get-label="getLabel"
 											:component-item="template"
 											:auto-select-one-item="false"
@@ -101,7 +100,7 @@
 									</no-ssr>
 								</b-col>
 								<b-col cols="auto pl-0">
-									<b-btn variant="info" class="rounded" @click="addToList" :disabled="!person">
+									<b-btn variant="info" class="p-2" @click="addToList" :disabled="!person">
 										<font-awesome-icon :icon="['fas', 'plus']"/>
 										Add
 									</b-btn>
@@ -109,7 +108,7 @@
 							</b-row>
 						</section>
 						<section id="result">
-							<div v-if="modalData && modalData.people && modalData.people.length">
+							<div v-if="modal.Data && modal.Data.people && modal.Data.people.length">
 								<h4>
 									Records to be added
 								</h4>
@@ -117,8 +116,8 @@
 									bordered
 									responsive
 									head-variant=""
-									:items="modalData.people"
-									:fields="modalTableFields">
+									:items="modal.Data.people"
+									:fields="modal.Fields">
 									<template slot="idx" slot-scope="row">
 										{{row.index + 1}}
 									</template>
@@ -126,13 +125,13 @@
 										<b-form-checkbox :id="`ex-officio-flag-${row.index}`" v-model="row.item.x"/>
 									</template>
 									<template slot="action" slot-scope="row">
-										<b-btn variant="link" class="p-0">
+										<b-btn variant="link" class="p-0" @click="trash(row.index)">
 											<font-awesome-icon :icon="['far', 'trash-alt']"/>
 										</b-btn>
 									</template>
 								</b-table>
 							</div>
-							<h4>No records added yet...</h4>
+							<h4 v-else >No records added yet...</h4>
 						</section>
 					</div>
 				</b-modal>
@@ -149,23 +148,27 @@ import itemTemplate from './itemTemplate';
 export default {
 	data: function() {
 		return {
-			modalTableFields: [
-				{
-					key: 'idx',
-					label: '#'
-				},
-				{
-					key: 'name',
-				},
-				{
-					key: 'x',
-					label: 'Ex-officio'
-				},
-				{
-					key: 'action',
-					label: 'Action'
-				}
-			],
+			modal: {
+				Fields: [
+					{
+						key: 'idx',
+						label: '#'
+					},
+					{
+						key: 'name',
+					},
+					{
+						key: 'x',
+						label: 'Ex-officio'
+					},
+					{
+						key: 'action',
+						label: 'Action'
+					}
+				],
+				Title: '',
+				Data: null,
+			},
 			fields: [
 				{
 					key: 'idx',
@@ -184,8 +187,6 @@ export default {
 				}
 			],
 			added: [],
-			modalTitle: '',
-			modalData: null,
 			person: null,
 			people: [],
 			template: itemTemplate
@@ -197,7 +198,7 @@ export default {
 		}),
 		all() {
 			return this.assignments.map(e => {
-				let people = e.people.map(ee => ({...ee, x: false}));
+				let people = e.people.map(ee => ({...ee, x: false, _rowVariant: 'light'}));
 				let added = this.added.find(ee => ee.committee.id === e.committee.id);
 				if(added && added.people.length) {
 					people.push(...added.people);
@@ -211,16 +212,18 @@ export default {
 	},
 	methods: {
 		addToList() {
-			let person = this.modalData.people.find(e => e.id === this.person._id);
+			let person = this.modal.Data.people.find(e => e.id === this.person._id);
 			if(!person) {
-				this.modalData.people.push({
+				this.modal.Data.people.push({
 					name: `${this.person.firstName} ${this.person.lastName}`,
 					email: this.person.email,
 					id: this.person._id,
 					x: false
 				});
 			}
-			this.person = null;
+		},
+		trash(index) {
+			this.modal.Data.people.splice(index,1);
 		},
 		itemSelected(item) {
 			this.person = {...item};
@@ -249,7 +252,7 @@ export default {
 			}
 		},
 		renderModal(committee) {
-			this.modalTitle = `Add more members to the <strong>${committee.title}</strong> committee`;
+			this.modal.Title = `Add more members to the <strong>${committee.title}</strong> committee`;
 			let added = this.added.find(e => e.committee.id === committee.id);
 			if(!added || !added.people) {
 				this.added.push({
@@ -257,13 +260,13 @@ export default {
 					people: []
 				})
 			}
-			this.modalData = JSON.parse(JSON.stringify(this.added.find(e => e.committee.id === committee.id)));
+			this.modal.Data = JSON.parse(JSON.stringify(this.added.find(e => e.committee.id === committee.id)));
 		},
 		processModal() {
-			if(this.modalData && this.modalData.committee && this.modalData.people && this.modalData.people.length) {
-				this.added.find(e => e.committee.id === this.modalData.committee.id).people = [...this.modalData.people];
+			if(this.modal.Data && this.modal.Data.committee && this.modal.Data.people && Array.isArray(this.modal.Data.people)) {
+				this.added.find(e => e.committee.id === this.modal.Data.committee.id).people = [...this.modal.Data.people];
 			}
-			this.modalData = null;
+			this.modal.Data = null;
 		},
 	}
 };
@@ -283,27 +286,16 @@ export default {
 			margin-bottom: 0.5rem;
 		}
 	}
-	.modal-footer {
-		button {
-			border-radius: 5px !important;
-		}
-	}
-	.rounded {
-		border-radius: 5px !important;
-		a {
-			border-radius: 5px !important;
-		}
-	}
 	.v-autocomplete {
 		.v-autocomplete-input-group {
 			.v-autocomplete-input {
 				// font-size: 1.5em;
-				padding: 6px 15px;
+				padding: 8px 15px;
 				box-shadow: none;
 				border: 1px solid #157977;
-				border-radius: 5px;
 				width: 100%;
 				outline: none;
+				background-color: #fff;
 			}
 		}
 		.v-autocomplete-input-group.v-autocomplete-selected {
@@ -319,6 +311,7 @@ export default {
 			border-top: none;
 			overflow-y: auto;
 			border-bottom: 1px solid #157977;
+			z-index: 10;
 			.v-autocomplete-list-item {
 				cursor: pointer;
 				background-color: #fff;
