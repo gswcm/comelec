@@ -9,7 +9,8 @@ module.exports = {
 			name: "dev branch",
 			script: "build/main.js",
 			env: {
-				PORT: "4000"
+				PORT: "4000",
+				NODE_ENV: "production"
 			}
 		}
 	]
