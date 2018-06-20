@@ -4,7 +4,6 @@ const moment = require('moment');
 const ObjectId = require('mongodb').ObjectId;
 const People = require('../models/people');
 const YCF = require('../models/ycf');
-// const mongoose = require('mongoose');
 
 String.prototype.capitalize = function() {
 	const shortWords = ['of','the','and','or','to','a','for'];
@@ -133,7 +132,7 @@ router.get('/details', function(req, res, next) {
 		}
 	})
 	.then(person => {
-		req.session.authUser = person;
+		req.session.email = person.email;
 		res.json(person)
 	})
 	.catch(error => {

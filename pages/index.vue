@@ -14,37 +14,34 @@
 					</form>
 				</div>
 			</div>
-			<div v-if="user && dataReady" class="mt-5">
+			<div v-if="dataReady" class="mt-5">
 				<h3>Hello, {{salutation}}</h3>
 				<p class="text-justify">
 					If this is not you, please correct the email address and continue with submitting your committee preferences.
 				</p>
 				<!-- Summary of previous service  -->
 				<div id="history" class="p-3 border">
-					<div v-if="serviceSummary">
+					<div v-if="history">
 						<p>
 							Over the last 3 years you have served on the following committees:
 						</p>
 						<ul class="mt-2">
-							<li v-for="(service, index) in serviceSummary" :key="index">
-								{{ service }}
+							<li v-for="(item, index) in history" :key="index">
+								{{ item }}
 							</li>
 						</ul>
-						<p v-if="iecFlag">
-							Also, according to the history of your service in the "<strong>Institutional Effectiveness</strong>" committee, <strong>we suggest</strong> you to serve in this committee for at least one more year.
-						</p>
 					</div>
 					<p v-else>
 						We cannot find any history of your previous committee service.
 					</p>
 					<!-- Show ex-officio members -->
-					<hr v-if="serviceSummary">
+					<hr v-if="history">
 					<b-form-checkbox v-model="showExOfficio">
 						Treat <strong>ex-officio</strong> service in committees as normal service
 					</b-form-checkbox>
 				</div>
 				<!-- Form to provide new year preference -->
-				<service :storedService="service"/>
+				<service :storedService="storedService"/>
 			</div>
 			<div v-else-if="user" class="d-flex justify-content-center align-items-center py-5">
 				<h2>Loading...</h2>
@@ -56,28 +53,20 @@
 <script>
 import { debounce } from 'lodash';
 import { mapState } from 'vuex';
-import axios from 'axios';
 import moment from 'moment';
 import service from '~/components/service';
 export default {
-	/*
-	//-- Auto focus doesn't properly work in IE
-	mounted() {
-		this.$nextTick(() => {
-			if(this.$refs && this.$refs.email) {
-				this.$refs.email.focus();
-			}
-		});
-	},
-	*/
 	async fetch({ store, req }) {
 		await store.dispatch('GET_COMMITTEES');
+		if (req.session && req.session.email) {
+			await store.dispatch('GET_USER_INFO', {
+				email: req.session.email,
+				showExOfficio: false
+			});
+		}
 	},
 	data: () => ({
 		rawEmail: '',
-		serviceSummary: [],
-		iecFlag: false,
-		dataReady: false,
 		showExOfficio: false
 	}),
 	components: {
@@ -96,33 +85,28 @@ export default {
 		...mapState({
 			user: "user",
 			committees: "committees",
-			service: "service"
+			storedService: "storedService",
+			history: "history",
+			dataReady: "dataReady"
 		}),
 	},
 	watch: {
 		async showExOfficio() {
-			this.serviceSummary = await this.$store.dispatch('GET_HISTORY', {
-				user_id: this.user._id,
-				showExOfficio: this.showExOfficio
-			});
+			try {
+				await this.$store.dispatch('UPDATE_HISTORY', this.showExOfficio);
+			}
+			catch(error) {
+				console.error(error.message);
+			}
 		}
 	},
 	methods: {
 		async evalEmail() {
 			try {
-				await this.$store.dispatch('GET_USER', this.rawEmail);
-				await this.$store.dispatch('GET_SERVICE');
-				this.serviceSummary = await this.$store.dispatch('GET_HISTORY', {
-					user_id: this.user._id,
+				await this.$store.dispatch('GET_USER_INFO', {
+					email: this.rawEmail,
 					showExOfficio: this.showExOfficio
 				});
-				/*
-				const iecYears = await this.$store.dispatch('GET_IEC_FLAG', this.user._id);
-				const threeYearsBack = moment().subtract(3, 'years').format('YYYY');
-				if(iecYears.length > 0 && iecYears.length < 3 && iecYears.indexOf(threeYearsBack) === -1) {
-					this.iecFlag = true;
-				}
-				*/
 			}
 			catch(error) {
 				console.error(error.message);
@@ -132,13 +116,10 @@ export default {
 			this.rawEmail = (typeof e === "string" ? e : e.target.email.value || "").toLowerCase();
 			if(this.state === null) {
 				this.evalEmail();
-				this.dataReady = true;
 			}
 			else {
-				this.dataReady = false;
-				this.$store.commit('SET_USER', null);
-				this.$store.commit('SET_SERVICE', null);
 				this.$store.commit('SET_UUID', null);
+				this.$store.commit('SET_DATA_READY', false);
 			}
 		},
 		debouncer: debounce(function(e) {

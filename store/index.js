@@ -1,16 +1,16 @@
 import axios from '~/plugins/axios';
-import _ from 'lodash';
 
 export const strict = false;
 
 export const state = () => ({
 	user: null,
 	committees: null,
-	reCAPTCHA_KEY: null,
 	uuid: null,
-	service: null,
+	storedService: null,
+	history: null,
 	authenticated: false,
-	assignments: []
+	assignments: [],
+	dataReady: false
 });
 
 export const mutations = {
@@ -20,39 +20,27 @@ export const mutations = {
 	SET_COMMITTEES(state, value) {
 		state.committees = value;
 	},
-	SET_reCAPTCHA_KEY(state, value) {
-		state.reCAPTCHA_KEY = value;
-	},
 	SET_UUID(state, value) {
 		state.uuid = value
 	},
-	SET_SERVICE(state, value) {
-		state.service = value
+	SET_STORED_SERVICE(state, value) {
+		state.storedService = value
 	},
 	SET_AUTHENTICATED(state, value) {
 		state.authenticated = value
 	},
 	SET_ASSIGNMENTS(state, value) {
 		state.assignments = value;
+	},
+	SET_HISTORY(state, value) {
+		state.history = value;
+	},
+	SET_DATA_READY(state, value) {
+		state.dataReady = value;
 	}
 };
 
 export const actions = {
-	nuxtServerInit({ commit, dispatch }, { env, req }) {
-		if (req.session && req.session.authUser) {
-			commit('SET_USER', req.session.authUser);
-		}
-		if(req.session && req.session.service) {
-			commit('SET_SERVICE', req.session.service.committees.map(e => e ? e.id : null));
-		}
-		if(req.session && req.session.admin) {
-			commit('SET_AUTHENTICATED', req.session.admin);
-		}
-		else {
-			commit('SET_AUTHENTICATED', false);
-		}
-		commit('SET_reCAPTCHA_KEY', env.reCAPTCHA_KEY);
-	},
 	async LOGIN({ commit }, { username, password }) {
 		await axios.post('/api/auth/login', { username, password });
 		commit('SET_AUTHENTICATED', true);
@@ -66,32 +54,25 @@ export const actions = {
 			throw new Error(error.message)
 		}
 	},
-	async GET_USER({ commit }, email) {
+	async GET_USER_INFO({ state, commit, dispatch }, { email, showExOfficio }) {
 		try {
-			const { data } = await axios.get('/api/user/details', { params: { email } })
-			commit('SET_USER', data);
-		}
-		catch(error) {
-			if(error.response && error.response.data) {
-				throw new Error(error.response.data.message);
+			let response;
+			commit('SET_DATA_READY', false);
+			//-- user info
+			response = await axios.get('/api/user/details', { params: { email } })
+			commit('SET_USER', response.data);
+			if(state.user) {
+				//-- previously submitted service preference
+				response = await axios.get('/api/service', {
+					params: {
+						person_id: state.user._id
+					}
+				})
+				commit('SET_STORED_SERVICE', response.data ? response.data.committees.map(e => e ? e.id : null) : [ null, null, null ]);
+				//-- history of previous services
+				await dispatch('UPDATE_HISTORY', showExOfficio);
 			}
-			throw new Error(error.message);
-		}
-		try {
-			const { data } = await axios.get('/api/user/details', { params: { email } })
-			commit('SET_USER', data);
-		}
-		catch(error) {
-			if(error.response && error.response.data) {
-				throw new Error(error.response.data.message);
-			}
-			throw new Error(error.message);
-		}
-	},
-	async GET_HISTORY({ commit }, {user_id,showExOfficio}) {
-		try {
-			const { data } = await axios.get('/api/user/last', { params: { user_id, showExOfficio } })
-			return (data && data.c) ? data.c : null;
+			commit('SET_DATA_READY', true);
 		}
 		catch(error) {
 			if(error.response && error.response.data) {
@@ -100,10 +81,12 @@ export const actions = {
 			throw new Error(error.message);
 		}
 	},
-	async GET_IEC_FLAG({ commit }, id) {
+	async UPDATE_HISTORY({ state, commit }, showExOfficio) {
 		try {
-			const { data } = await axios.get('/api/user/iec', { params: { id } })
-			return data;
+			if(state.user) {
+				const { data } = await axios.get('/api/user/last', { params: { user_id: state.user._id, showExOfficio } })
+				commit('SET_HISTORY', (data && data.c) ? data.c : null);
+			}
 		}
 		catch(error) {
 			if(error.response && error.response.data) {
@@ -124,33 +107,15 @@ export const actions = {
 			throw new Error(error.message);
 		}
 	},
-	async SET_SERVICE({ commit, state }, { response, user, service }) {
+	async SET_STORED_SERVICE({ commit, state }, { reCaptchaResponse, user, storedService }) {
 		try {
 			const { data } = await axios.post('/api/service', {
-				response,
+				reCaptchaResponse,
 				user,
-				service,
+				storedService,
 				uuid: state.uuid
 			});
 			commit('SET_UUID', data.uuid);
-		}
-		catch(error) {
-			if(error.response && error.response.data) {
-				throw new Error(error.response.data.message);
-			}
-			throw new Error(error.message);
-		}
-	},
-	async GET_SERVICE({ commit, state }) {
-		try {
-			if(state.user) {
-				const { data } = await axios.get('/api/service', {
-					params: {
-						person_id: state.user._id
-					}
-				})
-				commit('SET_SERVICE', data ? data.committees.map(e => e ? e.id : null) : [ null, null, null ]);
-			}
 		}
 		catch(error) {
 			if(error.response && error.response.data) {

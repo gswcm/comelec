@@ -12,7 +12,7 @@
 </template>
 
 <script>
-	import axios from 'axios';
+	import axios from '~/plugins/axios';;
 	export default {
 		head() {
 			return {
@@ -23,7 +23,7 @@
 		},
 		async asyncData ({ query, error }) {
 			try {
-				const{ data } = await axios.get(`http://${process.env.baseUrl}/api/email`, { params: query })
+				const{ data } = await axios.get('/api/email', { params: query })
 				return {
 					ok: data.ok
 				};

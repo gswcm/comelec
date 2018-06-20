@@ -61,7 +61,6 @@
 </template>
 
 <script>
-	import axios from 'axios';
 	import { mapState } from "vuex";
 	import moment from 'moment';
 	import gRecaptcha from '@finpo/vue2-recaptcha-invisible';
@@ -96,9 +95,11 @@
 			},
 			...mapState({
 				user: "user",
-				committees: "committees",
-				reCAPTCHA_KEY: "reCAPTCHA_KEY"
+				committees: "committees"
 			}),
+			reCAPTCHA_KEY() {
+				return process.env.reCAPTCHA_KEY
+			}
 		},
 		methods: {
 			preferenceUpdate(index, value) {
@@ -110,7 +111,7 @@
 				this.modalTitle = option.title;
 				this.modalText = option.desc;
 			},
-			async submit(response) {
+			async submit(reCaptchaResponse) {
 				try {
 					let confirmed = false;
 					const timeOut = 5;
@@ -120,10 +121,10 @@
 						}
 					}, timeOut * 1000);
 
-					await this.$store.dispatch('SET_SERVICE', {
-						response,
+					await this.$store.dispatch('SET_STORED_SERVICE', {
+						reCaptchaResponse,
 						user: this.user,
-						service: this.service.map(service_id => {
+						storedService: this.service.map(service_id => {
 							const option = this.options.find(e => e._id === service_id)
 							return {
 								id: option._id,

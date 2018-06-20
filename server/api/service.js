@@ -125,7 +125,6 @@ router.get('/', async (req,res) => {
 		.sort({createdAt: -1})
 		.limit(1);
 		const latestConfirmedService = (service && service.length) ? service[0] : null;
-		req.session.service = latestConfirmedService;
 		res.json(latestConfirmedService);
 	}
 	catch (error) {
@@ -135,7 +134,7 @@ router.get('/', async (req,res) => {
 	}
 })
 router.post('/', async (req,res) => {
-	const { response, user, service, uuid } = req.body;
+	const { reCaptchaResponse, user, storedService, uuid } = req.body;
 	try {
 		// validate reCAPTCHA response
 		const { data } = await axios({
@@ -143,7 +142,7 @@ router.post('/', async (req,res) => {
 			url: 'https://www.google.com/recaptcha/api/siteverify',
 			params: {
 				secret: process.env.reCAPTCHA_SECRET,
-				response
+				response: reCaptchaResponse
 			}
 		})
 		if(data.success) {
@@ -156,7 +155,7 @@ router.post('/', async (req,res) => {
 					name: `${user.firstName} ${user.lastName}`,
 					email: user.email
 				},
-				committees: service.map(e => ({
+				committees: storedService.map(e => ({
 					id: e.id,
 					title: e.title
 				})),
