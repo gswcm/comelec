@@ -1,19 +1,22 @@
 <template>
 	<div>
 		<section id="header">
-			<h4 class="my-3">This interface implements 2 features</h4>
+			<h4 class="my-3">This interface implements 3 features</h4>
 			<ol>
 				<li>
 					<strong>Visualize</strong> modified lists of proposed committee members
 				</li>
 				<li>
-					Add additional members including <strong>ex-officio</strong> ones
+					Add additional members to particular committees including <strong>ex-officio(s)</strong>
+				</li>
+				<li>
+					<strong>Save</strong> modifications for later <strong>publishing</strong>
 				</li>
 			</ol>
 		</section>
 		<section id="main">
 			<b-card no-body class="mt-5">
-				<b-tabs pills card vertical>
+				<b-tabs pills card vertical nav-class="">
 					<b-tab
 						v-for="(a,i) of all"
 						:title="a.committee.title"
@@ -42,7 +45,7 @@
 								</b-alert>
 							</div>
 							<div>
-								<b-btn variant="info" v-b-modal.addMore class="d-block px-3 ml-auto" @click="renderModal(a.committee)">
+								<b-btn variant="primary" v-b-modal.addMore class="d-block px-3 ml-auto" @click="renderModal(a.committee)">
 									Add more...
 								</b-btn>
 							</div>
@@ -55,7 +58,7 @@
 					header-bg-variant="dark"
 					header-text-variant="light"
 					ok-title="Submit"
-					ok-variant="info"
+					ok-variant="primary"
 					@ok="processModal"
 					no-close-on-esc
 					id="addMore">
@@ -100,9 +103,9 @@
 									</no-ssr>
 								</b-col>
 								<b-col cols="auto pl-0">
-									<b-btn variant="info" class="p-2" @click="addToList" :disabled="!person">
+									<b-btn variant="primary" class="" @click="addToList" :disabled="!person">
 										<font-awesome-icon :icon="['fas', 'plus']"/>
-										Add
+										<span class="ml-3">Add</span>
 									</b-btn>
 								</b-col>
 							</b-row>
@@ -136,6 +139,14 @@
 					</div>
 				</b-modal>
 			</b-card>
+		</section>
+		<section id="footer">
+			<div class="mt-3">
+				<b-btn variant="primary" size="lg" class="d-block mx-auto my-5 px-3">
+					<font-awesome-icon :icon="['far', 'save']"/>
+					<span class="ml-3">Save</span>
+				</b-btn>
+			</div>
 		</section>
 	</div>
 </template>

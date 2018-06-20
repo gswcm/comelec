@@ -5,7 +5,8 @@ import {
 	faQuestionCircle,
 	faEyeSlash,
 	faPlusSquare,
-	faTrashAlt
+	faTrashAlt,
+	faSave
 } from '@fortawesome/fontawesome-free-regular';
 
 import {
@@ -33,7 +34,8 @@ fontawesome.library.add(
 	faPlusSquare,
 	faCheck,
 	faPlus,
-	faTrashAlt
+	faTrashAlt,
+	faSave
 );
 
 Vue.component(FontAwesomeIcon.name, FontAwesomeIcon);

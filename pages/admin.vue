@@ -4,7 +4,7 @@
 		<div>
 			<b-card no-body>
 				<b-tabs pills card>
-					<b-tab title="Committee assignments" active class="p-3" title-item-class="">
+					<b-tab title="Initial assignments" active class="p-3" title-item-class="">
 						<preferences :items="prefItems"/>
 					</b-tab>
 					<b-tab title="Modifications" class="p-3" title-item-class="">
