@@ -1,7 +1,7 @@
 <template>
 	<div class="p-3">
 		<h3 class="text-center my-5">Restricted area only for members of the GSW Faculty Senate</h3>
-		<div>
+		<div v-if="$store.state.dataReady">
 			<b-card no-body>
 				<b-tabs pills card>
 					<b-tab title="Initial assignments" active class="p-3" title-item-class="">
@@ -16,8 +16,14 @@
 				</b-tabs>
 			</b-card>
 		</div>
-		<div v-if="false" class="d-flex justify-content-center align-items-center py-5">
-			<h2>Loading...</h2>
+		<div v-else class="d-flex justify-content-center align-items-center py-5">
+			<spinner
+			:status="true"
+			color="#4fc08d"
+			:size="50"
+			:depth="3"
+			:rotation="true"
+			:speed="0.8"/>
 		</div>
 	</div>
 </template>
@@ -26,10 +32,14 @@
 import preferences from '~/components/admin/preferences';
 import modifications from '~/components/admin/modifications';
 import axios from '~/plugins/axios';
+import spinner from 'vue-spinner-component/src/Spinner.vue'
 
 export default {
-	// middleware: "auth",
+	middleware: [
+		// 'auth'
+	],
 	async asyncData({ store, error }) {
+		store.commit('SET_DATA_READY', false);
 		try {
 			const preferences = (await axios.get('/api/service/preferences')).data;
 			let prefItems = (await axios.get('/api/service/list')).data.map(e => ({
@@ -63,8 +73,11 @@ export default {
 			})
 		}
 	},
+	mounted() {
+		this.$store.commit('SET_DATA_READY', true);
+	},
 	components: {
-		preferences, modifications
+		preferences, modifications, spinner
 	}
 };
 </script>

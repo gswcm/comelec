@@ -58,11 +58,14 @@ import service from '~/components/service';
 export default {
 	async fetch({ store, req }) {
 		await store.dispatch('GET_COMMITTEES');
-		if (req.session && req.session.email) {
+		if (req && req.session && req.session.email) {
 			await store.dispatch('GET_USER_INFO', {
 				email: req.session.email,
 				showExOfficio: false
 			});
+		}
+		else {
+			store.commit('SET_DATA_READY', false);
 		}
 	},
 	data: () => ({
