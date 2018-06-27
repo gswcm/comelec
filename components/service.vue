@@ -133,7 +133,7 @@
 						}),
 					});
 					confirmed = true;
-					this.$noty.success(`Submission handled successfully`);
+					this.$noty.success(`Submission handled successfully. Make sure to click on the link in confirmation email`);
 					clearTimeout(timer);
 				}
 				catch(error) {

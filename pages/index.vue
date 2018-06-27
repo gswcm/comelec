@@ -58,9 +58,16 @@ import service from '~/components/service';
 export default {
 	async fetch({ store, req }) {
 		await store.dispatch('GET_COMMITTEES');
-		if (req && req.session && req.session.email) {
+		let email = '';
+		if(req && req.session && req.session.email) {
+			email = req.session.email;
+		}
+		else if(store.state.user && store.state.user.email) {
+			email = store.state.user.email;
+		}
+		if (email.length && !store.state.user) {
 			await store.dispatch('GET_USER_INFO', {
-				email: req.session.email,
+				email,
 				showExOfficio: false
 			});
 		}

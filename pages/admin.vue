@@ -36,7 +36,7 @@ import spinner from 'vue-spinner-component/src/Spinner.vue'
 
 export default {
 	middleware: [
-		// 'auth'
+		'admin'
 	],
 	async asyncData({ store, error }) {
 		store.commit('SET_DATA_READY', false);

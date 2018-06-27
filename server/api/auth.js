@@ -44,6 +44,8 @@ router.post('/login', async (req,res) => {
 		if(!person) {
 			throw new Error('Not a member of the Faculty Senate');
 		}
+		// const user = await ad.findUser(`${username}@${domain}`);
+		// console.log(JSON.stringify(user,null,3));
 		req.session.admin = true;
 		res.json(person);
 	}

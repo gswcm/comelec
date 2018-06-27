@@ -63,7 +63,7 @@
 					no-close-on-esc
 					id="addMore">
 					<div slot="modal-title">
-						<h5 v-html="modal.Title"/>
+						<h5 v-html="modal.title"/>
 					</div>
 					<div class="p-3 modal-sections">
 						<section id="instructions">
@@ -111,7 +111,7 @@
 							</b-row>
 						</section>
 						<section id="result">
-							<div v-if="modal.Data && modal.Data.people && modal.Data.people.length">
+							<div v-if="modal.data && modal.data.people && modal.data.people.length">
 								<h4>
 									Records to be added
 								</h4>
@@ -119,8 +119,8 @@
 									bordered
 									responsive
 									head-variant=""
-									:items="modal.Data.people"
-									:fields="modal.Fields">
+									:items="modal.data.people"
+									:fields="modal.fields">
 									<template slot="idx" slot-scope="row">
 										{{row.index + 1}}
 									</template>
@@ -142,7 +142,7 @@
 		</section>
 		<section id="footer">
 			<div class="mt-3">
-				<b-btn variant="primary" size="lg" class="d-block mx-auto my-5 px-3">
+				<b-btn variant="primary" size="lg" class="d-block mx-auto my-5 px-3" @click="saveHandler">
 					<font-awesome-icon :icon="['far', 'save']"/>
 					<span class="ml-3">Save</span>
 				</b-btn>
@@ -153,14 +153,14 @@
 
 <script>
 import { mapState } from 'vuex';
-import { debounce } from 'lodash';
+import { debounce, pick } from 'lodash';
 import axios from '~/plugins/axios';
 import itemTemplate from './itemTemplate';
 export default {
 	data: function() {
 		return {
 			modal: {
-				Fields: [
+				fields: [
 					{
 						key: 'idx',
 						label: '#'
@@ -177,8 +177,8 @@ export default {
 						label: 'Action'
 					}
 				],
-				Title: '',
-				Data: null,
+				title: '',
+				data: null,
 			},
 			fields: [
 				{
@@ -206,6 +206,7 @@ export default {
 	computed: {
 		...mapState({
 			assignments: "assignments",
+			authenticated: "authenticated"
 		}),
 		all() {
 			return this.assignments.map(e => {
@@ -223,9 +224,9 @@ export default {
 	},
 	methods: {
 		addToList() {
-			let person = this.modal.Data.people.find(e => e.id === this.person._id);
+			let person = this.modal.data.people.find(e => e.id === this.person._id);
 			if(!person) {
-				this.modal.Data.people.push({
+				this.modal.data.people.push({
 					name: `${this.person.firstName} ${this.person.lastName}`,
 					email: this.person.email,
 					id: this.person._id,
@@ -234,7 +235,7 @@ export default {
 			}
 		},
 		trash(index) {
-			this.modal.Data.people.splice(index,1);
+			this.modal.data.people.splice(index,1);
 		},
 		itemSelected(item) {
 			this.person = {...item};
@@ -263,7 +264,7 @@ export default {
 			}
 		},
 		renderModal(committee) {
-			this.modal.Title = `Add more members to the <strong>${committee.title}</strong> committee`;
+			this.modal.title = `Add more members to the <strong>${committee.title}</strong> committee`;
 			let added = this.added.find(e => e.committee.id === committee.id);
 			if(!added || !added.people) {
 				this.added.push({
@@ -271,14 +272,38 @@ export default {
 					people: []
 				})
 			}
-			this.modal.Data = JSON.parse(JSON.stringify(this.added.find(e => e.committee.id === committee.id)));
+			this.modal.data = JSON.parse(JSON.stringify(this.added.find(e => e.committee.id === committee.id)));
 		},
 		processModal() {
-			if(this.modal.Data && this.modal.Data.committee && this.modal.Data.people && Array.isArray(this.modal.Data.people)) {
-				this.added.find(e => e.committee.id === this.modal.Data.committee.id).people = [...this.modal.Data.people];
+			if(this.modal.data && this.modal.data.committee && this.modal.data.people && Array.isArray(this.modal.data.people)) {
+				this.added.find(e => e.committee.id === this.modal.data.committee.id).people = [...this.modal.data.people];
 			}
-			this.modal.Data = null;
+			this.modal.data = null;
 		},
+		async saveHandler() {
+			try {
+				const { data } = await axios.post('/api/assignment', {
+					assignments: this.all.map(({ committee, people }) => ({
+						committee,
+						people: people.map(e => pick(e,['email','id','name','x']))
+					})),
+					contributor: pick(this.authenticated,['_id','email','firstName','lastName'])
+				})
+				if(data.warning) {
+					this.$noty.warning(`Some committees are not assigned`);
+				}
+				else {
+					this.$noty.success(`Success`);
+				}
+			}
+			catch(error) {
+				let message = error.message;
+				if(error.response && error.response.data) {
+					message = error.response.data.message;
+				}
+				this.$noty.error(`Failure: ${message}`);
+			}
+		}
 	}
 };
 </script>

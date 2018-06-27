@@ -39,6 +39,9 @@ export default {
 		username: '',
 		password: ''
 	}),
+	middleware: [
+		'login'
+	],
 	computed: {
 		state () {
 			return /^[^.]+/.test(this.username) || !this.username.length ? null : false;

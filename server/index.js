@@ -42,7 +42,7 @@ app.use(
 		saveUninitialized: false,
 		rolling: true,
 		cookie: {
-			maxAge: 300 * 1000
+			maxAge: 600 * 1000
 		},
 		store
 	}),

@@ -8,7 +8,7 @@ export const state = () => ({
 	uuid: null,
 	storedService: null,
 	history: null,
-	authenticated: false,
+	authenticated: null,
 	assignments: [],
 	dataReady: false
 });
@@ -41,14 +41,16 @@ export const mutations = {
 };
 
 export const actions = {
+	nuxtServerInit ({ commit }, { req }) {
+	},
 	async LOGIN({ commit }, { username, password }) {
-		await axios.post('/api/auth/login', { username, password });
-		commit('SET_AUTHENTICATED', true);
+		const { data } = await axios.post('/api/auth/login', { username, password });
+		commit('SET_AUTHENTICATED', data);
 	},
 	async LOGOUT({ commit }) {
 		try {
 			await axios.post(`/api/auth/logout`);
-			commit('SET_AUTHENTICATED', false);
+			commit('SET_AUTHENTICATED', null);
 		}
 		catch(error) {
 			throw new Error(error.message)
