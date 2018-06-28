@@ -142,11 +142,23 @@
 		</section>
 		<section id="footer">
 			<div class="mt-3">
-				<b-btn variant="primary" size="lg" class="d-block mx-auto my-5 px-3" @click="saveHandler">
+				<b-btn variant="primary" size="lg" class="d-block mx-auto my-5 px-3" @click="savePreHandler">
 					<font-awesome-icon :icon="['far', 'save']"/>
 					<span class="ml-3">Save</span>
 				</b-btn>
 			</div>
+			<b-modal
+				centered
+				no-fade
+				header-bg-variant="warning"
+				header-text-variant="dark"
+				title="Warning"
+				@ok="saveHandler"
+				ok-title="Save"
+				ok-variant="primary"
+				ref="saveConfirm">
+				Some committees are not assigned with members. Would you like to save anyway?
+			</b-modal>
 		</section>
 	</div>
 </template>
@@ -280,6 +292,15 @@ export default {
 			}
 			this.modal.data = null;
 		},
+		savePreHandler() {
+			let warning = this.all.reduce((a,i) => a || !i.people.length, false);
+			if(warning) {
+				this.$refs.saveConfirm.show();
+			}
+			else {
+				this.savePreHandler();
+			}
+		},
 		async saveHandler() {
 			try {
 				const { data } = await axios.post('/api/assignment', {
@@ -289,19 +310,14 @@ export default {
 					})),
 					contributor: pick(this.authenticated,['_id','email','firstName','lastName'])
 				})
-				if(data.warning) {
-					this.$noty.warning(`Some committees are not assigned`);
-				}
-				else {
-					this.$noty.success(`Success`);
-				}
+				this.$noty.success(`Success`);
 			}
 			catch(error) {
 				let message = error.message;
 				if(error.response && error.response.data) {
 					message = error.response.data.message;
 				}
-				this.$noty.error(`Failure: ${message}`);
+				this.$noty.error(`Failure: ${message}, try reloading this page`);
 			}
 		}
 	}

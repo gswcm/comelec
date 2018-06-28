@@ -28,10 +28,13 @@ const ad = new AD(options);
 
 router.post('/login', async (req,res) => {
 	try {
-		const { username, password } = req.body;
-		await ad.authenticate(`${username}@${domain}`, password);
+		let { username, password } = req.body;
+		username = `${username}@${domain}`;
+		await ad.authenticate(username, password);
+		const user = await ad.findUser(username);
 		const person = await People.findOne({
-			email:`${username}@gsw.edu`,
+			// email: `${username}@gsw.edu`,
+			email: user.mail,
 			$or: [
 				{
 					isAdmin: true
@@ -44,7 +47,6 @@ router.post('/login', async (req,res) => {
 		if(!person) {
 			throw new Error('Not a member of the Faculty Senate');
 		}
-		// const user = await ad.findUser(`${username}@${domain}`);
 		// console.log(JSON.stringify(user,null,3));
 		req.session.admin = true;
 		res.json(person);

@@ -10,6 +10,11 @@
 					<b-tab title="Modifications" class="p-3" title-item-class="">
 						<modifications/>
 					</b-tab>
+					<b-tab title="Publish" class="p-3" title-item-class="">
+						<no-ssr>
+							<report/>
+						</no-ssr>
+					</b-tab>
 					<b-tab title="Maintenance" title-item-class="ml-auto" class="p-3" disabled>
 						Tab Contents 2
 					</b-tab>
@@ -31,6 +36,7 @@
 <script>
 import preferences from '~/components/admin/preferences';
 import modifications from '~/components/admin/modifications';
+import report from '~/components/admin/report';
 import axios from '~/plugins/axios';
 import spinner from 'vue-spinner-component/src/Spinner.vue'
 
@@ -38,6 +44,8 @@ export default {
 	middleware: [
 		'admin'
 	],
+	data: () => ({
+	}),
 	async asyncData({ store, error }) {
 		store.commit('SET_DATA_READY', false);
 		try {
@@ -77,7 +85,7 @@ export default {
 		this.$store.commit('SET_DATA_READY', true);
 	},
 	components: {
-		preferences, modifications, spinner
+		preferences, modifications, spinner, report
 	}
 };
 </script>

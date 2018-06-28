@@ -2,6 +2,58 @@ const router = require('express').Router();
 const ObjectId = require('mongodb').ObjectId;
 const Assignment = require('../models/assignment');
 
+router.get('/details', async (req,res) => {
+	try {
+		const records = await Assignment.find(
+			{
+				_id: ObjectId(req.query.id)
+			},
+			{
+				_id: 0,
+				'submission._id': 0,
+				'submission.people._id': 0
+			}
+		);
+		res.json((records && records.length) ? records[0] : null);
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+
+router.get('/group', async (req,res) => {
+	try {
+		const records = await Assignment.aggregate([
+			{
+				$group: {
+					_id: '$createdBy',
+					ids: {
+						$push: {
+							createdAt: '$createdAt',
+							id: '$_id'
+						}
+					}
+				},
+			},
+			{
+				$project: {
+					name: '$_id',
+					_id: 0,
+					ids: 1
+				}
+			}
+		]);
+		res.json(records);
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+
 router.post('/', async (req,res) => {
 	try {
 		if(!req.session.admin) {
@@ -22,8 +74,7 @@ router.post('/', async (req,res) => {
 				}))
 			}))
 		}).save();
-		let warning = assignments.reduce((a,i) => a || !i.people.length, false);
-		res.json({warning});
+		res.json(record);
 	}
 	catch (error) {
 		res.status(500).json({
