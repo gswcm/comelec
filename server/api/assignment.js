@@ -56,13 +56,13 @@ router.get('/group', async (req,res) => {
 
 router.post('/', async (req,res) => {
 	try {
-		if(!req.session.admin) {
+		if(!req.session.authenticated) {
 			// Unauthorized
 			throw new Error('Unauthorized access');
 		}
 		const { assignments, contributor } = req.body;
 		const record = await new Assignment({
-			createdBy: `${contributor.firstName} ${contributor.lastName}`,
+			createdBy: contributor,
 			submission: assignments.map(({ committee, people }) => ({
 				committee: {
 					id: ObjectId(committee.id),
@@ -74,7 +74,7 @@ router.post('/', async (req,res) => {
 				}))
 			}))
 		}).save();
-		res.json(record);
+		res.json(record._id);
 	}
 	catch (error) {
 		res.status(500).json({

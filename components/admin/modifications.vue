@@ -212,7 +212,7 @@ export default {
 			added: [],
 			person: null,
 			people: [],
-			template: itemTemplate
+			template: itemTemplate,
 		};
 	},
 	computed: {
@@ -303,13 +303,15 @@ export default {
 		},
 		async saveHandler() {
 			try {
+				const person = this.authenticated ? (await axios.get(`/api/directory/findById?id=${this.authenticated}`)).data : null;
 				const { data } = await axios.post('/api/assignment', {
 					assignments: this.all.map(({ committee, people }) => ({
 						committee,
 						people: people.map(e => pick(e,['email','id','name','x']))
 					})),
-					contributor: pick(this.authenticated,['_id','email','firstName','lastName'])
-				})
+					contributor: person ? `${person.firstName} ${person.lastName}` : 'N/A'
+				});
+				this.$store.commit('SET_ASSIGNMENT_HASH', data);
 				this.$noty.success(`Success`);
 			}
 			catch(error) {
@@ -317,6 +319,7 @@ export default {
 				if(error.response && error.response.data) {
 					message = error.response.data.message;
 				}
+				this.$store.commit('SET_ASSIGNMENT_HASH', null);
 				this.$noty.error(`Failure: ${message}, try reloading this page`);
 			}
 		}

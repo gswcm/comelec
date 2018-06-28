@@ -26,6 +26,7 @@
 
 <script>
 import axios from '~/plugins/axios';
+import { mapState } from 'vuex';
 import moment from 'moment';
 const dashes = {
 	value: null,
@@ -41,7 +42,15 @@ export default {
 	mounted() {
 		this.refresh();
 	},
+	watch: {
+		hash() {
+			this.refresh();
+		}
+	},
 	computed: {
+		...mapState({
+			hash: "assignmentHash"
+		}),
 		names() {
 			return [
 				dashes,

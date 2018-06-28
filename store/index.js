@@ -10,7 +10,8 @@ export const state = () => ({
 	history: null,
 	authenticated: null,
 	assignments: [],
-	dataReady: false
+	dataReady: false,
+	assignmentHash: null
 });
 
 export const mutations = {
@@ -37,11 +38,17 @@ export const mutations = {
 	},
 	SET_DATA_READY(state, value) {
 		state.dataReady = value;
-	}
+	},
+	SET_ASSIGNMENT_HASH(state, value) {
+		state.assignmentHash = value;
+	},
 };
 
 export const actions = {
 	nuxtServerInit ({ commit }, { req }) {
+		if(req.session && req.session.authenticated) {
+			commit('SET_AUTHENTICATED', req.session.authenticated);
+		}
 	},
 	async LOGIN({ commit }, { username, password }) {
 		const { data } = await axios.post('/api/auth/login', { username, password });

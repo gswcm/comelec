@@ -84,6 +84,20 @@ router.get('/group', async (req,res) => {
 	}
 })
 
+router.get('/findById', async (req,res) => {
+	/**
+	* Searches by _id field in the 'people' collection
+	*/
+	try {
+		const person = await People.findOne({_id: ObjectId(req.query.id)});
+		res.json(person);
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
 
 router.get('/find', async (req,res) => {
 	/**
@@ -122,7 +136,7 @@ router.get('/refresh', async (req,res) => {
 	 * Route requires 'session.authUser' to be set and allows 'query' parameter to list query prefixes separated by comma.
 	 */
 	try {
-		if(!req.session.admin) {
+		if(!req.session.authenticated) {
 			// Unauthorized
 			throw new Error('Unauthorized access');
 		}

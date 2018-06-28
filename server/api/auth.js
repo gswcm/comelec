@@ -47,9 +47,8 @@ router.post('/login', async (req,res) => {
 		if(!person) {
 			throw new Error('Not a member of the Faculty Senate');
 		}
-		// console.log(JSON.stringify(user,null,3));
-		req.session.admin = true;
-		res.json(person);
+		req.session.authenticated = person._id;
+		res.json(person._id);
 	}
 	catch (error) {
 		console.log(error.message);
@@ -60,7 +59,7 @@ router.post('/login', async (req,res) => {
 })
 
 router.post('/logout', (req,res) => {
-	delete req.session.admin;
+	delete req.session.authenticated;
 	res.json({
 		ok: true
 	})
