@@ -141,10 +141,12 @@
 			</b-card>
 		</section>
 		<section id="footer">
-			<div class="mt-3">
-				<b-btn variant="primary" size="lg" class="d-block mx-auto my-5 px-3" @click="savePreHandler">
-					<font-awesome-icon :icon="['far', 'save']"/>
-					<span class="ml-3">Save</span>
+			<div class="mt-3 d-flex justify-content-center">
+				<b-btn variant="secondary" size="lg" class="my-5 mx-3 px-3" @click="resetHandler">
+					Reset
+				</b-btn>
+				<b-btn variant="primary" size="lg" class="my-5 mx-3 px-3" @click="savePreHandler">
+					Save
 				</b-btn>
 			</div>
 			<b-modal
@@ -300,6 +302,9 @@ export default {
 			else {
 				this.saveHandler();
 			}
+		},
+		resetHandler() {
+			this.added = [];
 		},
 		async saveHandler() {
 			try {
