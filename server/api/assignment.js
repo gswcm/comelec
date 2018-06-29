@@ -4,6 +4,10 @@ const Assignment = require('../models/assignment');
 
 router.delete('/', async (req,res) => {
 	try {
+		if(!req.session.authenticated) {
+			// Unauthorized
+			throw new Error('Unauthorized access');
+		}
 		const { id } = req.query;
 		const result = await Assignment.remove({_id: ObjectId(id)});
 		res.json(result);
@@ -17,8 +21,12 @@ router.delete('/', async (req,res) => {
 
 router.patch('/', async (req,res) => {
 	try {
-		const { id, publish } = req.body;
-		const result = await Assignment.update({_id: ObjectId(id)},{ published: publish });
+		if(!req.session.authenticated) {
+			// Unauthorized
+			throw new Error('Unauthorized access');
+		}
+		const { id, published } = req.body;
+		const result = await Assignment.update({_id: ObjectId(id)},{ published });
 		res.json(result);
 	}
 	catch (error) {

@@ -204,11 +204,11 @@ export default {
 		},
 		async publish() {
 			try {
-				const { data } = await axios.patch('/api/assignment', { id: this.id, publish: !this.submission.published });
+				const { data } = await axios.patch('/api/assignment', { id: this.id, published: !this.submission.published });
 				if(data.ok === 1) {
-					this.$noty.success('Submission successfully published');
+					await this.dateUpdate();
+					this.$noty.success(`Submission successfully ${this.submission.published ? 'published' : 'un-published'}`);
 				}
-				this.dateUpdate();
 			}
 			catch(error) {
 				console.error(error.message);

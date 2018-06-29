@@ -110,7 +110,7 @@ export default {
 					tdClass: 'nowrap'
 				},
 				{
-					label: 'Details',
+					label: 'Affiliation',
 					key: 'details'
 				}
 			]
