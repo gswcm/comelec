@@ -10,7 +10,7 @@
 					<b-tab title="Modifications" class="p-3" title-item-class="">
 						<modifications/>
 					</b-tab>
-					<b-tab title="Publish" class="p-3" title-item-class="">
+					<b-tab title="Publishing" class="p-3" title-item-class="">
 						<no-ssr>
 							<publish/>
 						</no-ssr>

@@ -15,6 +15,19 @@ router.delete('/', async (req,res) => {
 	}
 })
 
+router.patch('/', async (req,res) => {
+	try {
+		const { id, publish } = req.body;
+		const result = await Assignment.update({_id: ObjectId(id)},{ published: publish });
+		res.json(result);
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+
 router.get('/details', async (req,res) => {
 	try {
 		const records = await Assignment.find(

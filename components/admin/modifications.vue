@@ -298,7 +298,7 @@ export default {
 				this.$refs.saveConfirm.show();
 			}
 			else {
-				this.savePreHandler();
+				this.saveHandler();
 			}
 		},
 		async saveHandler() {

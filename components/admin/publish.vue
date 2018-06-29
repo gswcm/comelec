@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="pb-3">
 		<section id="header">
 			<b-row>
 				<b-col cols="12" sm>
@@ -14,8 +14,8 @@
 					</ol>
 				</b-col>
 				<b-col cols="12" sm="auto">
-					<b-btn variant="primary" :disabled="!submission || errorFlag">
-						<strong>Yes, make it public</strong>
+					<b-btn variant="primary" class="my-3" v-show="names.length > 1" :disabled="!submission || errorFlag" @click="publish">
+						<strong>{{submission && submission.published ? 'Un-Publish' : 'Publish'}}</strong>
 					</b-btn>
 				</b-col>
 			</b-row>
@@ -35,7 +35,7 @@
 					<b-form-select :disabled="!item" v-model="id" :options="dates" @input="dateUpdate"/>
 				</b-col>
 				<b-col cols="auto" align-self="end" class="pl-0">
-					<b-btn variant="link" v-b-modal.trash>
+					<b-btn variant="link" v-b-modal.trash :disabled="!id">
 						<font-awesome-icon :icon="['far', 'trash-alt']" transform="grow-8"/>
 					</b-btn>
 				</b-col>
@@ -75,12 +75,12 @@
 			<result :items="submission.submission"/>
 		</section>
 		<section id="content-nok" v-else>
-			<b-alert
+			<!-- <b-alert
 			variant="light"
 			show
 			class="my-3 border border-warning text-dark">
-			Make sure to select a submission
-			</b-alert>
+			Nothing to publish...
+			</b-alert> -->
 		</section>
 	</div>
 </template>
@@ -92,7 +92,8 @@ import moment from 'moment';
 import result from '~/components/result';
 const dashes = {
 	value: null,
-	text: '--'
+	text: '--',
+	disabled: true
 };
 export default {
 	components: {
@@ -195,6 +196,19 @@ export default {
 				const { data } = await axios.delete('/api/assignment', { params: { id: this.id } });
 				this.$noty.success('Submission successfully deleted');
 				this.refresh();
+			}
+			catch(error) {
+				console.error(error.message);
+				this.$noty.error(error.message);
+			}
+		},
+		async publish() {
+			try {
+				const { data } = await axios.patch('/api/assignment', { id: this.id, publish: !this.submission.published });
+				if(data.ok === 1) {
+					this.$noty.success('Submission successfully published');
+				}
+				this.dateUpdate();
 			}
 			catch(error) {
 				console.error(error.message);
