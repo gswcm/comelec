@@ -2,6 +2,19 @@ const router = require('express').Router();
 const ObjectId = require('mongodb').ObjectId;
 const Assignment = require('../models/assignment');
 
+router.delete('/', async (req,res) => {
+	try {
+		const { id } = req.query;
+		const result = await Assignment.remove({_id: ObjectId(id)});
+		res.json(result);
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+
 router.get('/details', async (req,res) => {
 	try {
 		const records = await Assignment.find(

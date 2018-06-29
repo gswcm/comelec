@@ -5,14 +5,14 @@
 			<b-card no-body>
 				<b-tabs pills card>
 					<b-tab title="Initial assignments" active class="p-3" title-item-class="">
-						<preferences :items="prefItems"/>
+						<init :items="prefItems"/>
 					</b-tab>
 					<b-tab title="Modifications" class="p-3" title-item-class="">
 						<modifications/>
 					</b-tab>
 					<b-tab title="Publish" class="p-3" title-item-class="">
 						<no-ssr>
-							<report/>
+							<publish/>
 						</no-ssr>
 					</b-tab>
 					<b-tab title="Maintenance" title-item-class="ml-auto" class="p-3" disabled>
@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import preferences from '~/components/admin/preferences';
+import init from '~/components/admin/init';
 import modifications from '~/components/admin/modifications';
-import report from '~/components/admin/report';
+import publish from '~/components/admin/publish';
 import axios from '~/plugins/axios';
 import spinner from 'vue-spinner-component/src/Spinner.vue'
 
@@ -85,7 +85,7 @@ export default {
 		this.$store.commit('SET_DATA_READY', true);
 	},
 	components: {
-		preferences, modifications, spinner, report
+		init, modifications, spinner, publish
 	}
 };
 </script>

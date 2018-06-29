@@ -150,8 +150,8 @@
 			<b-modal
 				centered
 				no-fade
-				header-bg-variant="warning"
-				header-text-variant="dark"
+				header-bg-variant="dark"
+				header-text-variant="light"
 				title="Warning"
 				@ok="saveHandler"
 				ok-title="Save"
@@ -312,7 +312,7 @@ export default {
 					contributor: person ? `${person.firstName} ${person.lastName}` : 'N/A'
 				});
 				this.$store.commit('SET_ASSIGNMENT_HASH', data);
-				this.$noty.success(`Success`);
+				this.$noty.success(`Submission has been successfully saved and can now be published`);
 			}
 			catch(error) {
 				let message = error.message;
