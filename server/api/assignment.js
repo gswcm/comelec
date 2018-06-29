@@ -19,6 +19,18 @@ router.delete('/', async (req,res) => {
 	}
 })
 
+router.get('/', async (req,res) => {
+	try {
+		const result = await Assignment.findOne({published: true}).sort({createdAt: -1}).limit(1);
+		res.json(result);
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+
 router.patch('/', async (req,res) => {
 	try {
 		if(!req.session.authenticated) {
