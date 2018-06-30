@@ -29,12 +29,12 @@ const ad = new AD(options);
 router.post('/login', async (req,res) => {
 	try {
 		let { username, password } = req.body;
-		username = `${username}@${domain}`;
-		await ad.authenticate(username, password);
-		const user = await ad.findUser(username);
+		await ad.authenticate(`${username}@${domain}`, password);
+		const user = await ad.findUser(`${username}@${domain}`);
+		console.log(JSON.stringify(user,null,3));
 		const person = await People.findOne({
-			// email: `${username}@gsw.edu`,
-			email: user.mail,
+			email: `${username}@gsw.edu`,
+			// email: user.mail,
 			$or: [
 				{
 					isAdmin: true
