@@ -30,14 +30,10 @@ router.post('/login', async (req,res) => {
 	try {
 		let { username, password } = req.body;
 		await ad.authenticate(`${username}@${domain}`, password);
-		const U1 = await ad.findUser(`${username}@${domain}`);
-		const U2 = await ad.findUser(`${username}@gsw.edu`);
-		const U3 = await ad.findUser(`${username}`);
-		console.log(U1);
-		console.log(U2);
-		console.log(U3);
+		const user = await ad.findUser(`${username}`);
 		const person = await People.findOne({
-			email: `${username}@gsw.edu`,
+			// email: `${username}@gsw.edu`,
+			email: user.mail.toLowerCase(),
 			$or: [
 				{
 					isAdmin: true

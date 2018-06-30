@@ -9,7 +9,7 @@
 							Selection and <strong>observance</strong> of previously saved committee assignment
 						</li>
 						<li>
-							<strong>Publishing</strong> of the selected assignment to be viewed by the public at <router-link to="/summary" target="_blank">{{`${URL}/summary`}}</router-link>
+							<strong>Publishing / Un-Publishing</strong> of the selected assignment, so it can/cannot be publicly accessed at <router-link to="/summary" target="_blank">/summary</router-link> path.
 						</li>
 					</ol>
 				</b-col>
