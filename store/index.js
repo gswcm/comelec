@@ -11,7 +11,8 @@ export const state = () => ({
 	authenticated: null,
 	assignments: [],
 	dataReady: false,
-	assignmentHash: null
+	assignmentHash: null,
+	URL: null
 });
 
 export const mutations = {
@@ -42,6 +43,9 @@ export const mutations = {
 	SET_ASSIGNMENT_HASH(state, value) {
 		state.assignmentHash = value;
 	},
+	SET_URL(state, value) {
+		state.URL = value
+	}
 };
 
 export const actions = {
@@ -61,6 +65,18 @@ export const actions = {
 		}
 		catch(error) {
 			throw new Error(error.message)
+		}
+	},
+	async GET_SITE_URL({ commit }) {
+		try {
+			const { data } = await axios.get('/api/utils')
+			commit('SET_URL', data.url);
+		}
+		catch(error) {
+			if(error.response && error.response.data) {
+				throw new Error(error.response.data.message);
+			}
+			throw new Error(error.message);
 		}
 	},
 	async GET_USER_INFO({ state, commit, dispatch }, { email, showExOfficio }) {

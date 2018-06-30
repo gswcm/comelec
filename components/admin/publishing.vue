@@ -9,7 +9,7 @@
 							Selection and <strong>observance</strong> of previously saved committee assignment
 						</li>
 						<li>
-							<strong>Publishing</strong> of the selected assignment to be viewed by the public
+							<strong>Publishing</strong> of the selected assignment to be viewed by the public at <router-link to="/summary" target="_blank">{{`${URL}/summary`}}</router-link>
 						</li>
 					</ol>
 				</b-col>
@@ -115,7 +115,8 @@ export default {
 	},
 	computed: {
 		...mapState({
-			hash: "assignmentHash"
+			hash: "assignmentHash",
+			URL: "URL"
 		}),
 		errorFlag() {
 			return this.submission.submission.reduce((a,i) => a || !i.people.length,false);

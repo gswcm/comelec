@@ -7,5 +7,6 @@ router.use('/email', require('./email'));
 router.use('/directory', require('./directory'));
 router.use('/auth', require('./auth'));
 router.use('/assignment', require('./assignment'));
+router.use('/utils', require('./utils'));
 
 module.exports = router;

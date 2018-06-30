@@ -56,6 +56,10 @@ import { mapState } from 'vuex';
 import moment from 'moment';
 import service from '~/components/service';
 export default {
+	// Redirects to /summary starting from September 1st
+	middleware: [
+		'index'
+	],
 	async fetch({ store, req }) {
 		await store.dispatch('GET_COMMITTEES');
 		let email = '';

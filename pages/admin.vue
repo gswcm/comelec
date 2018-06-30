@@ -46,10 +46,11 @@ export default {
 	],
 	data: () => ({
 	}),
-	async asyncData({ store, error }) {
+	async asyncData({ req, store, error }) {
 		store.commit('SET_DATA_READY', false);
 		try {
 			const preferences = (await axios.get('/api/service/preferences')).data;
+			await store.dispatch('GET_SITE_URL');
 			let prefItems = (await axios.get('/api/service/list')).data.map(e => ({
 				committee: {
 					title: e.title,
