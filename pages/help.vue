@@ -34,8 +34,36 @@
 				The process can be repeated arbitrary number of times before the set deadline. The deadline can be estimated as a week before the GSW Planning Week which is normally scheduled in early days of August.
 			</p>
 			<p>
-				<strong>For administrators (members of the Faculty Senate)</strong>. Yet to be written...
+				<strong>For administrators (members of the Faculty Senate)</strong>. Authorized members of the Senate can use their CanesNET credentials to access administrative interface allowing for 3 basic actions:
 			</p>
+			<ol>
+				<li>
+					Observe the summary of all preferences, expressed by faculty members in organized and structured format.
+				</li>
+				<li>
+					Make adjustments by enrolling additional members to certain committees and assigning ex-officio roles to selected new enrollments
+				</li>
+				<li>
+					Save and publish all modifications to appear on report page
+				</li>
+			</ol>
+			<p>
+				Administrators are also responsible for a number of maintenance tasks that can also be performed on administrative interface:
+			</p>
+			<ol>
+				<li>
+					Update list of active administrators
+				</li>
+				<li>
+					Periodically synchronize application with GSW employee directory.
+				</li>
+				<li>
+					Update information about GSW standing committees
+				</li>
+				<li>
+					Roll out the application to the next year cycle
+				</li>
+			</ol>
 		</section>
 		<section id="about" class="p-3">
 			<h2>
