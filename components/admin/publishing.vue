@@ -74,14 +74,6 @@
 			</b-alert>
 			<result :items="submission.submission"/>
 		</section>
-		<section id="content-nok" v-else>
-			<!-- <b-alert
-			variant="light"
-			show
-			class="my-3 border border-warning text-dark">
-			Nothing to publish...
-			</b-alert> -->
-		</section>
 	</div>
 </template>
 

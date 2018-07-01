@@ -209,7 +209,7 @@ router.get('/refresh', async (req,res) => {
 			}
 		);
 		//-- return stat with response
-		res.json({ stat });
+		res.json(stat);
 	}
 	catch (error) {
 		res.status(500).json({

@@ -19,7 +19,8 @@ import {
 	faUserCog,
 	faCheck,
 	faPlus,
-	faSyncAlt
+	faSyncAlt,
+	faSpinner
 } from '@fortawesome/fontawesome-free-solid';
 
 fontawesome.library.add(
@@ -37,7 +38,8 @@ fontawesome.library.add(
 	faPlus,
 	faTrashAlt,
 	faSave,
-	faSyncAlt
+	faSyncAlt,
+	faSpinner
 );
 
 Vue.component(FontAwesomeIcon.name, FontAwesomeIcon);
