@@ -68,7 +68,7 @@ export default {
 			for(let e of prefItems) {
 				e.departments = (e.people && e.people.length) ? (await axios.get('/api/directory/group', {
 					params: {
-						query: e.people.map(e => e.id)
+						ids: e.people.map(e => e.id)
 					}
 				})).data : []
 			}

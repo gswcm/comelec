@@ -11,19 +11,29 @@
 				</p>
 			</b-card>
 		</section>
-		<hr class="my-3">
 		<section id="refresh">
 			<refresh/>
+		</section>
+		<section id="enroll">
+			<enroll/>
 		</section>
 	</div>
 </template>
 
 <script>
 import refresh from './refresh';
+import enroll from './enroll';
 export default {
 	components: {
-		refresh
+		refresh, enroll
 	}
 }
 </script>
+
+<style>
+	section {
+		margin-bottom: 1rem !important;
+	}
+</style>
+
 

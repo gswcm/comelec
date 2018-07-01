@@ -12,10 +12,15 @@ function range(from = 'a', to = 'z') {
 
 router.get('/all', async (req,res) => {
 	/**
-	 * Reports all employees in un-categorized list
+	 * Reports all employees in un-categorized list, optionally with adminOnly flag only admins will be reported
 	 */
 	try {
-		res.json(await People.find({},{
+		let { adminOnly } = req.query;
+		let query = {};
+		if(typeof adminOnly !== "undefined") {
+			query = {...query, isAdmin: true}
+		}
+		res.json(await People.find(query,{
 			firstName: 1,
 			lastName: 1,
 			email: 1,
@@ -35,16 +40,24 @@ router.get('/group', async (req,res) => {
 	 * Groups all employees listed in People collection with respect to their corresponding department
 	 */
 	try {
-		let { query } = req.query;
-		if(query && Array.isArray(query)) {
-			query = {
-				_id: {
-					$in: query.map(e => ObjectId(e))
+		let { ids, adminOnly } = req.query;
+		let query = {};
+		if(ids) {
+			if(Array.isArray(ids) && ids.length) {
+				query = {
+					_id: {
+						$in: ids.map(e => ObjectId(e))
+					}
 				}
 			}
-		}
-		else {
-			query = {}
+			else if(typeof ids === "string") {
+				query = {
+					_id: ObjectId(ids)
+				}
+			}
+		};
+		if(typeof adminOnly !== "undefined") {
+			query = {...query, isAdmin: true}
 		}
 		const records = await People.aggregate([
 			{

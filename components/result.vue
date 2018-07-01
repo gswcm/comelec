@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="results">
 		<div v-for="s of items.filter(e => e.people.length)" :key="s.committee.id">
 			<h4 class="pl-3">
 				{{s.committee.title}}
@@ -39,14 +39,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
-	.nameColumn {
+<style>
+	#results .nameColumn {
 		width: 50%;
 	}
-	.emailColumn {
+	#results .emailColumn {
 		width: 30%;
 	}
-	.idxColumn {
+	#results .idxColumn {
 		width: 10%;
 	}
 </style>
