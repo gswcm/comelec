@@ -8,5 +8,6 @@ router.use('/directory', require('./directory'));
 router.use('/auth', require('./auth'));
 router.use('/assignment', require('./assignment'));
 router.use('/utils', require('./utils'));
+router.use('/anr', require('./archiveAndRoll'));
 
 module.exports = router;

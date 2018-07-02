@@ -17,15 +17,19 @@
 		<section id="enroll">
 			<enroll/>
 		</section>
+		<section>
+			<archive-and-roll id="archiveAndRoll"/>
+		</section>
 	</div>
 </template>
 
 <script>
 import refresh from './refresh';
 import enroll from './enroll';
+import archiveAndRoll from './archiveAndRoll'
 export default {
 	components: {
-		refresh, enroll
+		refresh, enroll, archiveAndRoll
 	}
 }
 </script>
