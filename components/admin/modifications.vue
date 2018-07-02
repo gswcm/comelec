@@ -169,7 +169,7 @@
 import { mapState } from 'vuex';
 import { debounce, pick } from 'lodash';
 import axios from '~/plugins/axios';
-import itemTemplate from './itemTemplate';
+import itemTemplate from '~/components/itemTemplate';
 export default {
 	data: function() {
 		return {

@@ -35,6 +35,54 @@ router.get('/all', async (req,res) => {
 	}
 })
 
+router.patch('/admins', async (req,res) => {
+	/**
+	 * Update list of site admins: remove isAdmin flag from those those who have it,
+	 * set isAdmin to those listed in 'admins' parameter
+	 */
+	try {
+		if(!req.session.authenticated) {
+			// Unauthorized
+			throw new Error('Unauthorized access');
+		}
+		let { admins } = req.body;
+		await People.update(
+			{
+				isAdmin: true
+			},
+			{
+				$set: {
+					isAdmin: false
+				}
+			},
+			{
+				multi : true,
+			}
+		);
+		const result = await People.update(
+			{
+				email: {
+					$in: admins.map(e => e.email)
+				}
+			},
+			{
+				$set: {
+					isAdmin: true
+				}
+			},
+			{
+				multi : true,
+			}
+		);
+		res.json(result);
+	}
+	catch (error) {
+		res.status(500).json({
+			message: error.message
+		})
+	}
+})
+
 router.get('/group', async (req,res) => {
 	/**
 	 * Groups all employees listed in People collection with respect to their corresponding department
