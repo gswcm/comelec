@@ -6,10 +6,10 @@ module.exports = {
 	apps: [
 		// First application
 		{
-			name: "dev branch",
+			name: "master branch",
 			script: "build/main.js",
 			env: {
-				PORT: "4000",
+				PORT: "3000",
 				NODE_ENV: "production"
 			}
 		}
