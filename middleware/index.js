@@ -1,6 +1,7 @@
 import moment from 'moment';
 export default function({ redirect }) {
-	if (moment().format('M') >= 8) {
+	const month = moment().format('M');
+	if (month >= 9 || month < 6) {
 		redirect('/summary');
 	}
 }
